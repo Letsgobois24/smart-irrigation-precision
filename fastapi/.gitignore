@@ -1,0 +1,5 @@
+.env
+/trial
+/__pycache__
+*.pyc
+Dockerfile
