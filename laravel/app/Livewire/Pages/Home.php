@@ -35,4 +35,9 @@ class Home extends Component
             'node_data' => $node_data
         ]);
     }
+
+    public function getDataNow()
+    {
+        $this->dispatch('toast', type: 'success', message: 'Data has been updated');
+    }
 }

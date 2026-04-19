@@ -50,9 +50,9 @@
                     <p class="text-gray-500 text-sm">Last Update</p>
                     <p class="text-sm font-semibold">18 Apr 2026</p>
                 </div>
-                <div class="ml-auto cursor-pointer hover:bg-gray-200 rounded-lg p-1.5">
-                    <x-icons.refresh size="28" class="animate-spin" />
-                </div>
+                <button wire:click='getDataNow' class="ml-auto cursor-pointer hover:bg-gray-200 rounded-lg p-1.5">
+                    <x-icons.refresh size="28" wire:target='getDataNow' wire:loading.class='animate-spin' />
+                </button>
             </div>
 
         </div>
