@@ -1,5 +1,4 @@
-<main class="bg-green-50 min-h-screen p-6">
-
+<main class="bg-green-50 min-h-screen p-6 w-full">
     <h1 class="text-3xl font-bold text-green-800 mb-6 flex items-center gap-2">
         🌿 Dashboard Monitoring Irigasi
     </h1>

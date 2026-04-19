@@ -16,9 +16,16 @@
     <meta name="description" content="@yield('meta_description', 'Artikula adalah ruang baca digital berisi artikel berkualitas.')">
 </head>
 
-<body class="h-screen flex flex-col">
+<body class="min-h-screen" x-data="{ isOpenSidebar: false }">
     <x-header.header />
-    {{ $slot }}
+    <div class="flex-1">
+        <div x-show="isOpenSidebar" @click="isOpenSidebar = false"
+            class="left-0 right-0 bottom-0 top-0 bg-black/20 hidden sm:block lg:hidden fixed"></div>
+        <x-header.sidebar />
+        <div :class="isOpenSidebar ? 'lg:ml-80' : 'lg:ml-0'">
+            {{ $slot }}
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
     <x-toaster />
 </body>
