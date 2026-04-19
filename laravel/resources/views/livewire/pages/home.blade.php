@@ -85,88 +85,27 @@
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
 
-                <!-- Tree 1 -->
-                <div class="bg-green-50 p-3 rounded-lg">
-                    <div class="flex items-center gap-2 mb-1">
-                        🌱 <p class="text-sm text-gray-500">Tree 1</p>
+                <!-- 4 Tree -->
+                @foreach ($node_data as $tree)
+                    <div class="bg-green-50 p-3 rounded-lg">
+                        <div class="flex items-center gap-2 mb-1">
+                            🌱 <p class="text-sm text-gray-500">Tree {{ $tree['tree_id'] }}</p>
+                        </div>
+
+                        <!-- Moisture -->
+                        <div class="flex items-center gap-2">
+                            <!-- icon kelembaban -->
+                            <x-icons.humidity size="20" class="text-blue-500" />
+                            <p class="font-bold">{{ $tree['soil_moisture'] }}%</p>
+                        </div>
+
+                        <!-- Valve -->
+                        <div class="flex items-center gap-1 mt-1">
+                            ⚙️
+                            <p class="text-xs text-green-600">Valve {{ $tree['valve'] ? 'ON' : 'OFF' }}</p>
+                        </div>
                     </div>
-
-                    <!-- Moisture -->
-                    <div class="flex items-center gap-2">
-                        <!-- icon kelembaban -->
-                        <x-icons.humidity size="20" class="text-blue-500" />
-                        <p class="font-bold">60%</p>
-                    </div>
-
-                    <!-- Valve -->
-                    <div class="flex items-center gap-1 mt-1">
-                        ⚙️
-                        <p class="text-xs text-green-600">Valve ON</p>
-                    </div>
-                </div>
-
-                <!-- Tree 2 -->
-                <div class="bg-green-50 p-3 rounded-lg">
-                    <div class="flex items-center gap-2 mb-1">
-                        🌱 <p class="text-sm text-gray-500">Tree 2</p>
-                    </div>
-
-                    <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-500" fill="currentColor"
-                            viewBox="0 0 24 24">
-                            <path d="M12 2C8 7 5 10 5 14a7 7 0 0014 0c0-4-3-7-7-12z" />
-                        </svg>
-
-                        <p class="font-bold">55%</p>
-                    </div>
-
-                    <div class="flex items-center gap-1 mt-1">
-                        ⚙️
-                        <p class="text-xs text-red-600">Valve OFF</p>
-                    </div>
-                </div>
-
-                <!-- Tree 3 -->
-                <div class="bg-green-50 p-3 rounded-lg">
-                    <div class="flex items-center gap-2 mb-1">
-                        🌱 <p class="text-sm text-gray-500">Tree 3</p>
-                    </div>
-
-                    <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-500" fill="currentColor"
-                            viewBox="0 0 24 24">
-                            <path d="M12 2C8 7 5 10 5 14a7 7 0 0014 0c0-4-3-7-7-12z" />
-                        </svg>
-
-                        <p class="font-bold">70%</p>
-                    </div>
-
-                    <div class="flex items-center gap-1 mt-1">
-                        ⚙️
-                        <p class="text-xs text-green-600">Valve ON</p>
-                    </div>
-                </div>
-
-                <!-- Tree 4 -->
-                <div class="bg-green-50 p-3 rounded-lg">
-                    <div class="flex items-center gap-2 mb-1">
-                        🌱 <p class="text-sm text-gray-500">Tree 4</p>
-                    </div>
-
-                    <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-500" fill="currentColor"
-                            viewBox="0 0 24 24">
-                            <path d="M12 2C8 7 5 10 5 14a7 7 0 0014 0c0-4-3-7-7-12z" />
-                        </svg>
-
-                        <p class="font-bold">65%</p>
-                    </div>
-
-                    <div class="flex items-center gap-1 mt-1">
-                        ⚙️
-                        <p class="text-xs text-green-600">Valve ON</p>
-                    </div>
-                </div>
+                @endforeach
             </div>
 
             <div class="border rounded-xl h-64 flex items-center justify-center">
