@@ -57,21 +57,56 @@ class InfluxService
     }
 
     /**
-     * @param array<int, array{room: string, hum: int, temp: int, time: int}> $manyData
+     * @param array<int, array{tag: array, field: array}> $multipleData
      */
-    public function storeMultiple($manyData, string | null $table = null)
+    public function storeMultiple($multipleData, string | null $table = null)
     {
         $body = '';
 
-        foreach ($manyData as $index => $data) {
-            $data['room'] = str_replace(' ', '\\ ', $data['room']);
-            $line = sprintf("%s,room=%s temp=%s,hum=%s %s", $table ?? $this->table, $data['room'], $data['temp'], $data['hum'], $data['time']);
+        foreach ($multipleData as $index => $data) {
+            $line = "$table, ";
+            $line = sprintf("%s,room=%s temp=%s,hum=%s %s", $table, $data['room'], $data['temp'], $data['hum'], $data['time']);
+
             if ($index > 0) {
                 $body .= "\n" . $line;
             } else {
                 $body .= $line;
             }
         }
+
+        $url = $this->endpoint('/write_lp', params: ['db' => $this->db]);
+        /** @var Response $response */
+        $response = $this->headerRequest()->withBody($body, 'text/plain')->post($url);
+
+        if ($response->failed()) {
+            dd($response);
+        }
+        dump('success');
+    }
+
+    /**
+     * @param array<int, array{water_flow: float, ph: float, main_valve: bool, time: int}> $multipleData
+     */
+    public function storeMultipleEnvironment($multipleData, string | null $table = 'environment')
+    {
+        $body = '';
+
+        foreach ($multipleData as $index => $data) {
+            $line = $table . ' ';
+            foreach ($data as $key => $value) {
+                $line = "$line$key=$value,";
+            }
+
+            // $line = sprintf("%s,room=%s temp=%s,hum=%s %s", $table, $data['room'], $data['temp'], $data['hum'], $data['time']);
+
+            if ($index > 0) {
+                $body .= "\n" . $line;
+            } else {
+                $body .= $line;
+            }
+        }
+
+        dd($body);
 
         $url = $this->endpoint('/write_lp', params: ['db' => $this->db]);
         /** @var Response $response */
