@@ -26,7 +26,7 @@
                 <x-icons.water-flow size="24" class="text-blue-600" />
                 <div>
                     <p class="text-gray-500 text-sm">Main Water Flow</p>
-                    <p class="text-xl font-bold text-green-700">120 L/min</p>
+                    <p class="text-xl font-bold text-green-700">{{ $water_flow }} L/min</p>
                 </div>
             </div>
 
@@ -37,7 +37,7 @@
                 <div>
                     <p class="text-gray-500 text-sm">Main Valve Status</p>
                     <span class="px-2 py-1 text-xs bg-green-200 text-green-800 rounded-full">
-                        Aktif
+                        {{ $main_valve ? '' : 'Non' }} Aktif
                     </span>
                 </div>
             </div>
@@ -47,7 +47,7 @@
                 <x-icons.clock size="32" class="text-gray-500" />
                 <div>
                     <p class="text-gray-500 text-sm">Last Update</p>
-                    <p class="text-sm font-semibold">18 Apr 2026</p>
+                    <p class="text-sm font-semibold">{{ $time->diffForHumans() }}</p>
                 </div>
                 <button wire:click='getDataNow' class="ml-auto cursor-pointer hover:bg-gray-200 rounded-lg p-1.5">
                     <x-icons.refresh size="28" wire:target='getDataNow' wire:loading.class='animate-spin' />
