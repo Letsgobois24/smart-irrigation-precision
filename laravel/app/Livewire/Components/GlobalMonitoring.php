@@ -22,7 +22,9 @@ class GlobalMonitoring extends Component
 
     public function render()
     {
-        return view('livewire.components.global-monitoring');
+        return view('livewire.components.global-monitoring', [
+            'now' => now()->millisecond()
+        ]);
     }
 
     public function getDataNow(InfluxService $influxService)
