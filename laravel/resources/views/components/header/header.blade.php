@@ -4,15 +4,19 @@
         {{-- Hamburger menu --}}
         <div class="flex-1">
             <button @click="isOpenSidebar = !isOpenSidebar" type="button"
-                class="-m-2.5 inline-flex hover:bg-green-50/30 transition cursor-pointer items-center justify-center rounded-full p-2 text-gray-100">
+                class="-m-2.5 flex hover:bg-green-50/30 transition cursor-pointer items-center justify-center rounded-full size-10 text-gray-100">
                 <x-icons.hamburger size="28" />
             </button>
         </div>
 
         <div class="justify-end items-center">
-            <div class="cursor-pointer ml-3 mr-7 h-9 w-9 overflow-hidden rounded-full group-focus:ring-2" type="button">
-                <img src="{{ asset('img/person-logo.png') }}" alt="my-logo" />
-            </div>
+            <button
+                class="flex relative cursor-pointer ml-3 mr-7 size-10 justify-center items-center rounded-full hover:bg-green-50/30">
+                <div
+                    class="absolute top-0.5 right-1 bg-orange-500 size-4 rounded-full flex justify-center items-center text-xs">
+                    1</div>
+                <x-icons.notification size='30' />
+            </button>
         </div>
     </div>
 </nav>
