@@ -3,7 +3,7 @@
         <h1 class="text-3xl font-bold text-green-800 mb-6 flex items-center gap-2">
             🌿 Dashboard Monitoring Irigasi
         </h1>
-        <div wire:ignore x-data="clock()" x-init="init()" class="font-mono flex gap-x-2">
+        <div wire:ignore x-data="clock(@js($now))" x-init="init()" class="font-mono flex gap-x-2">
             <span x-text="time"></span>
             <span x-text="date"></span>
         </div>
@@ -73,37 +73,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    function clock() {
-        return {
-            now: new Date(@js($now)),
-            time: '',
-            date: '',
-            timer: null,
-            init() {
-                console.log(@js($now));
-                if (this.timer) return;
-
-                this.update();
-                this.timer = setInterval(() => {
-                    this.now.setSeconds(this.now.getSeconds() + 1);
-                    this.update();
-                }, 1000);
-            },
-            update() {
-                this.time = this.now.toLocaleTimeString('id-ID', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit'
-                }).replace(',', ':');
-                this.date = this.now.toLocaleDateString('id-ID', {
-                    weekday: 'long',
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
-                });
-            }
-        }
-    }
-</script>
