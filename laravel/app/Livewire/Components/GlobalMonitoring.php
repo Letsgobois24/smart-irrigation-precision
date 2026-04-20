@@ -30,7 +30,6 @@ class GlobalMonitoring extends Component
     public function getDataNow(InfluxService $influxService)
     {
         $data = $influxService->query("SELECT * FROM 'environment' ORDER BY TIME DESC LIMIT 1");
-        dump($data[0]);
-        $this->dispatch('toast', type: 'success', message: 'Data has been updated');
+        $this->dispatch('toast', type: 'success', message: 'Global data has been updated');
     }
 }
