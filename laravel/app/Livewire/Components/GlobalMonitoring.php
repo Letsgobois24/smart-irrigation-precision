@@ -2,8 +2,9 @@
 
 namespace App\Livewire\Components;
 
-use App\Services\InfluxService;
+use App\Services\InfluxDBService;
 use Livewire\Component;
+use Throwable;
 
 class GlobalMonitoring extends Component
 {
@@ -12,12 +13,9 @@ class GlobalMonitoring extends Component
     public bool $main_valve;
     public $time;
 
-    public function mount(InfluxService $influxService)
+    public function mount(InfluxDBService $influx)
     {
-        $data = $influxService->query("SELECT * FROM 'environment' ORDER BY TIME DESC LIMIT 1")[0];
-        $this->water_flow = $data['water_flow'];
-        $this->main_valve = $data['main_valve'];
-        $this->time = $data['time'];
+        $this->update($influx);
     }
 
     public function render()
@@ -27,9 +25,21 @@ class GlobalMonitoring extends Component
         ]);
     }
 
-    public function getDataNow(InfluxService $influxService)
+    public function refresh(InfluxDBService $influx)
     {
-        $data = $influxService->query("SELECT * FROM 'environment' ORDER BY TIME DESC LIMIT 1");
-        $this->dispatch('toast', type: 'success', message: 'Global data has been updated');
+        try {
+            $this->update($influx);
+            $this->dispatch('toast', type: 'success', message: 'Global data has been updated');
+        } catch (Throwable $e) {
+            $this->dispatch('toast', type: 'danger', message: $e->getMessage());
+        }
+    }
+
+    private function update(InfluxDBService $influx)
+    {
+        $data = $influx->query("SELECT * FROM 'environment' ORDER BY TIME DESC LIMIT 1")->convertTimezone()->get()[0];
+        $this->water_flow = $data['water_flow'];
+        $this->main_valve = $data['main_valve'];
+        $this->time = $data['time'];
     }
 }

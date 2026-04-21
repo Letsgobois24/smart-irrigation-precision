@@ -11,8 +11,8 @@
             </h3>
             <div class="flex items-center gap-x-2">
                 <span class="text-sm text-gray-500">Last Update: {{ $node_data[0]['time']->diffForHumans() }}</span>
-                <button wire:click='getDataNow' class="ml-auto cursor-pointer hover:bg-gray-200 rounded-lg p-1.5">
-                    <x-icons.refresh size="24" wire:target='getDataNow' wire:loading.class='animate-spin' />
+                <button wire:click='refresh' class="ml-auto cursor-pointer hover:bg-gray-200 rounded-lg p-1.5">
+                    <x-icons.refresh size="24" wire:target='refresh' wire:loading.class='animate-spin' />
                 </button>
             </div>
         </div>

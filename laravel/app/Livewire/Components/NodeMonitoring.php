@@ -2,16 +2,21 @@
 
 namespace App\Livewire\Components;
 
-use App\Services\InfluxService;
+use App\Services\InfluxDBService;
 use Livewire\Component;
+use Throwable;
 
 class NodeMonitoring extends Component
 {
     public $node_data;
 
-    public function mount()
+    public function mount(InfluxDBService $influx)
     {
-        $this->node_data = $this->updateData();
+        try {
+            $this->node_data = $this->getData($influx);
+        } catch (Throwable $e) {
+            dump($e->getMessage());
+        }
     }
 
     public function render()
@@ -19,23 +24,25 @@ class NodeMonitoring extends Component
         return view('livewire.components.node-monitoring');
     }
 
-    public function getDataNow()
+    public function refresh(InfluxDBService $influx)
     {
-        $this->node_data = $this->updateData();
-        $this->dispatch('toast', type: 'success', message: 'Node 1 data has been updated');
+        try {
+            $this->node_data = $this->getData($influx);
+            $this->dispatch('toast', type: 'success', message: 'Node 1 data has been updated');
+        } catch (Throwable $e) {
+            $this->dispatch('toast', type: 'danger', message: $e->getMessage());
+        }
     }
 
-    public function updateData()
+    private function getData(InfluxDBService $influx)
     {
-        $influxService = new InfluxService;
-
         $query = "
-        SELECT tree_id, soil_moisture, valve, time FROM 'nodes' 
+        SELECT tree_id, soil_moisture, valve, time FROM 'node' 
         WHERE tree_id IN (1,2,3,4)
-        ORDER BY time, tree_id 
+        ORDER BY time DESC, tree_id 
         LIMIT 4
         ";
 
-        return $influxService->query($query);
+        return $influx->query($query)->convertTimezone()->get();
     }
 }

@@ -55,8 +55,8 @@
                     <p class="text-gray-500 text-sm">Last Update</p>
                     <p class="text-sm font-semibold">{{ $time->diffForHumans() }}</p>
                 </div>
-                <button wire:click='getDataNow' class="ml-auto cursor-pointer hover:bg-gray-200 rounded-lg p-1.5">
-                    <x-icons.refresh size="28" wire:target='getDataNow' wire:loading.class='animate-spin' />
+                <button wire:click='refresh' class="ml-auto cursor-pointer hover:bg-gray-200 rounded-lg p-1.5">
+                    <x-icons.refresh size="28" wire:target='refresh' wire:loading.class='animate-spin' />
                 </button>
             </div>
 
@@ -64,9 +64,7 @@
 
         <!-- Charts -->
         <div class="grid md:grid-cols-2 gap-6">
-            <div class="bg-white rounded-xl shadow p-4 h-64 flex flex-col justify-center items-center">
-                <p class="text-gray-400">📊 Grafik pH</p>
-            </div>
+            <livewire:components.line-chart field="ph" table="environment" />
             <div class="bg-white rounded-xl shadow p-4 h-64 flex flex-col justify-center items-center">
                 <p class="text-gray-400">💧 Grafik Debit Air</p>
             </div>

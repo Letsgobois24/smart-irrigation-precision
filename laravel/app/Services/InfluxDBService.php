@@ -3,9 +3,9 @@
 namespace App\Services;
 
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
-use Throwable;
 
 class InfluxDBService
 {
@@ -14,6 +14,8 @@ class InfluxDBService
     public string $url;
     public string $precision = 'second';
     public string $table = 'home';
+
+    protected $result;
 
     public function __construct(string $url, string $token, string $db, string $precision)
     {
@@ -51,15 +53,24 @@ class InfluxDBService
         ]);
 
         if ($response->failed()) {
-            dd($response);
+            throw new Exception($response->body());
         }
 
-        $data = $response->json();
+        $this->result = $response->json();
 
-        if ($convertTimezone) {
-            $data = collect($data)->map(fn($value) => [...$value, 'time' => Carbon::parse($value['time'], 'UTC')->tz('Asia/Jakarta')]);
-        }
-        return $data;
+        return $this;
+    }
+
+    public function convertTimezone(string $column = 'time')
+    {
+        $this->result = collect($this->result)->map(fn($value) => [...$value, $column => Carbon::parse($value[$column], 'UTC')->tz('Asia/Jakarta')]);
+
+        return $this;
+    }
+
+    public function get()
+    {
+        return $this->result;
     }
 
     /**
