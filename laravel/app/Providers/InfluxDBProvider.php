@@ -18,7 +18,6 @@ class InfluxDBProvider extends ServiceProvider
                 "url" => config('services.influxdb.url'),
                 "token" => config('services.influxdb.token'),
                 "bucket" => config('services.influxdb.bucket'),
-                "org" => config('services.influxdb.org'),
                 "precision" => WritePrecision::S,
             ]);
         });

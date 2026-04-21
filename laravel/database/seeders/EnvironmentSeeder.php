@@ -2,37 +2,40 @@
 
 namespace Database\Seeders;
 
+use App\Services\InfluxDBService;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Seeder;
-use InfluxDB2\ApiException;
-use InfluxDB2\Client;
-use InfluxDB2\Point;
+use Throwable;
 
 class EnvironmentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
-    public function run(Client $client): void
+    public function run(InfluxDBService $influx): void
     {
-        $writeApi = $client->createWriteApi();
-        $points = [];
+        $rows = [];
 
         $end = now()->startOfDay()->subHours(7);
         $start = (clone $end)->subDays(14);
-        $period = CarbonPeriod::create($start, '3 hours', $end);
+        $period = CarbonPeriod::create($start, '5 minutes', $end);
 
         foreach ($period as $date) {
-            $points[] = Point::measurement('environment')
-                ->addField('water_flow', fake()->randomFloat(1, 0.1, 2))
-                ->addField('ph', fake()->randomFloat(2, 6, 8))
-                ->addField('main_valve', fake()->boolean(75))
-                ->time($date->getTimestamp());
+            $rows[] = [
+                'measurement' => 'environment',
+                'fields' => [
+                    'water_flow' => fake()->randomFloat(1, 0.1, 2),
+                    'ph' => fake()->randomFloat(2, 6, 8),
+                    'main_valve' => fake()->boolean(75)
+                ],
+                'time' => $date->getTimestamp()
+            ];
         }
 
         try {
-            $writeApi->write($points);
-        } catch (ApiException $e) {
+            $influx->storeMultiple(rows: $rows);
+            dump('successfull');
+        } catch (Throwable $e) {
             dump("Connection Timeout. Detail: " . $e->getMessage());
         }
     }

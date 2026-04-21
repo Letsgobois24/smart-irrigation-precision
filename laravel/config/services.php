@@ -37,8 +37,7 @@ return [
     'influxdb' => [
         'url' => env('INFLUX_URL'),
         'token' => env('INFLUX_TOKEN'),
-        'bucket' => env('INFLUX_BUCKET'),
-        'org' => env('INFLUX_ORG'),
+        'db' => env('INFLUX_DB'),
     ],
     'fastapi' => [
         'url' => env('FASTAPI_URL')
