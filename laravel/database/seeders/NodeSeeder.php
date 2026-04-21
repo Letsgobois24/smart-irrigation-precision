@@ -4,11 +4,7 @@ namespace Database\Seeders;
 
 use App\Services\InfluxDBService;
 use Carbon\CarbonPeriod;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use InfluxDB2\ApiException;
-use InfluxDB2\Client;
-use InfluxDB2\Point;
 use Throwable;
 
 class NodeSeeder extends Seeder
