@@ -1,4 +1,4 @@
-export default function lineChart(data) {
+export default function lineChart(data, seriesOptions) {
     return {
         chart: null,
         data: data,
@@ -9,8 +9,8 @@ export default function lineChart(data) {
 
         renderChart() {
             if (this.chart) return;
-            const options = setLineOptionChart(data);
-
+            const options = setLineOptionChart(data, seriesOptions);
+            console.log(options);
             this.chart = new ApexCharts(this.$el, options);
             this.chart.render();
 
@@ -18,7 +18,7 @@ export default function lineChart(data) {
     }
 }
 
-function setLineOptionChart(seriesData, addLabel = '',) {
+function setLineOptionChart(seriesData, seriesOptions) {
     return {
         stroke: {
             width: 2,
@@ -29,28 +29,7 @@ function setLineOptionChart(seriesData, addLabel = '',) {
         parsing: {
             x: 'time'
         },
-        series: [{
-            name: 'Max pH',
-            data: seriesData,
-            parsing: {
-                y: 'max_ph'
-            }
-        }, {
-            name: 'Min pH',
-            data: seriesData,
-            parsing: {
-                y: 'min_ph'
-            }
-        },
-        {
-            name: 'Average pH',
-            data: seriesData,
-            parsing: {
-                y: 'avg_ph'
-            }
-        },
-    
-        ],
+        series: getSeriesOptions(seriesData, seriesOptions),
         xaxis: {
             type: 'datetime'
         },
@@ -66,7 +45,7 @@ function setLineOptionChart(seriesData, addLabel = '',) {
             },
             labels: {
                 formatter: function(val) {
-                    return val + addLabel;
+                    return val;
                 }
             }
         },
@@ -77,4 +56,16 @@ function setLineOptionChart(seriesData, addLabel = '',) {
         }
 
     }
+}
+
+function getSeriesOptions(seriesData, seriesOptions) {
+    return seriesOptions.map((option) => {
+        return {
+            name: option,
+            data: seriesData,
+            parsing: {
+                y: option,
+            }
+        }
+    })
 }

@@ -11,27 +11,24 @@ class LineChart extends Component
     public string $field;
     public string $table;
 
-    public string $selectedInterval = '1 weeks';
-    public string $selectedHour = 'all';
+    public string $selectedPeriods = '1 days';
 
-    public $intervals = [
-        '1 days' => 'Today',
-        '1 weeks' => 'Last Week',
-        '2 weeks' => 'Two Weeks Ago',
-        '1 months' => 'Last Month'
-    ];
-
-    public $hours = [
-        'all' => 'All Data',
-        'avg' => 'Average',
-        0 => '0:00',
-        3 => '3:00',
-        6 => '6:00',
-        9 => '09:00',
-        12 => '12:00',
-        15 => '15:00',
-        18 => '18:00',
-        21 => '21:00'
+    public $periods = [
+        '1 hours' => [
+            'name' => 'Last Hour',
+        ],
+        '6 hours' => [
+            'name' => 'Last 6 Hours',
+            'interval' => '15 minutes'
+        ],
+        '1 days' => [
+            'name' => 'Last Day',
+            'interval' => '1 hours'
+        ],
+        '1 weeks' => [
+            'name' => 'Last Week',
+            'interval' => '6 hours'
+        ],
     ];
 
     public function mount($field, $table)
@@ -44,7 +41,7 @@ class LineChart extends Component
     {
         $data = null;
         $rawData = $this->getRawData($influx);
-        dump($rawData);
+        // dump($rawData);
         // $data = $this->buildSeries($rawData);
         // try {
         // } catch (Throwable $e) {
@@ -52,7 +49,8 @@ class LineChart extends Component
         // }
 
         return view('livewire.components.line-chart', [
-            'data' => $rawData
+            'data' => $rawData,
+            'series_options' => $this->selectedPeriods == '1 hours' ? ['pH'] : ['Max pH', 'Min pH', 'Average pH'],
         ]);
     }
 
@@ -60,59 +58,28 @@ class LineChart extends Component
     {
         $query = '';
 
-        // if ($this->selectedHour !== 'avg') {
-        //     $query = sprintf(
-        //         "SELECT 
-        //             time, 
-        //             %s
-        //         FROM environment
-        //         WHERE time >= now() - INTERVAL '%s' %s
-        //         ORDER BY time",
-        //         $this->field,
-        //         $this->selectedInterval,
-        //         $this->selectedHour !== 'all' ? "AND EXTRACT(HOUR FROM time + INTERVAL '7 hours') = " . $this->selectedHour : ''
-        //     );
-        // } else {
-        //     $query = sprintf(
-        //         "SELECT 
-        //         date_bin(INTERVAL '1 days', time + INTERVAL '7 hours') AS time, 
-        //         %s
-        //     FROM environment
-        //     WHERE time >= now() - INTERVAL '%s'
-        //     GROUP BY time
-        //     ORDER BY time",
-        //         sprintf("ROUND(AVG(%s), 2) AS %s", $this->field, $this->field),
-        //         $this->selectedInterval
-        //     );
-        // }
-
-        $query = "SELECT
-            DATE_BIN(INTERVAL '2 hours', time) AS time,
-            selector_max(ph, time)['value'] AS 'max_ph',
-            selector_min(ph, time)['value'] AS 'min_ph',
-            ROUND(AVG(ph), 2) AS 'avg_ph'
-            FROM environment
-            GROUP BY 1
-            ORDER BY 1";
+        if ($this->selectedPeriods == '1 hours') {
+            $query = "SELECT 
+                    time, 
+                    {$this->field} AS 'pH'
+                FROM {$this->table}
+                WHERE time >= now() - INTERVAL '{$this->selectedPeriods}'
+                ORDER BY time";
+        } else {
+            $interval = $this->periods[$this->selectedPeriods]['interval'];
+            $query = "SELECT
+                    DATE_BIN(INTERVAL '{$interval}', time) AS time,
+                    selector_max({$this->field}, time)['value'] AS 'Max pH',
+                    selector_min({$this->field}, time)['value'] AS 'Min pH',
+                    ROUND(AVG({$this->field}), 2) AS 'Average pH'
+                FROM {$this->table}
+                WHERE time >= now() - INTERVAL '{$this->selectedPeriods}'
+                GROUP BY 1
+                ORDER BY 1";
+        }
 
         return $influx->query($query)
             ->convertTimezone(format: 'Y-m-d H:i')
             ->get();
-    }
-
-    private function buildSeries($rows)
-    {
-        $field = $this->field;
-        $dateFormat = 'Y-m-d H:i';
-
-        return [[
-            'name' => $field,
-            'data' => $rows->map(function ($row) use ($dateFormat, $field) {
-                return [
-                    'x' => $row['time']->format($dateFormat),
-                    'y' => $row[$field]
-                ];
-            })->values()
-        ]];
     }
 }

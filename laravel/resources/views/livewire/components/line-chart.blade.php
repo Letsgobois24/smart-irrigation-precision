@@ -9,10 +9,9 @@
             </p>
         </div>
         <div class="flex md:flex-row flex-col items-center justify-center gap-2">
-            <x-form.select-time model="selectedInterval" :data="$intervals" />
-            <x-form.select-time model="selectedHour" :data="$hours" />
+            <x-form.select-time model="selectedPeriods" :data="$periods" />
         </div>
 
     </div>
-    <div x-data="lineChart(@js($data), @js($field))" x-init="init()"></div>
+    <div x-data="lineChart(@js($data), @js($series_options))" x-init="init()"></div>
 </div>

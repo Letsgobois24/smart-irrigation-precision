@@ -6,6 +6,6 @@
                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                            hover:border-gray-300 transition">
     @foreach ($data as $key => $value)
-        <option value="{{ $key }}">{{ $value }}</option>
+        <option value="{{ $key }}">{{ $value['name'] }}</option>
     @endforeach
 </select>

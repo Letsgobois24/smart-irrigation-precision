@@ -8,7 +8,7 @@ Route::get('/', Home::class)->name('home');
 
 Route::get('/add', function (InfluxDBService $influx) {
     $rows = [];
-    $time = now()->startOfMinute()->addHours(7);
+    $time = now('UTC')->startOfMinute();
 
     $rows[] = [
         'measurement' => 'environment',
