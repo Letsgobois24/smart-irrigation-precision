@@ -1,11 +1,11 @@
 <div class="bg-white rounded-xl shadow p-6">
-    <div class="flex justify-between gap-x-2">
+    <div class="flex justify-between gap-x-2 mb-3">
         <div>
             <h2 class="font-semibold text-gray-800">
-                {{ $field }} Trend
+                {{ $fieldName }} Trend
             </h2>
             <p class="text-sm text-gray-500">
-                {{ $field }} changes over time
+                {{ $fieldName }} changes over time
             </p>
         </div>
         <div class="flex md:flex-row flex-col items-center justify-center gap-2">

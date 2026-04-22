@@ -3,12 +3,14 @@
 namespace App\Livewire\Components;
 
 use App\Services\InfluxDBService;
+use Exception;
 use Livewire\Component;
 use Throwable;
 
 class LineChart extends Component
 {
     public string $field;
+    public string $fieldName;
     public string $table;
 
     public string $selectedPeriods = '2 hours';
@@ -29,10 +31,15 @@ class LineChart extends Component
             'name' => 'Last Week',
             'interval' => '6 hours'
         ],
+        '1 months' => [
+            'name' => 'Last Month',
+            'interval' => '1 days'
+        ],
     ];
 
-    public function mount($field, $table)
+    public function mount($field, $fieldName, $table)
     {
+        $this->fieldName = $fieldName;
         $this->field = $field;
         $this->table = $table;
     }
@@ -40,17 +47,38 @@ class LineChart extends Component
     public function render(InfluxDBService $influx)
     {
         $data = null;
-        $rawData = $this->getRawData($influx);
-        // $data = $this->buildSeries($rawData);
-        // try {
-        // } catch (Throwable $e) {
-        //     $this->dispatch('toast', type: 'danger', message: $e->getMessage());
-        // }
+        try {
+            $this->sanitize();
+            $data = $this->getRawData($influx);
+        } catch (Throwable $e) {
+            $this->dispatch('toast', type: 'danger', message: $e->getMessage());
+        }
 
         return view('livewire.components.line-chart', [
-            'data' => $rawData,
-            'series_options' => $this->selectedPeriods == '2 hours' ? ['pH'] : ['Max pH', 'Min pH', 'Average pH'],
+            'data' => $data,
+            'series_options' => $this->getSeriesOption(),
         ]);
+    }
+
+    private array $allowedFields = ['ph', 'water_flow', 'soil_moisture'];
+    private array $allowedTables = ['environment', 'node'];
+    private function sanitize()
+    {
+        if (!in_array($this->field, $this->allowedFields)) {
+            throw new Exception('Invalid field');
+        }
+
+        if (!in_array($this->table, $this->allowedTables)) {
+            throw new Exception('Invalid table');
+        }
+    }
+
+    private function getSeriesOption()
+    {
+        if ($this->selectedPeriods == '2 hours') {
+            return [$this->fieldName];
+        }
+        return ["Max {$this->fieldName}", "Min {$this->fieldName}", "Average {$this->fieldName}"];
     }
 
     private function getRawData(InfluxDBService $influx)
@@ -60,7 +88,7 @@ class LineChart extends Component
         if ($this->selectedPeriods == '2 hours') {
             $query = "SELECT 
                     time, 
-                    {$this->field} AS 'pH'
+                    {$this->field} AS '{$this->fieldName}'
                 FROM {$this->table}
                 WHERE time >= now() - INTERVAL '{$this->selectedPeriods}' + INTERVAL '7 hours'
                 ORDER BY time";
@@ -68,9 +96,9 @@ class LineChart extends Component
             $interval = $this->periods[$this->selectedPeriods]['interval'];
             $query = "SELECT
                     DATE_BIN(INTERVAL '{$interval}', time) AS time,
-                    selector_max({$this->field}, time)['value'] AS 'Max pH',
-                    selector_min({$this->field}, time)['value'] AS 'Min pH',
-                    ROUND(AVG({$this->field}), 2) AS 'Average pH'
+                    selector_max({$this->field}, time)['value'] AS 'Max {$this->fieldName}',
+                    selector_min({$this->field}, time)['value'] AS 'Min {$this->fieldName}',
+                    ROUND(AVG({$this->field}), 2) AS 'Average {$this->fieldName}'
                 FROM {$this->table}
                 WHERE time >= now() - INTERVAL '{$this->selectedPeriods}' + INTERVAL '7 hours'
                 GROUP BY 1

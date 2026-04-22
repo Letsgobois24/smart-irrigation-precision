@@ -15,7 +15,7 @@
             Monitoring Data Global
         </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
 
             <!-- PH -->
             <div class="bg-white shadow rounded-xl p-4 flex items-center gap-3">
@@ -64,10 +64,8 @@
 
         <!-- Charts -->
         <div class="grid md:grid-cols-2 gap-6">
-            <livewire:components.line-chart field="ph" table="environment" />
-            <div class="bg-white rounded-xl shadow p-4 h-64 flex flex-col justify-center items-center">
-                <p class="text-gray-400">💧 Grafik Debit Air</p>
-            </div>
+            <livewire:components.line-chart field="ph" fieldName="pH" table="environment" />
+            <livewire:components.line-chart field="water_flow" fieldName="Water Flow" table="environment" />
         </div>
     </div>
 </div>
