@@ -42,7 +42,7 @@ class InfluxDBService
         return $url . '?' . http_build_query($params);
     }
 
-    public function query(string $query, bool $convertTimezone = true)
+    public function query(string $query)
     {
         $url = $this->endpoint('/query_sql');
 
@@ -61,9 +61,17 @@ class InfluxDBService
         return $this;
     }
 
-    public function convertTimezone(string $column = 'time')
+    public function convertTimezone(string $column = 'time', string | null $format = null)
     {
-        $this->result = collect($this->result)->map(fn($value) => [...$value, $column => Carbon::parse($value[$column], 'UTC')->tz('Asia/Jakarta')]);
+        $this->result = collect($this->result)
+            ->map(function ($value) use ($column, $format) {
+                $newTimeFormat = Carbon::parse($value[$column], 'UTC')->tz('Asia/Jakarta');
+                if ($format) {
+                    $newTimeFormat = $newTimeFormat->format($format);
+                }
+
+                return [...$value, $column => $newTimeFormat];
+            });
 
         return $this;
     }

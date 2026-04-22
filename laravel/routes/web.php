@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', Home::class)->name('home');
 
-Route::get('/try', function (InfluxDBService $influx) {
+Route::get('/add', function (InfluxDBService $influx) {
     $rows = [];
     $time = now()->startOfMinute()->addHours(7);
 
@@ -26,4 +26,8 @@ Route::get('/try', function (InfluxDBService $influx) {
     } catch (Throwable $e) {
         dump("Connection Timeout. Detail: " . $e->getMessage());
     }
+});
+
+Route::get('/try', function (InfluxDBService $influx) {
+    dump(now()->format('Y-m-d H:i'));
 });

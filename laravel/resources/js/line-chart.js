@@ -26,7 +26,31 @@ function setLineOptionChart(seriesData, addLabel = '',) {
         chart: {
             type: 'line'
         },
-        series: seriesData,
+        parsing: {
+            x: 'time'
+        },
+        series: [{
+            name: 'Max pH',
+            data: seriesData,
+            parsing: {
+                y: 'max_ph'
+            }
+        }, {
+            name: 'Min pH',
+            data: seriesData,
+            parsing: {
+                y: 'min_ph'
+            }
+        },
+        {
+            name: 'Average pH',
+            data: seriesData,
+            parsing: {
+                y: 'avg_ph'
+            }
+        },
+    
+        ],
         xaxis: {
             type: 'datetime'
         },

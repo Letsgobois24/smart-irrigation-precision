@@ -4,6 +4,7 @@ namespace App\Livewire\Components;
 
 use App\Services\InfluxDBService;
 use Livewire\Component;
+use Throwable;
 
 class LineChart extends Component
 {
@@ -22,6 +23,7 @@ class LineChart extends Component
 
     public $hours = [
         'all' => 'All Data',
+        'avg' => 'Average',
         0 => '0:00',
         3 => '3:00',
         6 => '6:00',
@@ -40,11 +42,17 @@ class LineChart extends Component
 
     public function render(InfluxDBService $influx)
     {
+        $data = null;
         $rawData = $this->getRawData($influx);
-        $data = $this->buildSeries($rawData);
+        dump($rawData);
+        // $data = $this->buildSeries($rawData);
+        // try {
+        // } catch (Throwable $e) {
+        //     $this->dispatch('toast', type: 'danger', message: $e->getMessage());
+        // }
 
         return view('livewire.components.line-chart', [
-            'data' => $data
+            'data' => $rawData
         ]);
     }
 
@@ -52,25 +60,50 @@ class LineChart extends Component
     {
         $query = '';
 
-        $query = sprintf(
-            "SELECT 
-                time, 
-                %s
-            FROM environment
-            WHERE time >= now() - INTERVAL '%s' %s
-            ORDER BY time",
-            $this->field,
-            $this->selectedInterval,
-            $this->selectedHour !== 'all' ? "AND EXTRACT(HOUR FROM time + INTERVAL '7 hours') = " . $this->selectedHour : ''
-        );
+        // if ($this->selectedHour !== 'avg') {
+        //     $query = sprintf(
+        //         "SELECT 
+        //             time, 
+        //             %s
+        //         FROM environment
+        //         WHERE time >= now() - INTERVAL '%s' %s
+        //         ORDER BY time",
+        //         $this->field,
+        //         $this->selectedInterval,
+        //         $this->selectedHour !== 'all' ? "AND EXTRACT(HOUR FROM time + INTERVAL '7 hours') = " . $this->selectedHour : ''
+        //     );
+        // } else {
+        //     $query = sprintf(
+        //         "SELECT 
+        //         date_bin(INTERVAL '1 days', time + INTERVAL '7 hours') AS time, 
+        //         %s
+        //     FROM environment
+        //     WHERE time >= now() - INTERVAL '%s'
+        //     GROUP BY time
+        //     ORDER BY time",
+        //         sprintf("ROUND(AVG(%s), 2) AS %s", $this->field, $this->field),
+        //         $this->selectedInterval
+        //     );
+        // }
 
-        return $influx->query($query)->convertTimezone()->get();
+        $query = "SELECT
+            DATE_BIN(INTERVAL '2 hours', time) AS time,
+            selector_max(ph, time)['value'] AS 'max_ph',
+            selector_min(ph, time)['value'] AS 'min_ph',
+            ROUND(AVG(ph), 2) AS 'avg_ph'
+            FROM environment
+            GROUP BY 1
+            ORDER BY 1";
+
+        return $influx->query($query)
+            ->convertTimezone(format: 'Y-m-d H:i')
+            ->get();
     }
 
     private function buildSeries($rows)
     {
         $field = $this->field;
-        $dateFormat = 'Y-m-d' . ($this->selectedHour === 'all' ? ' H:i' : '');
+        $dateFormat = 'Y-m-d H:i';
 
         return [[
             'name' => $field,
