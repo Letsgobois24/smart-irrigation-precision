@@ -90,7 +90,7 @@ class LineChart extends Component
                     time, 
                     {$this->field} AS '{$this->fieldName}'
                 FROM {$this->table}
-                WHERE time >= now() - INTERVAL '{$this->selectedPeriods}' + INTERVAL '7 hours'
+                WHERE time >= now() - INTERVAL '{$this->selectedPeriods}'
                 ORDER BY time";
         } else {
             $interval = $this->periods[$this->selectedPeriods]['interval'];
@@ -100,7 +100,7 @@ class LineChart extends Component
                     selector_min({$this->field}, time)['value'] AS 'Min {$this->fieldName}',
                     ROUND(AVG({$this->field}), 2) AS 'Average {$this->fieldName}'
                 FROM {$this->table}
-                WHERE time >= now() - INTERVAL '{$this->selectedPeriods}' + INTERVAL '7 hours'
+                WHERE time >= now() - INTERVAL '{$this->selectedPeriods}'
                 GROUP BY 1
                 ORDER BY 1";
         }

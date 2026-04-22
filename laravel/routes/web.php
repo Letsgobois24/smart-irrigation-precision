@@ -28,8 +28,6 @@ Route::get('/add', function (InfluxDBService $influx) {
     }
 });
 
-Route::get('/try', function (InfluxDBService $influx) {
-    $data = $influx->query("SELECT * FROM 'environment' ORDER BY TIME DESC LIMIT 4");
-    dump($data);
-    dump($data->convertTimezone());
+Route::get('/try', function () {
+    dump(now('UTC'));
 });

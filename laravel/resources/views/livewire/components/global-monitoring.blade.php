@@ -23,7 +23,7 @@
                 <x-icons.ph size="32" />
                 <div>
                     <p class="text-gray-500 text-sm">pH</p>
-                    <p class="text-xl font-bold text-green-700">6.8</p>
+                    <p class="text-xl font-bold text-green-700">{{ $ph }}</p>
                 </div>
             </div>
 

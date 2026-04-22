@@ -43,6 +43,7 @@ class GlobalMonitoring extends Component
                 ORDER BY TIME DESC 
                 LIMIT 1";
         $data = $influx->query($query)->convertTimezone()->get()[0];
+        $this->ph = $data['ph'];
         $this->water_flow = $data['water_flow'];
         $this->main_valve = $data['main_valve'];
         $this->time = $data['time'];

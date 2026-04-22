@@ -16,7 +16,7 @@ class NodeSeeder extends Seeder
     {
         $rows = [];
 
-        $end = now()->startOfHour()->addHours(7);
+        $end = now()->startOfHour();
         $start = (clone $end)->subDays(14);
         $period = CarbonPeriod::create($start, '5 minutes', $end);
 

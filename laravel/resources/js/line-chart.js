@@ -31,7 +31,10 @@ function setLineOptionChart(seriesData, seriesOptions) {
         },
         series: getSeriesOptions(seriesData, seriesOptions),
         xaxis: {
-            type: 'datetime'
+            type: 'datetime',
+            labels: {
+                datetimeUTC: false
+            }
         },
         legend: {
             show: false,
