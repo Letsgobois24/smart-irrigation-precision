@@ -37,7 +37,12 @@ class GlobalMonitoring extends Component
 
     private function update(InfluxDBService $influx)
     {
-        $data = $influx->query("SELECT * FROM 'environment' ORDER BY TIME DESC LIMIT 1")->convertTimezone()->get()[0];
+        $query = "SELECT * 
+                FROM 'environment' 
+                WHERE time <= now()
+                ORDER BY TIME DESC 
+                LIMIT 1";
+        $data = $influx->query($query)->convertTimezone()->get()[0];
         $this->water_flow = $data['water_flow'];
         $this->main_valve = $data['main_valve'];
         $this->time = $data['time'];

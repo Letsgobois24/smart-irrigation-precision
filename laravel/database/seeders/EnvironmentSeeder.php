@@ -16,7 +16,7 @@ class EnvironmentSeeder extends Seeder
     {
         $rows = [];
 
-        $end = now()->startOfDay()->addHours(7);
+        $end = now()->startOfHour()->addHours(7);
         $start = (clone $end)->subDays(14);
         $period = CarbonPeriod::create($start, '5 minutes', $end);
 

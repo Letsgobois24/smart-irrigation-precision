@@ -11,11 +11,11 @@ class LineChart extends Component
     public string $field;
     public string $table;
 
-    public string $selectedPeriods = '1 days';
+    public string $selectedPeriods = '2 hours';
 
     public $periods = [
-        '1 hours' => [
-            'name' => 'Last Hour',
+        '2 hours' => [
+            'name' => 'Last 2 Hours',
         ],
         '6 hours' => [
             'name' => 'Last 6 Hours',
@@ -41,7 +41,6 @@ class LineChart extends Component
     {
         $data = null;
         $rawData = $this->getRawData($influx);
-        // dump($rawData);
         // $data = $this->buildSeries($rawData);
         // try {
         // } catch (Throwable $e) {
@@ -50,7 +49,7 @@ class LineChart extends Component
 
         return view('livewire.components.line-chart', [
             'data' => $rawData,
-            'series_options' => $this->selectedPeriods == '1 hours' ? ['pH'] : ['Max pH', 'Min pH', 'Average pH'],
+            'series_options' => $this->selectedPeriods == '2 hours' ? ['pH'] : ['Max pH', 'Min pH', 'Average pH'],
         ]);
     }
 
@@ -58,12 +57,12 @@ class LineChart extends Component
     {
         $query = '';
 
-        if ($this->selectedPeriods == '1 hours') {
+        if ($this->selectedPeriods == '2 hours') {
             $query = "SELECT 
                     time, 
                     {$this->field} AS 'pH'
                 FROM {$this->table}
-                WHERE time >= now() - INTERVAL '{$this->selectedPeriods}'
+                WHERE time >= now() - INTERVAL '{$this->selectedPeriods}' + INTERVAL '7 hours'
                 ORDER BY time";
         } else {
             $interval = $this->periods[$this->selectedPeriods]['interval'];
@@ -73,7 +72,7 @@ class LineChart extends Component
                     selector_min({$this->field}, time)['value'] AS 'Min pH',
                     ROUND(AVG({$this->field}), 2) AS 'Average pH'
                 FROM {$this->table}
-                WHERE time >= now() - INTERVAL '{$this->selectedPeriods}'
+                WHERE time >= now() - INTERVAL '{$this->selectedPeriods}' + INTERVAL '7 hours'
                 GROUP BY 1
                 ORDER BY 1";
         }

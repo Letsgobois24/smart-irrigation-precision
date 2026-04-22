@@ -36,12 +36,11 @@ class NodeMonitoring extends Component
 
     private function getData(InfluxDBService $influx)
     {
-        $query = "
-        SELECT tree_id, soil_moisture, valve, time FROM 'node' 
-        WHERE tree_id IN (1,2,3,4)
-        ORDER BY time DESC, tree_id 
-        LIMIT 4
-        ";
+        $query = "SELECT 
+                    tree_id, soil_moisture, valve, time FROM 'node' 
+                WHERE time <= now() AND tree_id IN (1,2,3,4)
+                ORDER BY time DESC, tree_id 
+                LIMIT 4";
 
         return $influx->query($query)->convertTimezone()->get();
     }

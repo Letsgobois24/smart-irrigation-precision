@@ -8,7 +8,7 @@ Route::get('/', Home::class)->name('home');
 
 Route::get('/add', function (InfluxDBService $influx) {
     $rows = [];
-    $time = now('UTC')->startOfMinute();
+    $time = now('UTC')->startOfMinute()->addHours(7);
 
     $rows[] = [
         'measurement' => 'environment',
@@ -29,5 +29,7 @@ Route::get('/add', function (InfluxDBService $influx) {
 });
 
 Route::get('/try', function (InfluxDBService $influx) {
-    dump(now()->format('Y-m-d H:i'));
+    $data = $influx->query("SELECT * FROM 'environment' ORDER BY TIME DESC LIMIT 4");
+    dump($data);
+    dump($data->convertTimezone());
 });
