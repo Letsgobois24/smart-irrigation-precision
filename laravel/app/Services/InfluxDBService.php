@@ -65,7 +65,7 @@ class InfluxDBService
     {
         $this->result = collect($this->result)
             ->map(function ($value) use ($column, $format) {
-                $newTimeFormat = Carbon::parse($value[$column], 'UTC')->tz('Asia/Jakarta');
+                $newTimeFormat = Carbon::parse($value[$column], 'Asia/Jakarta');
                 if ($format) {
                     $newTimeFormat = $newTimeFormat->format($format);
                 }
@@ -73,6 +73,24 @@ class InfluxDBService
                 return [...$value, $column => $newTimeFormat];
             });
 
+        return $this;
+    }
+
+    public function groupBySeries(string $groupByColumn, string $yColumn)
+    {
+        $this->result = collect($this->result)
+            ->groupBy($groupByColumn)
+            ->map(function ($items, $tree_id) use ($yColumn) {
+                return [
+                    'name' => $tree_id,
+                    'data' => $items->map(function ($row) use ($yColumn) {
+                        return [
+                            'x' => $row['time'],
+                            'y' => $row[$yColumn]
+                        ];
+                    })
+                ];
+            })->values();
         return $this;
     }
 
