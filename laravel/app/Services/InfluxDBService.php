@@ -61,37 +61,55 @@ class InfluxDBService
         return $this;
     }
 
-    public function convertTimezone(string $column = 'time', string | null $format = null)
+    public function convertTimezone(string $column = 'time')
     {
         $this->result = collect($this->result)
-            ->map(function ($value) use ($column, $format) {
+            ->map(function ($value) use ($column) {
                 $newTimeFormat = Carbon::parse($value[$column], 'UTC')->tz('Asia/Jakarta');
-                if ($format) {
-                    $newTimeFormat = $newTimeFormat->format($format);
-                }
-
                 return [...$value, $column => $newTimeFormat];
             });
 
         return $this;
     }
 
-    public function groupBySeries(string $groupByColumn, string $yColumn)
+    public function groupBySeries(string $groupbyColumn, string $fieldColumn, bool $addAverage = false, string $timeColumn = 'time')
     {
-        $this->result = collect($this->result)
-            ->groupBy($groupByColumn)
-            ->map(function ($items, $tree_id) use ($yColumn) {
-                return [
-                    'name' => $tree_id,
-                    'data' => $items->map(function ($row) use ($yColumn) {
-                        return [
-                            'x' => $row['time'],
-                            'y' => $row[$yColumn]
-                        ];
-                    })
+        $result = [];
+
+        foreach ($this->result as $row) {
+            $time = $row[$timeColumn];
+            $treeId = $row[$groupbyColumn];
+            $value = $row[$fieldColumn];
+
+            if (!isset($result[$time])) {
+                $result[$time] = [
+                    $timeColumn => $time
                 ];
-            })->values();
-        return $this;
+            }
+
+            $result[$time][$fieldColumn . ' ' . $treeId] = $value;
+        }
+
+        $result = array_values($result);
+
+        if ($addAverage) {
+            foreach ($result as &$row) {
+                $sum = 0;
+                $count = 0;
+
+                foreach ($row as $key => $value) {
+                    if ($key !== $timeColumn) {
+                        $sum += $value;
+                        $count++;
+                    }
+                }
+
+                $row['Average ' . $fieldColumn] = round($sum / $count, 2);
+            }
+            unset($row);
+        }
+
+        $this->result = $result;
     }
 
     public function get()

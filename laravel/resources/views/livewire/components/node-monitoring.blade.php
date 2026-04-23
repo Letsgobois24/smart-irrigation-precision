@@ -42,8 +42,9 @@
             @endforeach
         </div>
 
-        <div class="border rounded-xl h-64 flex items-center justify-center">
-            <p class="text-gray-400">📊 Grafik Kelembaban</p>
+        <div class="grid md:grid-cols-2 gap-6">
+            <livewire:components.line-chart lazy field="soil_moisture" fieldName="Soil Moisture" table="node"
+                groupby='tree_id' />
         </div>
 
     </div>

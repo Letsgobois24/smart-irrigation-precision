@@ -12,6 +12,7 @@ class LineChart extends Component
     public string $field;
     public string $fieldName;
     public string $table;
+    public string $groupby;
 
     public string $selectedPeriods = '2 hours';
 
@@ -37,35 +38,41 @@ class LineChart extends Component
         ],
     ];
 
-    public function mount($field, $fieldName, $table)
+    public function mount($field, $fieldName, $table, $groupby = '')
     {
         $this->fieldName = $fieldName;
         $this->field = $field;
         $this->table = $table;
+        $this->groupby = $groupby;
     }
 
     public function render(InfluxDBService $influx)
     {
         $data = null;
+        $data = $this->getRawData($influx);
         try {
             $this->sanitize();
-            $data = $this->getRawData($influx);
+            if (count($data) == 0) {
+                throw new Exception("No data available in {$this->fieldName} chart");
+            }
         } catch (Throwable $e) {
             $this->dispatch('toast', type: 'danger', message: $e->getMessage());
         }
 
         return view('livewire.components.line-chart', [
             'data' => $data,
-            'series_options' => $this->getSeriesOption(),
+            'series_options' => $this->getSeriesOption($data[0] ?? null),
         ]);
     }
 
-    private function getSeriesOption()
+    private function getSeriesOption($data)
     {
-        if ($this->selectedPeriods == '2 hours') {
-            return [$this->fieldName];
+        if (!$data) {
+            return null;
         }
-        return ["Max {$this->fieldName}", "Min {$this->fieldName}", "Average {$this->fieldName}"];
+        $seriesName = array_keys($data);
+        array_splice($seriesName, 0, 1);
+        return $seriesName;
     }
 
     private function getRawData(InfluxDBService $influx)
@@ -73,15 +80,35 @@ class LineChart extends Component
         $query = '';
 
         if ($this->selectedPeriods == '2 hours') {
-            $query = "SELECT 
-                    time, 
-                    {$this->field} AS '{$this->fieldName}'
-                FROM {$this->table}
-                WHERE time >= now() - INTERVAL '{$this->selectedPeriods}'
-                ORDER BY time";
+            $query = $this->singleLineQuery();
+        } elseif ($this->groupby) {
+            $query = $this->groupByQuery();
         } else {
-            $interval = $this->periods[$this->selectedPeriods]['interval'];
-            $query = "SELECT
+            $query = $this->aggregateLineQuery();
+        }
+
+        $result = $influx->query($query);
+        if ($this->groupby) {
+            $result->groupBySeries($this->groupby, $this->fieldName, addAverage: true);
+        }
+        return $result->convertTimezone()->get();
+    }
+
+    private function singleLineQuery()
+    {
+        $groupByField = $this->groupby ? ',' . $this->groupby : '';
+        return "SELECT 
+            time, 
+            {$this->field} AS '{$this->fieldName}' {$groupByField}
+        FROM {$this->table}
+        WHERE time >= now() - INTERVAL '{$this->selectedPeriods}'
+        ORDER BY time";
+    }
+
+    private function aggregateLineQuery()
+    {
+        $interval = $this->periods[$this->selectedPeriods]['interval'];
+        return "SELECT
                     DATE_BIN(INTERVAL '{$interval}', time) AS time,
                     selector_max({$this->field}, time)['value'] AS 'Max {$this->fieldName}',
                     selector_min({$this->field}, time)['value'] AS 'Min {$this->fieldName}',
@@ -90,11 +117,19 @@ class LineChart extends Component
                 WHERE time >= now() - INTERVAL '{$this->selectedPeriods}'
                 GROUP BY 1
                 ORDER BY 1";
-        }
+    }
 
-        return $influx->query($query)
-            ->convertTimezone(format: 'Y-m-d H:i')
-            ->get();
+    private function groupByQuery()
+    {
+        $interval = $this->periods[$this->selectedPeriods]['interval'];
+        return "SELECT
+                    DATE_BIN(INTERVAL '{$interval}', time) AS time,
+                    {$this->groupby},
+                    ROUND(AVG({$this->field}), 2) AS '{$this->fieldName}'
+                FROM {$this->table}
+                WHERE time >= now() - INTERVAL '{$this->selectedPeriods}'
+                GROUP BY 1, {$this->groupby}
+                ORDER BY time, {$this->groupby}";
     }
 
     private array $allowedFields = ['ph', 'water_flow', 'soil_moisture'];

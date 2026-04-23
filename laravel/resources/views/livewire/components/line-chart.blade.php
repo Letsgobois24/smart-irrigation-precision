@@ -13,5 +13,7 @@
         </div>
 
     </div>
-    <div x-data="lineChart(@js($data), @js($series_options))" x-init="init()"></div>
+    @if ($data && count($data) > 0)
+        <div x-data="lineChart(@js($data), @js($series_options))" x-init="init()"></div>
+    @endif
 </div>

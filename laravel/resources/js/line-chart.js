@@ -11,6 +11,7 @@ export default function lineChart(data, seriesOptions) {
             if (this.chart) return;
             const options = setLineOptionChart(data, seriesOptions);
             console.log(options);
+            console.log(seriesOptions);
             this.chart = new ApexCharts(this.$el, options);
             this.chart.render();
 

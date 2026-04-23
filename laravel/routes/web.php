@@ -6,6 +6,45 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', Home::class)->name('home');
 
+Route::get('/try', function (InfluxDBService $influx) {
+    $field = 'soil_moisture';
+    $fieldName = 'Soil Moisture';
+    $table = 'node';
+    $selectedPeriods = '2 hours';
+    $groupby = 'tree_id';
+    $groupByField = $groupby ? ',' . $groupby : '';
+
+    $query = "SELECT 
+                    time, 
+                    {$field} AS '{$fieldName}'{$groupByField}
+                FROM {$table}
+                WHERE time >= now() - INTERVAL '{$selectedPeriods}'
+                ORDER BY time
+                ";
+    $data = $influx->query($query)->get();
+
+    $result = [];
+
+    foreach ($data as $row) {
+        $time = $row['time'];
+        $treeId = $row['tree_id'];
+        $value = $row['Soil Moisture'];
+
+        if (!isset($result[$time])) {
+            $result[$time] = [
+                'time' => $time
+            ];
+        }
+
+        $result[$time]['tree_' . $treeId] = $value;
+    }
+
+    $result = array_values($result);
+
+    dd($result);
+});
+
+
 Route::get('/add', function (InfluxDBService $influx) {
     $rows = [];
     $time = now('UTC')->startOfMinute()->addHours(7);
@@ -26,8 +65,4 @@ Route::get('/add', function (InfluxDBService $influx) {
     } catch (Throwable $e) {
         dump("Connection Timeout. Detail: " . $e->getMessage());
     }
-});
-
-Route::get('/try', function () {
-    dump(now('UTC'));
 });
