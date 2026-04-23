@@ -65,7 +65,7 @@ class InfluxDBService
     {
         $this->result = collect($this->result)
             ->map(function ($value) use ($column, $format) {
-                $newTimeFormat = Carbon::parse($value[$column], 'Asia/Jakarta');
+                $newTimeFormat = Carbon::parse($value[$column], 'UTC')->tz('Asia/Jakarta');
                 if ($format) {
                     $newTimeFormat = $newTimeFormat->format($format);
                 }
