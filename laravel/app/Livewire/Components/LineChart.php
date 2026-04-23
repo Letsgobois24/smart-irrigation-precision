@@ -48,9 +48,9 @@ class LineChart extends Component
 
     public function render(InfluxDBService $influx)
     {
-        $data = null;
-        $data = $this->getRawData($influx);
+        $data = [];
         try {
+            $data = $this->getRawData($influx);
             $this->sanitize();
             if (count($data) == 0) {
                 throw new Exception("No data available in {$this->fieldName} chart");
@@ -63,6 +63,11 @@ class LineChart extends Component
             'data' => $data,
             'series_options' => $this->getSeriesOption($data[0] ?? null),
         ]);
+    }
+
+    public function placeholder()
+    {
+        return view('components.placeholder.line-chart-placeholder');
     }
 
     private function getSeriesOption($data)
