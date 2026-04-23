@@ -60,19 +60,6 @@ class LineChart extends Component
         ]);
     }
 
-    private array $allowedFields = ['ph', 'water_flow', 'soil_moisture'];
-    private array $allowedTables = ['environment', 'node'];
-    private function sanitize()
-    {
-        if (!in_array($this->field, $this->allowedFields)) {
-            throw new Exception('Invalid field');
-        }
-
-        if (!in_array($this->table, $this->allowedTables)) {
-            throw new Exception('Invalid table');
-        }
-    }
-
     private function getSeriesOption()
     {
         if ($this->selectedPeriods == '2 hours') {
@@ -108,5 +95,18 @@ class LineChart extends Component
         return $influx->query($query)
             ->convertTimezone(format: 'Y-m-d H:i')
             ->get();
+    }
+
+    private array $allowedFields = ['ph', 'water_flow', 'soil_moisture'];
+    private array $allowedTables = ['environment', 'node'];
+    private function sanitize()
+    {
+        if (!in_array($this->field, $this->allowedFields)) {
+            throw new Exception('Invalid field');
+        }
+
+        if (!in_array($this->table, $this->allowedTables)) {
+            throw new Exception('Invalid table');
+        }
     }
 }

@@ -18,7 +18,7 @@ export default function lineChart(data, seriesOptions) {
     }
 }
 
-function setLineOptionChart(seriesData, seriesOptions) {
+function setLineOptionChart(data, seriesOptions) {
     return {
         stroke: {
             width: 2,
@@ -29,7 +29,7 @@ function setLineOptionChart(seriesData, seriesOptions) {
         parsing: {
             x: 'time'
         },
-        series: getSeriesOptions(seriesData, seriesOptions),
+        series: getSeriesOptions(data, seriesOptions),
         xaxis: {
             type: 'datetime',
             labels: {
@@ -61,11 +61,11 @@ function setLineOptionChart(seriesData, seriesOptions) {
     }
 }
 
-function getSeriesOptions(seriesData, seriesOptions) {
+function getSeriesOptions(data, seriesOptions) {
     return seriesOptions.map((option) => {
         return {
             name: option,
-            data: seriesData,
+            data: data,
             parsing: {
                 y: option,
             }
