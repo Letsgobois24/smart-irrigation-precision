@@ -39,7 +39,7 @@ class GlobalMonitoring extends Component
     {
         $query = "SELECT * 
                 FROM 'environment' 
-                WHERE time <= now()
+                WHERE time <= now() + INTERVAL '7 hours'
                 ORDER BY TIME DESC 
                 LIMIT 1";
         $data = $influx->query($query)->convertTimezone()->get()[0];
