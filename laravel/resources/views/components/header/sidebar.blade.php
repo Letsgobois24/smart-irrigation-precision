@@ -19,6 +19,7 @@
         <div class="-my-6 divide-y divide-gray-500/10">
             <div class="space-y-2 py-6">
                 <x-header.sidelink href="/" :active="request()->is('/')">Home</x-header.sidelink>
+                <x-header.sidelink href="/notification" :active="request()->is('/notification')">Notification</x-header.sidelink>
             </div>
         </div>
     </div>
