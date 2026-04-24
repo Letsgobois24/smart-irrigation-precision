@@ -2,6 +2,7 @@
 
 use App\Livewire\Pages\Home;
 use App\Livewire\Pages\Notification;
+use App\Models\Notification as ModelsNotification;
 use App\Services\InfluxDBService;
 use Illuminate\Support\Facades\Route;
 
@@ -9,7 +10,8 @@ Route::get('/', Home::class)->name('home');
 Route::get('/notification', Notification::class)->name('notification');
 
 Route::get('/try', function () {
-    dump(config('database.connections.influxdb.url'));
+    $notifications = ModelsNotification::all();
+    dd($notifications);
 });
 
 

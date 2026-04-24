@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             EnvironmentSeeder::class,
             NodeSeeder::class,
+            NotificationSeeder::class
         ]);
     }
 }
