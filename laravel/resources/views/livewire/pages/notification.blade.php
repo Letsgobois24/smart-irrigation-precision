@@ -1,7 +1,8 @@
 <div x-data="{ isOpenModal: true }">
     <div x-show="isOpenModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
         <!-- Modal -->
-        <div class="bg-white w-full max-w-4xl h-[80vh] rounded-2xl shadow-xl flex overflow-hidden">
+        <div @click.outside="isOpenModal = false"
+            class="bg-white w-full max-w-4xl h-[80vh] rounded-2xl shadow-xl flex overflow-hidden">
             <!-- LEFT: Notification List -->
             <div class="w-1/3 border-r overflow-y-auto">
 
