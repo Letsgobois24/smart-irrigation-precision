@@ -34,11 +34,6 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
-    'influxdb' => [
-        'url' => env('INFLUX_URL'),
-        'token' => env('INFLUX_TOKEN'),
-        'db' => env('INFLUX_DB'),
-    ],
     'fastapi' => [
         'url' => env('FASTAPI_URL')
     ]

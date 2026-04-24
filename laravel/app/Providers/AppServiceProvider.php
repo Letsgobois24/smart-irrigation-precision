@@ -14,9 +14,9 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(InfluxDBService::class, function () {
             return new InfluxDBService(
-                url: config('services.influxdb.url'),
-                token: config('services.influxdb.token'),
-                db: config('services.influxdb.db'),
+                url: config('database.connections.influxdb.url'),
+                token: config('database.connections.influxdb.token'),
+                db: config('database.connections.influxdb.db'),
                 precision: 'second'
             );
         });
