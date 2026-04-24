@@ -1,4 +1,4 @@
-<nav class="bg-gray-900 text-gray-100">
+<nav class="bg-gray-900">
     {{-- Ketika layar medium --}}
     <div class="flex items-center justify-between p-5 lg:px-8">
         {{-- Hamburger menu --}}
@@ -10,13 +10,16 @@
         </div>
 
         <div class="justify-end items-center">
-            <button
+            <button @click="isOpenNotification = true"
                 class="flex relative cursor-pointer ml-3 mr-7 size-10 justify-center items-center rounded-full hover:bg-green-50/30">
                 <div
                     class="absolute top-0.5 right-1 bg-orange-500 size-4 rounded-full flex justify-center items-center text-xs">
-                    1</div>
-                <x-icons.notification size='30' />
+                    {{ $count_notifications }}</div>
+                <x-icons.notification size='30' class="text-gray-100" />
             </button>
         </div>
     </div>
+    {{-- Notification Modal --}}
+    <livewire:components.notification-modal />
+
 </nav>

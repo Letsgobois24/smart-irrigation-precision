@@ -17,7 +17,7 @@
     <meta name="description" content="@yield('meta_description', 'Artikula adalah ruang baca digital berisi artikel berkualitas.')">
 </head>
 
-<body class="min-h-screen" x-data="{ isOpenSidebar: window.matchMedia('(min-width: 768px)').matches }">
+<body class="min-h-screen" x-data="{ isOpenSidebar: window.matchMedia('(min-width: 768px)').matches, isOpenNotification: false }">
     <x-header.header />
     <div class="flex-1">
         <div x-show="isOpenSidebar" @click="isOpenSidebar = false"
