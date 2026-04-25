@@ -11,7 +11,7 @@
     <div x-show="isOpenNotification" x-cloak class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
         <!-- Modal -->
         <div @click.outside="isOpenNotification = false"
-            class="bg-white w-full max-w-4xl h-[80vh] rounded-2xl shadow-xl flex overflow-hidden">
+            class="bg-white w-full max-w-5xl h-[80vh] rounded-2xl shadow-xl flex overflow-hidden">
             <!-- LEFT: Notification List -->
             <div class="w-1/3 border-r overflow-y-auto">
 
@@ -28,22 +28,14 @@
                     <div wire:click="detailNotification(@js($notification['id']))"
                         class="p-4 cursor-pointer border-b border-gray-400"
                         :class="{
-                            'bg-gray-200': {{ $active_notification['id'] ?? 'null' }} === {{ $notification['id'] }},
+                            'bg-gray-200': @js($active_notification['id'] ?? 'null') === @js($notification['id']),
                             'hover:bg-gray-50': true
                         }">
                         <div class="flex items-center gap-x-1">
                             {{-- UNREAD DOT --}}
-                            <div class="text-sm font-semibold"
-                                :class="{
-                                    'text-red-600': '{{ $notification['severity'] }}'
-                                    === 'tinggi',
-                                    'text-yellow-600': '{{ $notification['severity'] }}'
-                                    === 'sedang',
-                                    'text-green-600': '{{ $notification['severity'] }}'
-                                    === 'rendah'
-                                }">
+                            <x-ui.severity-text :severity="$notification['severity']" class="text-sm font-semibold">
                                 {{ $notification['title'] }}
-                            </div>
+                            </x-ui.severity-text>
 
                             <div class="flex-1">
                                 @if ($notification['is_active'])
@@ -53,17 +45,9 @@
                                 @endif
                             </div>
 
-                            <span class="text-[10px] px-2 py-0.5 rounded-full"
-                                :class="{
-                                    'bg-red-100 text-red-600': '{{ $notification['severity'] }}'
-                                    === 'tinggi',
-                                    'bg-yellow-100 text-yellow-600': '{{ $notification['severity'] }}'
-                                    === 'sedang',
-                                    'bg-green-100 text-green-600': '{{ $notification['severity'] }}'
-                                    === 'rendah'
-                                }">
+                            <x-ui.severity-badge :severity="$notification['severity']" class="text-[10px] px-2 py-0.5">
                                 {{ strtoupper($notification['severity']) }}
-                            </span>
+                            </x-ui.severity-badge>
                         </div>
                         <div class="text-xs text-gray-500">
                             {{ ucfirst($notification['source_type']) }} {{ $notification['tree_id'] }} •
@@ -82,29 +66,13 @@
                 <div wire:loading.remove wire:target='detailNotification' class="space-y-4">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-2">
-                            <span class="text-lg font-semibold"
-                                :class="{
-                                    'text-red-600': '{{ $active_notification['severity'] }}'
-                                    === 'tinggi',
-                                    'text-yellow-600': '{{ $active_notification['severity'] }}'
-                                    === 'sedang',
-                                    'text-green-600': '{{ $active_notification['severity'] }}'
-                                    === 'rendah'
-                                }">
+                            <x-ui.severity-text :severity="$active_notification['severity']" class="text-lg font-semibold">
                                 ⚠️ {{ $active_notification['title'] }}
-                            </span>
+                            </x-ui.severity-text>
 
-                            <span class="text-xs px-2 py-0.5 rounded-full font-semibold"
-                                :class="{
-                                    'bg-red-100 text-red-600': '{{ $active_notification['severity'] }}'
-                                    === 'tinggi',
-                                    'bg-yellow-100 text-yellow-600': '{{ $active_notification['severity'] }}'
-                                    === 'sedang',
-                                    'bg-green-100 text-green-600': '{{ $active_notification['severity'] }}'
-                                    === 'rendah'
-                                }">
+                            <x-ui.severity-badge :severity="$active_notification['severity']" class="text-xs px-2 py-0.5 font-semibold">
                                 {{ strtoupper($active_notification['severity']) }}
-                            </span>
+                            </x-ui.severity-badge>
                         </div>
 
                         <span class="text-xs text-gray-500">
