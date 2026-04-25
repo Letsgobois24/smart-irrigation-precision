@@ -27,10 +27,8 @@
                 @foreach ($notifications as $notification)
                     <div wire:click="detailNotification(@js($notification['id']))"
                         class="p-4 cursor-pointer border-b border-gray-400"
-                        :class="{
-                            'bg-gray-200': @js($active_notification['id'] ?? 'null') === @js($notification['id']),
-                            'hover:bg-gray-50': true
-                        }">
+                        :class="@js($active_notification['id'] === $notification['id']) ? 'bg-gray-200' : 'hover:bg-gray-50'">
+
                         <div class="flex items-center gap-x-1">
                             {{-- UNREAD DOT --}}
                             <x-ui.severity-text :severity="$notification['severity']" class="text-sm font-semibold">
