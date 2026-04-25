@@ -12,6 +12,7 @@ class GlobalMonitoring extends Component
     public float $water_flow;
     public bool $main_valve;
     public $time;
+    public bool $system_active = true;
 
     public function mount(InfluxDBService $influx)
     {
@@ -30,6 +31,28 @@ class GlobalMonitoring extends Component
         try {
             $this->update($influx);
             $this->dispatch('toast', type: 'success', message: 'Global data has been updated');
+        } catch (Throwable $e) {
+            $this->dispatch('toast', type: 'danger', message: $e->getMessage());
+        }
+    }
+
+    public function fetchNow()
+    {
+        sleep(1);
+        try {
+            $this->dispatch('toast', type: 'success', message: 'Data berhasil diperbarui');
+        } catch (Throwable $e) {
+            $this->dispatch('toast', type: 'danger', message: $e->getMessage());
+        }
+    }
+
+    public function toggleSystem()
+    {
+        sleep(1);
+        try {
+            $this->system_active = !$this->system_active;
+            $message = 'Sistem berhasil ' . ($this->system_active ? 'diaktifkan' : 'dimatikan');
+            $this->dispatch('toast', type: 'success', message: $message);
         } catch (Throwable $e) {
             $this->dispatch('toast', type: 'danger', message: $e->getMessage());
         }
