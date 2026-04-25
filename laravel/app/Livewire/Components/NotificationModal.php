@@ -12,9 +12,8 @@ class NotificationModal extends Component
 
     public function mount()
     {
-        $this->notifications = Notification::all(['id', 'title', 'source_type', 'created_at']);
+        $this->notifications = Notification::all(['id', 'title', 'source_type', 'created_at', 'severity', 'is_active']);
         $this->active_notification = Notification::find($this->notifications[0]['id']);
-        // dd($this->active_notification);
     }
 
     public function detailNotification(int $id)
