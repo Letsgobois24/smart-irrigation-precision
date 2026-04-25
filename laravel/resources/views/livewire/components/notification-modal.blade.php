@@ -132,13 +132,21 @@
                     💡 Rekomendasi: {{ $active_notification['recomendation'] }}
                 </div>
 
-                <button class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
-                    ✓ Tandai Dibaca
-                </button>
+                <div class="flex gap-x-3 items-center">
+                    <button wire:click="resolve" wire:loading.attr='disabled'
+                        wire:loading.class='cursor-not-allowed opacity-50' wire:loading.remove.class='cursor-pointer'
+                        class="flex items-center gap-x-1 px-4 py-2 rounded-lg cursor-pointer {{ $active_notification['is_active']
+                            ? 'bg-blue-600 text-white hover:bg-blue-700'
+                            : 'bg-gray-200 hover:bg-gray-300' }}">
+                        @if ($active_notification['is_active'])
+                            <x-icons.check size="22" class="font-semibold" />Terselesaikan
+                        @else
+                            <x-icons.cross size="22" class="font-semibold" />Belum Terselesaikan
+                        @endif
+                    </button>
+                    <x-icons.loading size="22" wire:loading wire:target='resolve' />
+                </div>
 
-                <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                    ✔ Resolve Anomali
-                </button>
 
             </div>
         </div>
