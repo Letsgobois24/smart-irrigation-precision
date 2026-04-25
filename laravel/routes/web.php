@@ -6,8 +6,8 @@ use App\Models\Notification as ModelsNotification;
 use App\Services\InfluxDBService;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', Home::class)->name('home');
-Route::get('/notification', Notification::class)->name('notification');
+Route::get('/', Home::class);
+Route::get('/notification', Notification::class);
 
 Route::get('/try', function () {
     $notifications = ModelsNotification::all();
