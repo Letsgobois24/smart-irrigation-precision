@@ -1,0 +1,8 @@
+from pydantic import BaseModel, Field
+from typing import Annotated
+import time
+
+class Environment(BaseModel):
+    water_flow: Annotated[float | None, Field(..., ge=0 , example=10.5, description='Water flow value in ml/s')]
+    main_valve: Annotated[bool | None, Field(..., example=True, description='Main valve status (1=ON, 0=OFF)')]
+    time: Annotated[int, Field(default=round(time.time_ns()), description='Timestamp in nanoseconds')]
