@@ -18,7 +18,7 @@
     x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-300"
     x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 translate-y-6"
     :class="colors[type]"
-    class="fixed bottom-2 right-2 flex items-center w-full max-w-sm p-4 bg-white text-gray-700 rounded-lg shadow border border-gray-200"
+    class="fixed z-50 bottom-2 right-2 flex items-center w-full max-w-sm p-4 bg-white text-gray-700 rounded-lg shadow border border-gray-200"
     role="alert">
 
     <div class="inline-flex items-center justify-center shrink-0 w-7 h-7 rounded">

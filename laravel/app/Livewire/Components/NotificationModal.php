@@ -13,7 +13,7 @@ class NotificationModal extends Component
 
     public function mount()
     {
-        $this->notifications = Notification::select(['id', 'title', 'source_type', 'created_at', 'severity', 'is_active'])->orderBy('is_active', 'desc')->get();
+        $this->notifications = Notification::select(['id', 'title', 'source_type', 'created_at', 'severity', 'is_active', 'tree_id'])->orderBy('is_active', 'desc')->get();
         $this->active_notification = Notification::find($this->notifications[0]['id']);
     }
 
@@ -33,7 +33,7 @@ class NotificationModal extends Component
         $is_active = $this->active_notification['is_active'];
         try {
             $response = Notification::where('id', $id)->update(['is_active' => !$is_active]);
-            $message = 'Masalah ' . $this->active_notification['title'] . ' ' . (!$is_active ? 'telah' : 'belum') .  ' terselesaikan';
+            $message = 'Masalah ' . $this->active_notification['title'] . ' ' . (!$is_active ? 'belum' : 'telah') .  ' terselesaikan';
             $this->dispatch('toast', type: 'success', message: $message);
             $this->active_notification['is_active'] = !$is_active;
         } catch (Throwable $e) {

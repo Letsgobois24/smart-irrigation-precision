@@ -1,4 +1,4 @@
-<div x-show="isOpenNotification" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+<div x-show="isOpenNotification" x-cloak class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
     <!-- Modal -->
     <div @click.outside="isOpenNotification = false"
         class="bg-white w-full max-w-4xl h-[80vh] rounded-2xl shadow-xl flex overflow-hidden">
@@ -141,7 +141,7 @@
                         @if ($active_notification['is_active'])
                             <x-icons.check size="22" class="font-semibold" />Terselesaikan
                         @else
-                            <x-icons.cross size="22" class="font-semibold" />Belum Terselesaikan
+                            <x-icons.cross size="22" class="font-semibold" />Batalkan Penyelesaian
                         @endif
                     </button>
                     <x-icons.loading size="22" wire:loading wire:target='resolve' />
