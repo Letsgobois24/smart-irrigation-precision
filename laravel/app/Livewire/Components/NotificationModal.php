@@ -24,7 +24,10 @@ class NotificationModal extends Component
 
     public function render()
     {
-        return view('livewire.components.notification-modal');
+        $count_notifications = Notification::where('is_active', 1)->count();
+        return view('livewire.components.notification-modal', [
+            'count_notifications' => $count_notifications
+        ]);
     }
 
     public function resolve()
