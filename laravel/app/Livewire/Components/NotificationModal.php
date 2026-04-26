@@ -36,7 +36,7 @@ class NotificationModal extends Component
         $is_active = $this->active_notification['is_active'];
         try {
             $response = Notification::where('id', $id)->update(['is_active' => !$is_active]);
-            $message = 'Masalah ' . $this->active_notification['title'] . ' ' . (!$is_active ? 'belum' : 'telah') .  ' terselesaikan';
+            $message = 'Masalah ' . $this->active_notification['title'] . ' ' . (!$is_active ? 'batal menyelesaikan' : 'telah terselesaikan');
             $this->dispatch('toast', type: 'success', message: $message);
             $this->active_notification['is_active'] = !$is_active;
         } catch (Throwable $e) {

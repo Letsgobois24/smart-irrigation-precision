@@ -11,7 +11,10 @@
             </h3>
             <div class="flex flex-wrap justify-between sm:justify-start items-center gap-2">
                 <div class="flex items-center gap-1">
-                    <button wire:click='refresh' class="cursor-pointer hover:bg-gray-200 rounded-lg p-1.5">
+                    {{-- Refresh button --}}
+                    <button wire:click='refresh' wire:loading.attr='disabled' wire:loading.class='cursor-wait'
+                        wire:loading.remove.class='cursor-pointer'
+                        class="ml-auto cursor-pointer hover:bg-gray-200 rounded-lg p-1.5">
                         <x-icons.refresh size="24" wire:target='refresh' wire:loading.class='animate-spin' />
                     </button>
                     {{-- Last Update --}}

@@ -5,7 +5,7 @@
             Monitoring Data Global
         </h2>
         <!-- Ambil Data Sekarang -->
-        <button wire:click="fetchNow" wire:loading.attr='disabled' wire:loading.class='cursor-not-allowed opacity-50'
+        <button wire:click="fetchNow" wire:loading.attr='disabled' wire:loading.class='cursor-wait opacity-50'
             wire:loading.remove.class='cursor-pointer'
             class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg cursor-pointer text-sm shadow flex items-center gap-2">
             <x-icons.refresh size="18" wire:loading.class="animate-spin" wire:target="fetchNow" />
@@ -53,7 +53,9 @@
                 <p class="text-gray-500 text-sm">Last Update</p>
                 <p class="text-sm font-semibold">{{ $time->diffForHumans() }}</p>
             </div>
-            <button wire:click='refresh' class="ml-auto cursor-pointer hover:bg-gray-200 rounded-lg p-1.5">
+            <button wire:click='refresh' wire:loading.attr='disabled' wire:loading.class='cursor-wait'
+                wire:loading.remove.class='cursor-pointer'
+                class="ml-auto cursor-pointer hover:bg-gray-200 rounded-lg p-1.5">
                 <x-icons.refresh size="28" wire:target='refresh' wire:loading.class='animate-spin' />
             </button>
         </div>

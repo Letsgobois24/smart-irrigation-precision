@@ -1,7 +1,7 @@
 <div x-data="{ isOpenNotification: false, view: 'list' }">
     <!-- BUTTON -->
     <button @click="isOpenNotification = true; view='list'"
-        class="flex relative cursor-pointer ml-3 mr-7 size-10 justify-center items-center rounded-full hover:bg-green-50/30">
+        class="flex relative cursor-pointer ml-3 mr-7 size-10 justify-center items-center rounded-full hover:bg-green-50/30 cursor-pointer">
 
         @if ($count_notifications > 0)
             <div
@@ -25,7 +25,8 @@
                     <h2 class="font-semibold">🔔 Notifikasi</h2>
 
                     <!-- CLOSE -->
-                    <button @click="isOpenNotification = false" class="rounded-md p-1 text-gray-700 hover:bg-gray-50">
+                    <button @click="isOpenNotification = false"
+                        class="rounded-md p-1 text-gray-700 hover:bg-gray-50 cursor-pointer">
                         <x-icons.cross size="20" />
                     </button>
                 </div>
@@ -65,8 +66,8 @@
             <!-- RIGHT: DETAIL -->
             <div class="flex-1 p-4 md:p-6 overflow-y-auto" x-show="view === 'detail' || window.innerWidth >= 768">
                 <!-- BACK BUTTON (Mobile only) -->
-                <button @click="view='list'" class="mb-3 text-sm text-gray-600 md:hidden">
-                    ← Kembali
+                <button @click="view='list'" class="mb-3 text-sm text-gray-600 md:hidden cursor-pointer group">
+                    <span class="inline-block group-hover:-translate-x-1 transition">←</span> Kembali
                 </button>
 
                 <div wire:loading wire:target='detailNotification' class="w-full h-full">
@@ -120,10 +121,11 @@
                         💡 Rekomendasi: {{ $active_notification['recomendation'] }}
                     </div>
 
-                    <button wire:click="resolve"
-                        class="w-full md:w-auto px-4 py-2 rounded-lg
-                        {{ $active_notification['is_active'] ? 'bg-blue-600 text-white' : 'bg-gray-200' }}">
-                        {{ $active_notification['is_active'] ? 'Terselesaikan' : 'Batalkan' }}
+                    <button wire:click="resolve" wire:loading.attr='disabled'
+                        wire:loading.class='cursor-wait opacity-50' wire:loading.remove.class='cursor-pointer'
+                        class="w-full md:w-auto px-4 py-2 rounded-lg cursor-pointer
+                        {{ $active_notification['is_active'] ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-gray-200 hover:bg-gray-300' }}">
+                        {{ $active_notification['is_active'] ? 'Terselesaikan' : 'Batalkan Penyelesaian' }}
                     </button>
 
                 </div>

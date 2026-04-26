@@ -12,9 +12,9 @@
         <div class="flex items-center gap-2">
             <span class="text-sm text-gray-600">Sistem</span>
 
-            <button wire:click="toggleSystem" wire:loading.attr="disabled" wire:loading.class="cursor-not-allowed"
+            <button wire:click="toggleSystem" wire:loading.attr="disabled" wire:loading.class="cursor-wait"
                 wire:loading.remove.class="cursor-pointer"
-                class="relative inline-flex h-6 w-11 items-center rounded-full transition
+                class="relative inline-flex h-6 w-11 items-center rounded-full transition cursor-pointer
                 {{ $system_active ? 'bg-green-600' : 'bg-gray-300' }}">
                 <span
                     class="inline-block h-4 w-4 transform rounded-full bg-white transition
