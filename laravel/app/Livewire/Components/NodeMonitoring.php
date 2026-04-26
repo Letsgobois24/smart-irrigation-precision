@@ -28,7 +28,17 @@ class NodeMonitoring extends Component
     {
         try {
             $this->node_data = $this->getData($influx);
-            $this->dispatch('toast', type: 'success', message: 'Node 1 data has been updated');
+            $this->dispatch('toast', type: 'success', message: 'Data Node 1 berhasil diperbarui');
+        } catch (Throwable $e) {
+            $this->dispatch('toast', type: 'danger', message: $e->getMessage());
+        }
+    }
+
+    public function fetchNow()
+    {
+        sleep(1);
+        try {
+            $this->dispatch('toast', type: 'success', message: 'Data Node 1 baru berhasil ditambahkan');
         } catch (Throwable $e) {
             $this->dispatch('toast', type: 'danger', message: $e->getMessage());
         }

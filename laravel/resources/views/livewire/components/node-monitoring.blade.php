@@ -10,9 +10,18 @@
                 🌱 Node 1
             </h3>
             <div class="flex items-center gap-x-2">
-                <span class="text-sm text-gray-500">Last Update: {{ $node_data[0]['time']->diffForHumans() }}</span>
+                {{-- Refresh data --}}
                 <button wire:click='refresh' class="ml-auto cursor-pointer hover:bg-gray-200 rounded-lg p-1.5">
                     <x-icons.refresh size="24" wire:target='refresh' wire:loading.class='animate-spin' />
+                </button>
+                {{-- Last Update --}}
+                <span class="text-sm text-gray-500">Last Update: {{ $node_data[0]['time']->diffForHumans() }}</span>
+                {{-- Ambil data sekarang --}}
+                <button wire:click="fetchNow" wire:loading.attr='disabled'
+                    wire:loading.class='cursor-not-allowed opacity-50' wire:loading.remove.class='cursor-pointer'
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg cursor-pointer text-sm shadow flex items-center gap-2">
+                    <x-icons.refresh size="18" wire:loading.class="animate-spin" wire:target="fetchNow" />
+                    Ambil Data
                 </button>
             </div>
         </div>
