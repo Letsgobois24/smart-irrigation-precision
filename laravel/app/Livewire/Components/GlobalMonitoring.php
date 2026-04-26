@@ -35,7 +35,6 @@ class GlobalMonitoring extends Component
 
     public function fetchNow()
     {
-        sleep(1);
         try {
             $this->dispatch('toast', type: 'success', message: 'Data global baru berhasil ditambahkan');
         } catch (Throwable $e) {
