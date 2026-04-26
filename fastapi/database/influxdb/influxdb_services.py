@@ -1,5 +1,5 @@
 import pandas as pd
-from database.influxdb import extendData, addData
+from database.influxdb.influxdb_client import extendData, addData
 from schema.node_tree import NodeTree
 from schema.environment import Environment
 
