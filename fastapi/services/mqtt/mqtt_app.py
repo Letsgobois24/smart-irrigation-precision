@@ -5,7 +5,7 @@ from services.mqtt.mqtt_client import BROKER, PORT
 
 def start_mqtt():
     client.connect(BROKER, PORT)
-    client.subscribe('device/+/send_data', qos=1)
+    client.subscribe([('device/+/send_data', 1), ('device/global/control', 1)])
     client.loop_forever()
 
 def startup_event():

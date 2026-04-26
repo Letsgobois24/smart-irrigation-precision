@@ -1,6 +1,13 @@
 import time
 import random
 
+def getTree(tree_id: int):
+  return {
+    "soil_moisture": round(random.uniform(50, 80), 1),
+    "tree_id": tree_id,
+    "valve": random.choice([True, False])
+}
+
 node_data = {
   "measurement": 'node',
   "node_id": "node_1",
@@ -14,11 +21,4 @@ global_data = {
     "water_flow": round(random.uniform(0.1, 1), 2),
     "main_valve": random.choice([True, False]),
     "time": time.time()
-}
-
-def getTree(tree_id: int):
-  return {
-    "soil_moisture": round(random.uniform(50, 80), 1),
-    "tree_id": tree_id,
-    "valve": random.choice([True, False])
 }
