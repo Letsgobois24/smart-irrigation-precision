@@ -8,7 +8,7 @@
                 {{ $fieldName }} changes over time
             </p>
         </div>
-        <div class="flex items-center gap-x-3 relative">
+        <div class="relative w-fit">
             <div wire:loading wire:target='selectedPeriods' class="absolute right-3 top-1/2 -translate-y-1/2">
                 <x-icons.loading size="16" />
             </div>
