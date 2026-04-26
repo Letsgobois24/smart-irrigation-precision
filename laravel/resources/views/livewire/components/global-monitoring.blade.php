@@ -1,6 +1,6 @@
 <!-- ================= GLOBAL ================= -->
 <div class="mb-10">
-    <div class="flex justify-between items-center gap-x-2 mb-4">
+    <div class="flex flex-wrap justify-between items-center gap-2 mb-4">
         <h2 class="text-xl font-semibold text-green-700">
             Monitoring Data Global
         </h2>

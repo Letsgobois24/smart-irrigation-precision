@@ -1,5 +1,5 @@
-<div class="bg-white rounded-xl shadow p-6">
-    <div class="flex justify-between items-center gap-x-2 mb-3">
+<div class="bg-white rounded-xl shadow p-6 px-4 sm:px-6">
+    <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-3">
         <div>
             <h2 class="font-semibold text-gray-800">
                 {{ $fieldName }} Trend
@@ -8,9 +8,9 @@
                 {{ $fieldName }} changes over time
             </p>
         </div>
-        <div class="flex items-center gap-x-3">
-            <div wire:loading wire:target='selectedPeriods'>
-                <x-icons.loading size="20" />
+        <div class="flex items-center gap-x-3 relative">
+            <div wire:loading wire:target='selectedPeriods' class="absolute right-3 top-1/2 -translate-y-1/2">
+                <x-icons.loading size="16" />
             </div>
             <x-form.select-time model="selectedPeriods" :data="$periods" />
         </div>
