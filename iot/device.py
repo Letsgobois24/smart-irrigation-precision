@@ -36,7 +36,7 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
     
 
 def on_publish(client, userdata, mid, properties=None):
-    print("IoT Published")
+    print("IoT Publisheds")
 
 
 client = paho.Client(
