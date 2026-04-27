@@ -9,7 +9,6 @@ class Tree(BaseModel):
 
 class NodeTree(BaseModel):
     node_id: Annotated[str, Field(examples=['node_1', 'node_2'], description='Unique node identifier')]
-    ph: Annotated[float | None, Field(ge=0, le=14, description='Soil pH value at node level', example=7.4)]
     time: Annotated[int, Field(default=round(time.time_ns()), gt=0, description='Timestamp in nanoseconds')]
     trees: List[Tree] = Field(..., min_length=1, description='List of trees in the node', example=[
             {"tree_id": 1, "soil_moisture": 40.1, "valve": 1},

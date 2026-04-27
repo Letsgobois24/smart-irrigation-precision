@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Components;
 
+use App\Services\FastAPIServices;
 use App\Services\InfluxDBService;
+use Exception;
 use Livewire\Component;
 use Throwable;
 
@@ -33,9 +35,15 @@ class GlobalMonitoring extends Component
         }
     }
 
-    public function fetchNow()
+    public function fetchNow(FastAPIServices $fastAPIServices)
     {
         try {
+            $response = $fastAPIServices->requestData('global');
+            if ($response->failed()) {
+                $message = json_decode($response->body(), true);
+                throw new Exception(message: $message['detail'] ?? 'Unknown Error', code: $response->status());
+            }
+            dump($response->json());
             $this->dispatch('toast', type: 'success', message: 'Data global baru berhasil ditambahkan');
         } catch (Throwable $e) {
             $this->dispatch('toast', type: 'danger', message: $e->getMessage());

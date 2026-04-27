@@ -3,13 +3,14 @@ import json
 import uuid
 import time
 from typing import Tuple
-
+from schema.node_tree import NodeTree
+from schema.environment import Environment
+from database.influxdb.influxdb_services import addGlobal, addNodeTree
 
 pending_request = {}
-
 def on_connect(client, userdata, flags, rc, properties = None):
     print('Connected with result code', rc)
-    client.subscribe([("nodes", 1), ('environments', 1)])
+    client.subscribe([('device/+/send_data', 1), ('device/global/control', 1)])
 
 def on_publish(client, userdata, mid, properties=None):
     print("FastAPI Published")
@@ -35,16 +36,6 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
             print("MQTT Client\n", payload)
             request_id = payload['request_id']
             pending_request[request_id] = payload
-            return
-    
-        # if(msg.topic == 'nodes'):
-        #     data = NodeTree(**payload)
-        #     handle_create_node(data=data)
-        #     print('Nodes data successfully written to InfluxDB!')
-        # elif(msg.topic == 'environments'):
-        #     data = Environment(**payload)
-        #     handle_create_env(data=data)
-        #     print('Environment data successfully written to InfluxDB!')
 
     except Exception as e:
         print("Error:", e)
@@ -54,7 +45,7 @@ def send_request(node_id: str, client: paho.Client) -> Tuple[str, int] :
 
     pending_request[request_id] = None
 
-    published = client.publish(f'device/{node_id}/request_data', payload=request_id)
+    published = client.publish(f'app/{node_id}/request_data', payload=request_id)
 
     if published.rc != paho.MQTT_ERR_SUCCESS:
         pending_request.pop(request_id)

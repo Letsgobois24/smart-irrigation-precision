@@ -18,7 +18,8 @@
                         <x-icons.refresh size="24" wire:target='refresh' wire:loading.class='animate-spin' />
                     </button>
                     {{-- Last Update --}}
-                    <span class="text-sm text-gray-500">Last Update: {{ $node_data[0]['time']->diffForHumans() }}</span>
+                    <span class="text-sm text-gray-500">Last Update:
+                        {{ $node_data[0]['time']->diffForHumans() }}</span>
                     {{-- Ambil data sekarang --}}
                 </div>
                 {{-- Refresh data --}}

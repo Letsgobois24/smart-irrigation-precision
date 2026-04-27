@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Components;
 
+use App\Services\FastAPIServices;
 use App\Services\InfluxDBService;
+use Exception;
 use Livewire\Component;
 use Throwable;
 
@@ -34,10 +36,15 @@ class NodeMonitoring extends Component
         }
     }
 
-    public function fetchNow()
+    public function fetchNow(FastAPIServices $fastAPIServices)
     {
-        sleep(1);
         try {
+            $response = $fastAPIServices->requestData('node_1');
+            if ($response->failed()) {
+                $message = json_decode($response->body(), true);
+                throw new Exception(message: $message['detail'] ?? 'Unknown Error', code: $response->status());
+            }
+            dump($response->json());
             $this->dispatch('toast', type: 'success', message: 'Data Node 1 baru berhasil ditambahkan');
         } catch (Throwable $e) {
             $this->dispatch('toast', type: 'danger', message: $e->getMessage());

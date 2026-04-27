@@ -3,17 +3,19 @@ from database.influxdb.influxdb_client import extendData, addData
 from schema.node_tree import NodeTree
 from schema.environment import Environment
 
-def handle_create_node(data: NodeTree):
+def addNodeTree(data: NodeTree):
     data_dict = data.model_dump(include='trees')['trees']
+
     df = pd.DataFrame(data=data_dict).assign(
-        ph = data.ph,
         node_id=data.node_id,
         time=data.time
     )
 
-    extendData(df=df, measurement='nodes')
+    print("Add Dataframe Tree:", data_dict)
 
-def handle_create_env(data: Environment):
+    extendData(df=df, measurement='node')
+
+def addGlobal(data: Environment):
     data_dict = data.model_dump()
-    print(data_dict)
+    print("Add global:", data_dict)
     addData(data=data_dict, measurement='environment')

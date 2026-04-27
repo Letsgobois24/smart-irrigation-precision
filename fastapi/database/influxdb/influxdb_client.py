@@ -17,7 +17,7 @@ client = InfluxDBClient3(
 
 def getSensorData(limit: int):
     # Query the DataFrame from InfluxDB
-    query = f"SELECT * FROM 'home' LIMIT {limit}"
+    query = f"SELECT * FROM 'environment' LIMIT {limit}"
     table: pd.DataFrame = client.query_dataframe(query=query)
     print(table)
     table['time'].astype('int')
