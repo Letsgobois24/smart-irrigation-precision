@@ -19,5 +19,5 @@ def toggleSystem(conn, is_active: bool):
     with conn.cursor() as cursor:
         # Read a single record
         sql = "UPDATE `configurations` SET is_active=%s WHERE `id`=1"
-        cursor.execute(sql, (1 if is_active else 0, ))
+        cursor.execute(sql, (is_active, ))
     conn.commit()

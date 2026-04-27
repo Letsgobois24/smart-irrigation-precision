@@ -10,6 +10,7 @@ from services.mqtt.mqtt_client import client
 from services.mqtt.mqtt_services import send_request, wait_to_response, send_control
 from database.influxdb.influxdb_services import handle_create_node, handle_create_env
 from database.mariadb.mariadb_service import getConfiguration, createDependency, toggleSystem
+from pymysql.err import ProgrammingError
 
 
 
@@ -48,7 +49,12 @@ def global_control(order: dict, conn= Depends(createDependency)):
     except HTTPException:
         raise
 
+    except ProgrammingError as e:
+        code, message = e.args
+        raise HTTPException(status_code=500, detail=f"Error {code}: {message}")
+
     except Exception as e:
+        print("Type e:", type(e))
         raise HTTPException(status_code=500, detail=f"Gagal mengirim: {e}")
     
 @app.get('/app/configure')
