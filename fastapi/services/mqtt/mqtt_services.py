@@ -62,12 +62,15 @@ def send_request(node_id: str, client: paho.Client) -> Tuple[str, int] :
     
     return request_id, None
 
-def send_control(node_id: str, client: paho.Client):
+def send_control(node_id: str, order: dict, client: paho.Client):
     request_id = f"{node_id}-{uuid.uuid4()}"
 
     pending_request[request_id] = None
 
-    published = client.publish(f'app/{node_id}/control', payload=request_id)
+    published = client.publish(f'app/{node_id}/control', payload=json.dumps({
+        'order': order,
+        'request_id' : request_id
+    }))
 
     if published.rc != paho.MQTT_ERR_SUCCESS:
         pending_request.pop(request_id)

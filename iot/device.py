@@ -16,7 +16,9 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
     node_id = parts[1]
     action = parts[2]
 
-    request_id = msg.payload.decode('utf-8')
+    payload = json.loads(msg.payload)
+    request_id = payload['request_id']
+    is_active = payload['order']['is_active']
     
     if node_id == 'global':
         if action == 'control':
@@ -24,7 +26,7 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
                 'success': True,
                 'request_id': request_id
             }))
-            print('Device: Success to deactivate device')
+            print(f"Device: Sistem berhasil untuk di{'hidup' if is_active else 'mati'}kan")
             return
 
 

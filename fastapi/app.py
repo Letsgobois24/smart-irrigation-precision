@@ -20,22 +20,27 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 # Main control
-@app.post('/device/global/control')
-def global_control():
+@app.put('/device/global/control')
+def global_control(order: dict):
     try:
-        request_id, error = send_control('global', client)
+        request_id, error = send_control('global', order, client=client)
         
         if(error):
             raise HTTPException(status_code=500, detail=f"Terdapat masalah pengiriman dari IoT: {error}")
 
         # Wait response from IoT
-        data = wait_to_response(request_id, 5)
-        if (not data['success']):
+        device_data = wait_to_response(request_id, 5)
+        if (not device_data):
+            print('Timeout')
             raise HTTPException(status_code=500, detail=f"Terdapat masalah pengiriman dari device")
 
         return {
             'type': 'success',
-            'message' : 'Success to deactivate main valve'
+            'message' : f"Device: Sistem berhasil untuk di{'hidup' if order['is_active'] else 'mati'}kan"
         }
+    
+    except HTTPException:
+        raise
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Gagal mengirim: {e}")

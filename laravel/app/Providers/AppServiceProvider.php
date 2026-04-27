@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\FastAPIServices;
 use App\Services\InfluxDBService;
 use Illuminate\Support\ServiceProvider;
 
@@ -18,6 +19,12 @@ class AppServiceProvider extends ServiceProvider
                 token: config('database.connections.influxdb.token'),
                 db: config('database.connections.influxdb.db'),
                 precision: 'second'
+            );
+        });
+
+        $this->app->singleton(FastAPIServices::class, function () {
+            return new FastAPIServices(
+                url: config('services.fastapi.url')
             );
         });
     }
