@@ -9,6 +9,7 @@ from services.mqtt.mqtt_app import startup_event
 from services.mqtt.mqtt_client import client
 from services.mqtt.mqtt_services import send_request, wait_to_response, send_control
 from database.influxdb.influxdb_services import handle_create_node, handle_create_env
+from database.mariadb.mariadb_service import getConfiguration
 
 import json
 
@@ -44,3 +45,11 @@ def global_control(order: dict):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Gagal mengirim: {e}")
+    
+@app.get('/app/configure')
+def okn():
+    data = getConfiguration()
+    return {
+        'status' : 200,
+        'data': data
+    }
