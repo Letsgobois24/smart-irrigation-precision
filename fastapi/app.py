@@ -85,9 +85,16 @@ def request_data(node_id: str = Path(examples=['global', 'node_1'], description=
 
             addNodeTree(NodeTree(**data))
 
-
+        if not is_anomaly: 
+            message = 'Data global baru berhasil ditambahkan.'
+            type = 'success'
+        else:
+            message = 'Sistem mendeteksi kesalahan sistem. Mohon cek notifikasi'
+            type = 'warning'
+                   
         return JSONResponse(status_code=200, content={
-            'message' : 'Berhasil mengambil data',
+            'type': type,
+            'message' :  message,
         })
     
     except HTTPException as e:
@@ -99,18 +106,3 @@ def request_data(node_id: str = Path(examples=['global', 'node_1'], description=
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Gagal mengambil data: {e}")
 
-@app.get('/app/configure')
-def systemConfiguration(conn= Depends(createDependency)):
-    data = getConfiguration(conn=conn)
-    return {
-        'status' : 200,
-        'data': data
-    }
-
-@app.get('/app/en')
-def systemConfiguration():
-    data = getSensorData(10)
-    return {
-        'status' : 200,
-        'data': data
-    }
