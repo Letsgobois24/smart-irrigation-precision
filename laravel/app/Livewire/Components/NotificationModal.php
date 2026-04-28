@@ -3,6 +3,7 @@
 namespace App\Livewire\Components;
 
 use App\Models\Notification;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Throwable;
 
@@ -22,6 +23,7 @@ class NotificationModal extends Component
         $this->active_notification = Notification::find($id);
     }
 
+    #[On('add-data')]
     public function render()
     {
         $count_notifications = Notification::where('is_active', 1)->count();
