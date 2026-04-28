@@ -72,7 +72,7 @@ class LineChart extends Component
         return view('components.placeholder.line-chart-placeholder');
     }
 
-    private function getSeriesOption(array $data)
+    private function getSeriesOption(array | null $data)
     {
         if (!$data) {
             return null;
