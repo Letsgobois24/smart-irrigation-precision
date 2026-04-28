@@ -12,6 +12,7 @@ from database.influxdb.influxdb_services import addGlobal, addNodeTree
 from database.influxdb.influxdb_client import getSensorData
 from database.mariadb.mariadb_service import getConfiguration, createDependency, toggleSystem
 from pymysql.err import ProgrammingError
+from model.prediction import predictGlobalAnomaly, predictTreeAnomaly 
 
 import json
 
@@ -34,7 +35,6 @@ def global_control(order: dict, conn= Depends(createDependency)):
         # Wait response from IoT
         device_data = wait_to_response(request_id, 5)
         if (not device_data):
-            print('Timeout')
             raise HTTPException(status_code=500, detail=f"Terdapat masalah pengiriman dari device")
 
         response = toggleSystem(conn, is_active=order['is_active'])
@@ -47,9 +47,8 @@ def global_control(order: dict, conn= Depends(createDependency)):
     except HTTPException:
         raise
 
-    except ProgrammingError as e:
-        code, message = e.args
-        raise HTTPException(status_code=500, detail=f"Error {code}: {message}")
+    except ProgrammingError:
+        raise HTTPException(status_code=500, detail="Gagal menyimpan data")
 
     except Exception as e:
         print("Type e:", type(e))
@@ -58,28 +57,27 @@ def global_control(order: dict, conn= Depends(createDependency)):
 @app.get('/device/{node_id}/request_data')
 def request_data(node_id: str = Path(examples=['global', 'node_1'], description='Global or unique node identifier')):
     try:
-        # Publish to IoT
+        # Publish to device
         request_id, error = send_request(node_id, client)
         if(error):
             raise HTTPException(status_code=500, detail=f"Gagal mengirim ke device: {error}")
 
-        # Wait response from IoT
+        # Wait response from device
         data = wait_to_response(request_id, 5)
         if (not data):
             raise HTTPException(status_code=500, detail=f"Gagal mengirim dari device")
-
+        print("DATA:", data)
         # Save to database
-        data.pop('request_id')
-
         if(data['node_id'] == 'global'):
             data.pop('node_id')
+            is_anomaly = predictGlobalAnomaly()
             addGlobal(Environment(**data))
         else:
             addNodeTree(NodeTree(**data))
 
+
         return JSONResponse(status_code=200, content={
             'message' : 'Berhasil mengambil data',
-            'data': data
         })
     
     except HTTPException as e:

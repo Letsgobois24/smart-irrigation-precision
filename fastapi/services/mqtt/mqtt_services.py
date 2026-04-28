@@ -80,7 +80,7 @@ def wait_to_response(request_id: str, timeout: int = 5):
 
     data = pending_request[request_id]
     pending_request.pop(request_id)
-    
-    print('Pending Request:', pending_request)
+    data.pop('request_id')  
+    # print('Pending Request:', pending_request)
 
     return data

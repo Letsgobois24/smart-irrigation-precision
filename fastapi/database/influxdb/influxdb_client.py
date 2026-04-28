@@ -25,7 +25,14 @@ def getSensorData(limit: int):
 
 def addData(data: Dict[str, float], measurement: str):
     df = pd.DataFrame(data=[data])
+    df['time'] = convertTimeToSecond(df['time'])
+    print(df.info())
     client.write_dataframe(df=df, measurement=measurement, timestamp_column='time')
     
 def extendData(df: pd.DataFrame, measurement: str):
+    df['time'] = convertTimeToSecond(df['time'])
+    print(df.info())
     client.write_dataframe(df=df, measurement=measurement, timestamp_column='time', tags=['tree_id', 'node_id'])
+
+def convertTimeToSecond(df_column):
+    return pd.to_datetime(df_column, unit='s').astype('datetime64[s]')

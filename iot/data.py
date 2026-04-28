@@ -11,7 +11,7 @@ def getTree(tree_id: int):
 def getNodeData():
   return {
       "node_id": "node_1",
-      "time": time.time_ns(),
+      "time": int(time.time()),
       "trees": [getTree(i) for i in range(1, 5)]
     }
 
@@ -22,5 +22,5 @@ def getGlobalData():
       "ph": round(random.uniform(6, 8), 2),
       "water_flow": round(random.uniform(0.1, 1), 2),
       "main_valve": random.choice([True, False]),
-      "time": time.time_ns()
+      "time": int(time.time())
   }
