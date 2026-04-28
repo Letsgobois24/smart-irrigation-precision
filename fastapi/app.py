@@ -10,7 +10,8 @@ from services.mqtt.mqtt_client import client
 from services.mqtt.mqtt_services import send_request, wait_to_response, send_control
 from database.influxdb.influxdb_services import addGlobal, addNodeTree
 from database.influxdb.influxdb_client import getSensorData
-from database.mariadb.mariadb_service import getConfiguration, createDependency, toggleSystem
+from database.mariadb.mariadb_service import getConfiguration, createDependency, toggleSystem, sendNotification
+from database.mariadb.data import generate_notification
 from pymysql.err import ProgrammingError
 from model.prediction import predictGlobalAnomaly, predictTreeAnomaly 
 
@@ -51,11 +52,10 @@ def global_control(order: dict, conn= Depends(createDependency)):
         raise HTTPException(status_code=500, detail="Gagal menyimpan data")
 
     except Exception as e:
-        print("Type e:", type(e))
         raise HTTPException(status_code=500, detail=f"Gagal mengirim: {e}")
 
 @app.get('/device/{node_id}/request_data')
-def request_data(node_id: str = Path(examples=['global', 'node_1'], description='Global or unique node identifier')):
+def request_data(node_id: str = Path(examples=['global', 'node_1'], description='Global or unique node identifier'), conn= Depends(createDependency)):
     try:
         # Publish to device
         request_id, error = send_request(node_id, client)
@@ -71,8 +71,18 @@ def request_data(node_id: str = Path(examples=['global', 'node_1'], description=
         if(data['node_id'] == 'global'):
             data.pop('node_id')
             is_anomaly = predictGlobalAnomaly()
+            if(is_anomaly):
+                notification_data = generate_notification('global')
+                print("notification_data:", notification_data)
+                sendNotification(conn, data=notification_data)
+
             addGlobal(Environment(**data))
         else:
+            is_anomaly = predictTreeAnomaly()
+            if(is_anomaly):
+                notification_data = generate_notification('pohon')
+                sendNotification(conn, data=notification_data)
+
             addNodeTree(NodeTree(**data))
 
 
@@ -82,6 +92,9 @@ def request_data(node_id: str = Path(examples=['global', 'node_1'], description=
     
     except HTTPException as e:
         raise e
+    
+    except ProgrammingError:
+        raise HTTPException(status_code=500, detail="Gagal menyimpan data")
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Gagal mengambil data: {e}")

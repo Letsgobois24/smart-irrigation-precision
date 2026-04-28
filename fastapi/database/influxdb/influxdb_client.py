@@ -19,19 +19,16 @@ def getSensorData(limit: int):
     # Query the DataFrame from InfluxDB
     query = f"SELECT * FROM 'environment' LIMIT {limit}"
     table: pd.DataFrame = client.query_dataframe(query=query)
-    print(table)
     table['time'].astype('int')
     return table.to_json(orient='records')
 
 def addData(data: Dict[str, float], measurement: str):
     df = pd.DataFrame(data=[data])
     df['time'] = convertTimeToSecond(df['time'])
-    print(df.info())
     client.write_dataframe(df=df, measurement=measurement, timestamp_column='time')
     
 def extendData(df: pd.DataFrame, measurement: str):
     df['time'] = convertTimeToSecond(df['time'])
-    print(df.info())
     client.write_dataframe(df=df, measurement=measurement, timestamp_column='time', tags=['tree_id', 'node_id'])
 
 def convertTimeToSecond(df_column):

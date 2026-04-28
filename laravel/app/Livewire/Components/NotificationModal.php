@@ -13,7 +13,7 @@ class NotificationModal extends Component
 
     public function mount()
     {
-        $this->notifications = Notification::select(['id', 'title', 'source_type', 'created_at', 'severity', 'is_active', 'tree_id'])->orderBy('is_active', 'desc')->get();
+        $this->notifications = Notification::select(['id', 'title', 'source_type', 'created_at', 'severity', 'is_active', 'tree_id'])->orderBy('is_active', 'desc')->orderBy('created_at', 'desc')->get();
         $this->active_notification = Notification::find($this->notifications[0]['id']);
     }
 

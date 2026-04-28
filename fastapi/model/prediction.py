@@ -1,7 +1,8 @@
 import random
 
 def predictGlobalAnomaly():
-    return random.choice([True, False])
+    return True
 
 def predictTreeAnomaly():
-    return random.choice([True, False])
+    return True
+    # return random.choice([True, False])
