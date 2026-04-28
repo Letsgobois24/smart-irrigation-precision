@@ -35,7 +35,7 @@ class GlobalMonitoring extends Component
         }
     }
 
-    public function fetchNow(FastAPIServices $fastAPIServices)
+    public function fetchNow(FastAPIServices $fastAPIServices, InfluxDBService $influx)
     {
         try {
             $response = $fastAPIServices->requestData('global');
@@ -43,7 +43,7 @@ class GlobalMonitoring extends Component
                 $message = json_decode($response->body(), true);
                 throw new Exception(message: $message['detail'] ?? 'Unknown Error', code: $response->status());
             }
-            dump($response->json());
+            $this->update($influx);
             $this->dispatch('toast', type: 'success', message: 'Data global baru berhasil ditambahkan');
         } catch (Throwable $e) {
             $this->dispatch('toast', type: 'danger', message: $e->getMessage());

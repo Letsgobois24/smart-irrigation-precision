@@ -16,7 +16,7 @@ class LineChart extends Component
 
     public string $selectedPeriods = '2 hours';
 
-    public $periods = [
+    public array $periods = [
         '2 hours' => [
             'name' => 'Last 2 Hours',
         ],
@@ -38,7 +38,7 @@ class LineChart extends Component
         ],
     ];
 
-    public function mount($field, $fieldName, $table, $groupby = '')
+    public function mount(string $field, string $fieldName, string $table, string $groupby = '')
     {
         $this->fieldName = $fieldName;
         $this->field = $field;
@@ -70,7 +70,7 @@ class LineChart extends Component
         return view('components.placeholder.line-chart-placeholder');
     }
 
-    private function getSeriesOption($data)
+    private function getSeriesOption(array $data)
     {
         if (!$data) {
             return null;
