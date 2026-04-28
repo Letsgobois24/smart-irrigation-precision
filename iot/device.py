@@ -1,7 +1,7 @@
 import paho.mqtt.client as paho
 from paho import mqtt
 import json
-from data import node_data, global_data
+from data import getNodeData, getGlobalData
 
 def on_connect(client, userdata, flags, rc, properties = None):
     print(f'Connect received with code {rc}')
@@ -33,7 +33,7 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
         request_id = msg.payload.decode('utf-8')
         print('request_id:', request_id)
 
-        data = global_data if node_id == 'global' else node_data
+        data = getGlobalData() if node_id == 'global' else getNodeData()
         data['request_id'] = request_id
 
         print("Data:", data)
