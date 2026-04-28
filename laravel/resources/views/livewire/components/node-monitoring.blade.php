@@ -23,8 +23,8 @@
                     {{-- Ambil data sekarang --}}
                 </div>
                 {{-- Refresh data --}}
-                <button wire:click="fetchNow" wire:loading.attr='disabled'
-                    wire:loading.class='cursor-not-allowed opacity-50' wire:loading.remove.class='cursor-pointer'
+                <button wire:click="fetchNow" wire:loading.attr='disabled' wire:loading.class='cursor-wait opacity-50'
+                    wire:loading.remove.class='cursor-pointer'
                     class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg cursor-pointer text-sm shadow flex items-center gap-2">
                     <x-icons.refresh size="18" wire:loading.class="animate-spin" wire:target="fetchNow" />
                     Ambil Data

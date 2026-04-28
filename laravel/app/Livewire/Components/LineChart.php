@@ -4,6 +4,7 @@ namespace App\Livewire\Components;
 
 use App\Services\InfluxDBService;
 use Exception;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Throwable;
 
@@ -46,6 +47,7 @@ class LineChart extends Component
         $this->groupby = $groupby;
     }
 
+    #[On('add-data')]
     public function render(InfluxDBService $influx)
     {
         $data = [];

@@ -29,6 +29,7 @@ class GlobalMonitoring extends Component
     {
         try {
             $this->update($influx);
+            $this->dispatch('add-data');
             $this->dispatch('toast', type: 'success', message: 'Data berhasil diperbarui');
         } catch (Throwable $e) {
             $this->dispatch('toast', type: 'danger', message: $e->getMessage());
@@ -44,6 +45,7 @@ class GlobalMonitoring extends Component
                 throw new Exception(message: $message['detail'] ?? 'Unknown Error', code: $response->status());
             }
             $this->update($influx);
+            $this->dispatch('add-data');
             $this->dispatch('toast', type: 'success', message: 'Data global baru berhasil ditambahkan');
         } catch (Throwable $e) {
             $this->dispatch('toast', type: 'danger', message: $e->getMessage());

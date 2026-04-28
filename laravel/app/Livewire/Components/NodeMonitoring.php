@@ -30,13 +30,14 @@ class NodeMonitoring extends Component
     {
         try {
             $this->node_data = $this->getData($influx);
+            $this->dispatch('add-data');
             $this->dispatch('toast', type: 'success', message: 'Data Node 1 berhasil diperbarui');
         } catch (Throwable $e) {
             $this->dispatch('toast', type: 'danger', message: $e->getMessage());
         }
     }
 
-    public function fetchNow(FastAPIServices $fastAPIServices)
+    public function fetchNow(FastAPIServices $fastAPIServices, InfluxDBService $influx)
     {
         try {
             $response = $fastAPIServices->requestData('node_1');
@@ -44,7 +45,9 @@ class NodeMonitoring extends Component
                 $message = json_decode($response->body(), true);
                 throw new Exception(message: $message['detail'] ?? 'Unknown Error', code: $response->status());
             }
-            dump($response->json());
+            $this->node_data = $this->getData($influx);
+            $this->dispatch('add-data');
+
             $this->dispatch('toast', type: 'success', message: 'Data Node 1 baru berhasil ditambahkan');
         } catch (Throwable $e) {
             $this->dispatch('toast', type: 'danger', message: $e->getMessage());
