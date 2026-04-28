@@ -10,12 +10,12 @@ use Throwable;
 
 class DashboardHeader extends Component
 {
-    public $now;
+    public int $now;
     public bool $system_active;
 
     public function mount()
     {
-        $this->now = now()->millisecond();
+        $this->now = now()->valueOf();
         $this->system_active = Configuration::find(1)['is_active'];
     }
 
