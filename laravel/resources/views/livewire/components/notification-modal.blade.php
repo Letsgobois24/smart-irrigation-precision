@@ -1,7 +1,7 @@
 <div x-data="{ isOpenNotification: false, view: 'list' }">
     <!-- BUTTON -->
-    <button @click="isOpenNotification = true; view='list'"
-        class="flex relative cursor-pointer ml-3 mr-7 size-10 justify-center items-center rounded-full hover:bg-green-50/30 cursor-pointer">
+    <button wire:click='openNotification' @click="isOpenNotification = true; view='list'"
+        class="flex relative cursor-pointer ml-3 mr-7 size-10 justify-center items-center rounded-full hover:bg-green-50/30">
 
         @if ($count_notifications > 0)
             <div
@@ -61,6 +61,10 @@
                         </div>
                     </div>
                 @endforeach
+                {{-- Loading Fetch All Data --}}
+                <div wire:loading wire:target='openNotification' class="w-full h-20">
+                    <x-icons.loading size="24" class="m-auto h-full" />
+                </div>
             </div>
 
             <!-- RIGHT: DETAIL -->
