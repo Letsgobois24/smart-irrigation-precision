@@ -27,6 +27,7 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
     print(f"App Message: {msg.topic}")
     payload = json.loads(msg.payload)
 
+    # Action
     try:
         if(action == 'control'):
             request_id = payload['request_id']

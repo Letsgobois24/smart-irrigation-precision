@@ -66,8 +66,10 @@ client.connect('ff6d2cce1a1947c685a845bff754d8fd.s1.eu.hivemq.cloud', port=8883)
 client.on_subscribe = on_subscribe
 client.on_message = on_message
 
-client.loop_start()
-while True:
-    client.publish('device/global/period_data', json.dumps(getGlobalData()))
-    client.publish('device/node_1/period_data', json.dumps(getNodeData()))
-    time.sleep(60)
+# client.loop_start()
+# while True:
+#     client.publish('device/global/period_data', json.dumps(getGlobalData()))
+#     client.publish('device/node_1/period_data', json.dumps(getNodeData()))
+#     time.sleep(300)
+
+client.loop_forever()

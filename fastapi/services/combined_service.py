@@ -29,6 +29,12 @@ def mqttSavePeriodData(data: dict):
     # Mengirim notifikasi jika terdapat anomali
     try:
         conn = createConnection()
+        print("Create Connection")
         sendNotification(conn, data=notification_data)
     finally:
         conn.close()
+        print("Close Connection")
+
+    return {
+        'is_anomaly' : is_anomaly
+    }
