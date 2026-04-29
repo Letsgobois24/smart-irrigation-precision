@@ -85,7 +85,7 @@ def request_data(node_id: str = Path(examples=['global', 'node_1'], description=
             addNodeTree(NodeTree(**data))
 
         if not is_anomaly: 
-            message = 'Data global baru berhasil ditambahkan.'
+            message = 'Data baru berhasil ditambahkan.'
             type = 'success'
         else:
             message = 'Sistem mendeteksi kesalahan sistem. Mohon cek notifikasi'

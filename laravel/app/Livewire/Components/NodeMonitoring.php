@@ -41,14 +41,13 @@ class NodeMonitoring extends Component
     {
         try {
             $response = $fastAPIServices->requestData('node_1');
+            $message = json_decode($response->body(), true);
             if ($response->failed()) {
-                $message = json_decode($response->body(), true);
                 throw new Exception(message: $message['detail'] ?? 'Unknown Error', code: $response->status());
             }
             $this->node_data = $this->getData($influx);
             $this->dispatch('add-data');
-
-            $this->dispatch('toast', type: 'success', message: 'Data Node 1 baru berhasil ditambahkan');
+            $this->dispatch('toast', type: $message['type'], message: $message['message']);
         } catch (Throwable $e) {
             $this->dispatch('toast', type: 'danger', message: $e->getMessage());
         }
