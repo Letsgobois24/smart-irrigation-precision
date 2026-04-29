@@ -7,34 +7,42 @@ from schema.node_tree import NodeTree
 from schema.environment import Environment
 
 def mqttSavePeriodData(data: dict):
-    # Save Global data
+    notification_data = []
+    
+    # Global data
     if(data['node_id'] == 'global'):
         data.pop('node_id')
         is_anomaly = predictGlobalAnomaly()
         if(is_anomaly):
-            notification_data = generate_notification('global')
-            print("notification_data:", notification_data)
+            notification_data.append(generate_notification('global'))
 
         addGlobal(Environment(**data))
     else:
-        # Save Node data
-        is_anomaly = predictTreeAnomaly()
-        if(is_anomaly):
-            notification_data = generate_notification('pohon')
+        # Node data
+        notification_data = []
+        for tree in data['trees']:
+            is_anomaly = predictTreeAnomaly()
+            if(is_anomaly):
+                notification_data.append(generate_notification('pohon'))
 
         addNodeTree(NodeTree(**data))
     
-    if(not is_anomaly): return
+    if(len(notification_data) == 0):
+        return {
+            'any_anomalies' : False
+        }
 
     # Mengirim notifikasi jika terdapat anomali
     try:
         conn = createConnection()
-        print("Create Connection")
         sendNotification(conn, data=notification_data)
     finally:
         conn.close()
-        print("Close Connection")
+
+    print("LENgth NOTIFICATION:", len(notification_data))
 
     return {
-        'is_anomaly' : is_anomaly
+        'any_anomalies' : True
     }
+
+    

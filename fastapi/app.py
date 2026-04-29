@@ -63,7 +63,7 @@ def request_data(node_id: str = Path(examples=['global', 'node_1'], description=
         # Save to database
         responses = mqttSavePeriodData(data=data)
 
-        if not responses['is_anomaly']: 
+        if not responses['any_anomalies']: 
             message = 'Data baru berhasil ditambahkan.'
             type = 'success'
         else:

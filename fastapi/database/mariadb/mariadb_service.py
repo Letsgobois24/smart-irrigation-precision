@@ -22,28 +22,33 @@ def toggleSystem(conn, is_active: bool):
         cursor.execute(sql, (is_active, ))
     conn.commit()
 
-def sendNotification(conn, data):
+def sendNotification(conn, data: list):
     with conn.cursor() as cursor:
-        sql = "INSERT INTO notifications (title, message, recomendation, source_type,sensor_type, severity, value, threshold,node_id, tree_id, is_active, is_read,created_at, updated_at) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        values = (
-                data['title'],
-                data['message'],
-                data['recomendation'],
-                data['source_type'],
-                data['sensor_type'],
-                data['severity'],
-                data['value'],
-                data['threshold'],
-                data['node_id'],
-                data['tree_id'],
-                int(data['is_active']),
-                int(data['is_read']),
-                data['created_at'],
-                data['updated_at']
-            )
-        
-        print('SQL: ', sql)
-        print('Values: ', values)
+        sql = """
+        INSERT INTO notifications 
+        (title, message, recomendation, source_type, sensor_type, severity, value, threshold, node_id, tree_id, is_active, is_read, created_at, updated_at) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
 
-        cursor.execute(sql, values)
+        values = []
+        for item in data:
+            values.append((
+                item['title'],
+                item['message'],
+                item['recomendation'],
+                item['source_type'],
+                item['sensor_type'],
+                item['severity'],
+                item['value'],
+                item['threshold'],
+                item.get('node_id'),
+                item.get('tree_id'),
+                int(item['is_active']),
+                int(item['is_read']),
+                item['created_at'],
+                item['updated_at']
+            ))
+
+        cursor.executemany(sql, values)
+
     conn.commit()
