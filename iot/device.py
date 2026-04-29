@@ -2,13 +2,14 @@ import paho.mqtt.client as paho
 from paho import mqtt
 import json
 from data import getNodeData, getGlobalData
+import time
 
 def on_connect(client, userdata, flags, rc, properties = None):
     print(f'Connect received with code {rc}')
     client.subscribe([("app/+/request_data", 1), ('app/global/control', 1)])
 
 def on_subscribe(client: paho.Client, userdata, mid: int, granted_qos: list, properties=None):
-    print('IoT Subscribed')
+    print('IoT Subscribed, mid:', mid)
 
 def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
     print(f"Device -> Topik: {msg.topic}")
@@ -44,8 +45,7 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
     
 
 def on_publish(client, userdata, mid, properties=None):
-    print("IoT Publisheds")
-
+    print("IoT Published")
 
 client = paho.Client(
     callback_api_version=paho.CallbackAPIVersion.VERSION1, 
@@ -66,4 +66,8 @@ client.connect('ff6d2cce1a1947c685a845bff754d8fd.s1.eu.hivemq.cloud', port=8883)
 client.on_subscribe = on_subscribe
 client.on_message = on_message
 
-client.loop_forever()
+client.loop_start()
+while True:
+    client.publish('device/global/period_data', json.dumps(getGlobalData()))
+    client.publish('device/node_1/period_data', json.dumps(getNodeData()))
+    time.sleep(60)

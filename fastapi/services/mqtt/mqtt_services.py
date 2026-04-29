@@ -6,11 +6,12 @@ from typing import Tuple
 from schema.node_tree import NodeTree
 from schema.environment import Environment
 from database.influxdb.influxdb_services import addGlobal, addNodeTree
+from services.combined_service import mqttSavePeriodData
 
 pending_request = {}
 def on_connect(client, userdata, flags, rc, properties = None):
     print('Connected with result code', rc)
-    client.subscribe([('device/+/send_data', 1), ('device/global/control', 1)])
+    client.subscribe([('device/+/send_data', 1), ('device/global/control', 1), ('device/+/period_data', 1)])
 
 def on_publish(client, userdata, mid, properties=None):
     print("FastAPI Published")
@@ -36,7 +37,11 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
             print("MQTT Client\n", payload)
             request_id = payload['request_id']
             pending_request[request_id] = payload
+            return
 
+        if(action == 'period_data'):
+            mqttSavePeriodData(data=payload)
+            
     except Exception as e:
         print("Error:", e)
 

@@ -9,11 +9,10 @@ from services.mqtt.mqtt_app import startup_event
 from services.mqtt.mqtt_client import client
 from services.mqtt.mqtt_services import send_request, wait_to_response, send_control
 from database.influxdb.influxdb_services import addGlobal, addNodeTree
-from database.influxdb.influxdb_client import getSensorData
-from database.mariadb.mariadb_service import getConfiguration, createDependency, toggleSystem, sendNotification
+from database.mariadb.mariadb_service import createDependency, toggleSystem, sendNotification
 from database.mariadb.data import generate_notification
 from pymysql.err import ProgrammingError
-from model.prediction import predictGlobalAnomaly, predictTreeAnomaly 
+from model.prediction import predictGlobalAnomaly, predictTreeAnomaly
 
 import json
 
