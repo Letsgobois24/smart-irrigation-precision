@@ -19,8 +19,6 @@ class NotificationModal extends Component
     public function mount()
     {
         $this->count_notifications = Notification::where('is_active', 1)->count();
-        $this->notifications = Notification::select(['id', 'title', 'source_type', 'created_at', 'severity', 'is_active', 'tree_id'])->orderBy('is_active', 'desc')->orderBy('created_at', 'desc')->limit(1)->get();
-        $this->active_notification = Notification::find($this->notifications[0]['id']);
         $this->isNotificationLoaded = false;
     }
 
@@ -42,6 +40,10 @@ class NotificationModal extends Component
             ->orderBy('is_active', 'desc')
             ->orderBy('created_at', 'desc')
             ->get();
+
+        if (count($this->notifications) > 0) {
+            $this->active_notification = Notification::find($this->notifications[0]['id']);
+        }
 
         $this->isNotificationLoaded = true;
     }

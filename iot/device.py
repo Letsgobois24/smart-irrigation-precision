@@ -2,7 +2,6 @@ import paho.mqtt.client as paho
 from paho import mqtt
 import json
 from data import getNodeData, getGlobalData
-import time
 
 def on_connect(client, userdata, flags, rc, properties = None):
     print(f'Connect received with code {rc}')
