@@ -3,6 +3,7 @@
 namespace App\Livewire\Components;
 
 use App\Models\Notification;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Throwable;
@@ -10,7 +11,7 @@ use Throwable;
 class NotificationModal extends Component
 {
     public $active_notification = [];
-    public $notifications = null;
+    public array | null $notifications = null;
     public int $count_notifications;
 
     public bool $isNotificationLoaded;
@@ -29,22 +30,13 @@ class NotificationModal extends Component
 
     public function detailNotification(int $id)
     {
-        $this->active_notification = Notification::find($id);
+        $this->active_notification = Notification::find($id)->toArray();
     }
 
     public function openNotification()
     {
         if ($this->isNotificationLoaded) return;
-
-        $this->notifications = Notification::select(['id', 'title', 'source_type', 'created_at', 'severity', 'is_active', 'tree_id'])
-            ->orderBy('is_active', 'desc')
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        if (count($this->notifications) > 0) {
-            $this->active_notification = Notification::find($this->notifications[0]['id']);
-        }
-
+        $this->updateNotifications();
         $this->isNotificationLoaded = true;
     }
 
@@ -59,6 +51,21 @@ class NotificationModal extends Component
             $this->active_notification['is_active'] = !$is_active;
         } catch (Throwable $e) {
             $this->dispatch('toast', type: 'danger', message: 'Error: ' . $e->getMessage());
+        }
+
+        $this->updateNotifications($id);
+    }
+
+    private function updateNotifications(int | null $active_id = null)
+    {
+        $this->notifications = Notification::select(['id', 'title', 'source_type', 'created_at', 'severity', 'is_active', 'tree_id'])
+            ->orderBy('is_active', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->get()->toArray();
+
+        if (count($this->notifications) > 0) {
+            $id = $active_id ?? $this->notifications[0]['id'];
+            $this->active_notification = Notification::find($id);
         }
     }
 }
