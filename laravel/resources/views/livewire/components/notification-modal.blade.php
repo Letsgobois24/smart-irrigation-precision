@@ -1,7 +1,3 @@
-@php
-    $isAnyNotification = count($notifications) > 0;
-@endphp
-
 <div x-data="{ isOpenNotification: false, view: 'list' }">
     <!-- BUTTON -->
     <button wire:click='openNotification' @click="isOpenNotification = true; view='list'"
@@ -23,7 +19,27 @@
         <div @click.outside="isOpenNotification = false"
             class="bg-white w-full max-w-5xl h-[90vh] md:h-[80vh] rounded-2xl shadow-xl flex flex-col md:flex-row overflow-hidden">
 
-            @if ($isNotificationLoaded && $isAnyNotification)
+            @if (!$isNotificationLoaded)
+                <div class="w-full h-full">
+                    <x-icons.loading size="48" class="m-auto h-full" />
+                </div>
+            @elseif(count($notifications) == 0)
+                <div class="w-full h-full flex flex-col items-center justify-center text-center px-4">
+                    <x-icons.bell-off size="48" class="text-gray-400 mb-3" />
+
+                    <h3 class="text font-semibold text-gray-700">
+                        Tidak ada notifikasi
+                    </h3>
+
+                    <p class="text-sm text-gray-500 mt-1">
+                        Semua notifikasi akan muncul di sini
+                    </p>
+                    <button @click="isOpenNotification = false"
+                        class="mt-3 text-sm text-blue-600 hover:underline cursor-pointer">
+                        Tutup
+                    </button>
+                </div>
+            @else
                 <!-- LEFT: LIST -->
                 <div class="w-full md:w-1/3 border-r overflow-y-auto"
                     x-show="view === 'list' || window.innerWidth >= 768">
@@ -139,22 +155,6 @@
                         </button>
 
                     </div>
-                </div>
-            @elseif(!$isAnyNotification)
-                <div class="w-full h-full flex flex-col items-center justify-center text-center px-4">
-                    <x-icons.bell-off size="48" class="text-gray-400 mb-3" />
-
-                    <h3 class="text-sm font-semibold text-gray-700">
-                        Tidak ada notifikasi
-                    </h3>
-
-                    <p class="text-xs text-gray-500 mt-1">
-                        Semua notifikasi akan muncul di sini
-                    </p>
-                </div>
-            @else
-                <div class="w-full h-full">
-                    <x-icons.loading size="48" class="m-auto h-full" />
                 </div>
             @endif
 

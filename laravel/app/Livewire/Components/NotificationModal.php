@@ -10,7 +10,7 @@ use Throwable;
 class NotificationModal extends Component
 {
     public $active_notification = [];
-    public $notifications = [];
+    public $notifications = null;
     public int $count_notifications;
 
     public bool $isNotificationLoaded;
