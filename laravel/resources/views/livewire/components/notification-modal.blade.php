@@ -79,7 +79,7 @@
 
                             <div class="text-xs text-gray-500">
                                 {{ ucfirst($notification['source_type']) }} {{ $notification['tree_id'] }} •
-                                {{ \Carbon\Carbon::parse($notification['created_at'])->diffForHumans() }}
+                                {{ $notification['created_at'] }}
                             </div>
                         </div>
                     @endforeach

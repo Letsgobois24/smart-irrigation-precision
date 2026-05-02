@@ -60,8 +60,15 @@ class NotificationModal extends Component
         $this->notifications = Notification::select(['id', 'title', 'source_type', 'created_at', 'severity', 'is_active', 'tree_id'])
             ->orderBy('is_active', 'desc')
             ->orderBy('created_at', 'desc')
-            ->limit(20)
-            ->get()->toArray();
+            ->limit(50)
+            ->get()
+            ->map(function ($row) {
+                return [
+                    ...$row->toArray(),
+                    'created_at' => $row->created_at->diffForHumans()
+                ];
+            })
+            ->toArray();
 
         if (count($this->notifications) > 0) {
             $active_id = $active_id ?? $this->notifications[0]['id'];
