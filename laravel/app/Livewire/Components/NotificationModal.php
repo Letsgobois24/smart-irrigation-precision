@@ -12,6 +12,8 @@ class NotificationModal extends Component
     public $active_notification = [];
     public array | null $notifications = null;
     public int $count_notifications;
+    public int $limit = 20;
+    public int $offset = 0;
 
     public bool $isNotificationLoaded;
 
@@ -55,12 +57,31 @@ class NotificationModal extends Component
         $this->updateNotifications($id);
     }
 
+    public function loadMore()
+    {
+        $this->offset += $this->limit;
+        $new_notifications = $this->getAllNotifications();
+        $this->notifications = array_merge($this->notifications, $new_notifications);
+    }
+
     private function updateNotifications(null | int $active_id = null)
     {
-        $this->notifications = Notification::select(['id', 'title', 'source_type', 'created_at', 'severity', 'is_active', 'tree_id'])
+        $this->count_notifications = Notification::where('is_active', 1)->count();
+        $this->notifications = $this->getAllNotifications();
+
+        if (count($this->notifications) > 0) {
+            $active_id = $active_id ?? $this->notifications[0]['id'];
+            $this->active_notification = Notification::find($active_id);
+        }
+    }
+
+    private function getAllNotifications()
+    {
+        return Notification::select(['id', 'title', 'source_type', 'created_at', 'severity', 'is_active', 'tree_id'])
             ->orderBy('is_active', 'desc')
             ->orderBy('created_at', 'desc')
-            ->limit(50)
+            ->offset($this->offset)
+            ->limit($this->limit)
             ->get()
             ->map(function ($row) {
                 return [
@@ -69,10 +90,5 @@ class NotificationModal extends Component
                 ];
             })
             ->toArray();
-
-        if (count($this->notifications) > 0) {
-            $active_id = $active_id ?? $this->notifications[0]['id'];
-            $this->active_notification = Notification::find($active_id);
-        }
     }
 }

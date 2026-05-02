@@ -44,6 +44,6 @@ class NotificationSeeder extends Seeder
         ]);
 
 
-        Notification::factory(5)->create();
+        Notification::factory(50)->create();
     }
 }
