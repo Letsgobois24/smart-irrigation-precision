@@ -9,8 +9,7 @@ export default function lineChart(data, seriesOptions) {
 
         renderChart() {
             if (this.chart) return;
-            const options = setLineOptionChart(data, seriesOptions);
-            console.log(options);
+            const options = setLineOptionChart(this.data, seriesOptions);
             this.chart = new ApexCharts(this.$el, options);
             this.chart.render();
 
