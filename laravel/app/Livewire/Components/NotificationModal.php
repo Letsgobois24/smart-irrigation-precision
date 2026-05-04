@@ -12,9 +12,10 @@ class NotificationModal extends Component
     public $active_notification = [];
     public array | null $notifications = null;
     public int $count_notifications;
-    public int $limit = 20;
+    private int $limit = 20;
     public int $offset = 0;
 
+    public bool $isMaxLoaded = false;
     public bool $isNotificationLoaded;
 
     #[On('add-data')]
@@ -46,7 +47,7 @@ class NotificationModal extends Component
         $id = $this->active_notification['id'];
         $is_active = $this->active_notification['is_active'];
         try {
-            $response = Notification::where('id', $id)->update(['is_active' => !$is_active]);
+            Notification::where('id', $id)->update(['is_active' => !$is_active]);
             $message = 'Masalah ' . $this->active_notification['title'] . ' ' . (!$is_active ? 'batal menyelesaikan' : 'telah terselesaikan');
             $this->dispatch('toast', type: 'success', message: $message);
             $this->active_notification['is_active'] = !$is_active;
@@ -61,6 +62,12 @@ class NotificationModal extends Component
     {
         $this->offset += $this->limit;
         $new_notifications = $this->getAllNotifications();
+
+        // Cek apabila list sudah load semua notifikasi
+        if (count($new_notifications) < $this->limit) {
+            $this->isMaxLoaded = true;
+        }
+
         $this->notifications = array_merge($this->notifications, $new_notifications);
     }
 

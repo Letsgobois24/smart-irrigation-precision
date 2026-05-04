@@ -83,10 +83,11 @@
                             </div>
                         </div>
                     @endforeach
-                    <div x-intersect="$wire.loadMore()" class="h-6">
-                    </div>
+                    @if (!$isMaxLoaded)
+                        <div x-intersect="$wire.loadMore()" class="h-6"></div>
+                    @endif
                     {{-- Loading Fetch All Data --}}
-                    <div wire:loading wire:target='openNotification, loadMore' class="w-full h-20">
+                    <div wire:loading wire:target='openNotification, loadMore' class="w-full h-48">
                         <x-icons.loading size="24" class="m-auto h-full" />
                     </div>
                 </div>
