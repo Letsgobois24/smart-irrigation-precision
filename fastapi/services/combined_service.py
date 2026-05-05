@@ -39,8 +39,6 @@ def mqttSavePeriodData(data: dict):
     finally:
         conn.close()
 
-    print("LENgth NOTIFICATION:", len(notification_data))
-
     return {
         'any_anomalies' : True
     }

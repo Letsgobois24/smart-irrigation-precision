@@ -1,6 +1,7 @@
 import paho.mqtt.client as paho
 from paho import mqtt
 import json
+import time
 from data import getNodeData, getGlobalData
 
 def on_connect(client, userdata, flags, rc, properties = None):
@@ -31,20 +32,17 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
 
     if action == 'request_data':
         request_id = msg.payload.decode('utf-8')
-        print('request_id:', request_id)
 
         data = getGlobalData() if node_id == 'global' else getNodeData()
         data['request_id'] = request_id
 
-        print("Data:", data)
-
         client.publish(f'device/{node_id}/send_data', payload=json.dumps(data))
-        print("Publish:", data)
+        print("Device-> Publish:", data)
         return
     
 
 def on_publish(client, userdata, mid, properties=None):
-    print("IoT Published")
+    print("Device Published")
 
 client = paho.Client(
     callback_api_version=paho.CallbackAPIVersion.VERSION1, 
@@ -65,10 +63,10 @@ client.connect('ff6d2cce1a1947c685a845bff754d8fd.s1.eu.hivemq.cloud', port=8883)
 client.on_subscribe = on_subscribe
 client.on_message = on_message
 
-# client.loop_start()
-# while True:
-#     client.publish('device/global/period_data', json.dumps(getGlobalData()))
-#     client.publish('device/node_1/period_data', json.dumps(getNodeData()))
-#     time.sleep(300)
+client.loop_start()
+while True:
+    client.publish('device/global/period_data', json.dumps(getGlobalData()))
+    client.publish('device/node_1/period_data', json.dumps(getNodeData()))
+    time.sleep(30)
 
-client.loop_forever()
+# client.loop_forever()

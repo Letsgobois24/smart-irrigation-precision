@@ -62,6 +62,7 @@ def request_data(node_id: str = Path(examples=['global', 'node_1'], description=
             raise HTTPException(status_code=500, detail=f"Gagal mengirim dari device")
         # Save to database
         responses = mqttSavePeriodData(data=data)
+        print('Save responses')
 
         if not responses['any_anomalies']: 
             message = 'Data baru berhasil ditambahkan.'
