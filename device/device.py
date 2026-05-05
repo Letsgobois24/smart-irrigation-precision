@@ -67,6 +67,6 @@ client.loop_start()
 while True:
     client.publish('device/global/period_data', json.dumps(getGlobalData()))
     client.publish('device/node_1/period_data', json.dumps(getNodeData()))
-    time.sleep(30)
+    time.sleep(300)
 
 # client.loop_forever()

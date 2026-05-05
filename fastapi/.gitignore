@@ -1,4 +1,5 @@
 .env
+.env.docker
 /trial
 /__pycache__
 *.pyc
