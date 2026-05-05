@@ -18,7 +18,8 @@ class NotificationModal extends Component
     public bool $isMaxLoaded = false;
     public bool $isNotificationLoaded;
 
-    #[On('add-data')]
+    #[On('add-data.environment')]
+    #[On('add-data.node')]
     public function mount()
     {
         $this->count_notifications = Notification::where('is_active', 1)->count();
