@@ -47,7 +47,7 @@ class LineChart extends Component
         $this->groupby = $groupby;
     }
 
-    #[On('add-data')]
+    #[On('add-data.{table}')]
     public function render(InfluxDBService $influx)
     {
         $data = [];

@@ -30,7 +30,7 @@ class NodeMonitoring extends Component
     {
         try {
             $this->node_data = $this->getData($influx);
-            $this->dispatch('add-data');
+            $this->dispatch("add-data.node");
             $this->dispatch('toast', type: 'success', message: 'Data Node 1 berhasil diperbarui');
         } catch (Throwable $e) {
             $this->dispatch('toast', type: 'danger', message: $e->getMessage());
@@ -46,7 +46,7 @@ class NodeMonitoring extends Component
                 throw new Exception(message: $message['detail'] ?? 'Unknown Error', code: $response->status());
             }
             $this->node_data = $this->getData($influx);
-            $this->dispatch('add-data');
+            $this->dispatch("add-data.node");
             $this->dispatch('toast', type: $message['type'], message: $message['message']);
         } catch (Throwable $e) {
             $this->dispatch('toast', type: 'danger', message: $e->getMessage());
