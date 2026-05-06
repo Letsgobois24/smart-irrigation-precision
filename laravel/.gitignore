@@ -1,5 +1,3 @@
-Dockerfile
-
 /.phpunit.cache
 /node_modules
 /public/build
@@ -9,8 +7,6 @@ Dockerfile
 /storage/pail
 /vendor
 .env
-.env.docker
-.env.backup
 .env.production
 .phpactor.json
 .phpunit.result.cache

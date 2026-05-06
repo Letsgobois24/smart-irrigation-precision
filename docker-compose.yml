@@ -1,0 +1,85 @@
+services:
+  app:
+    build: ./laravel
+    container_name: smart_irrigation_app
+    environment:
+      APP_ENV: production
+      APP_DEBUG: false
+    env_file:
+      - ./laravel/.env.production
+    volumes: 
+      - ./laravel:/var/www
+    networks:
+      - smart_irrigation_net
+    depends_on:
+      - mariadb
+      - influxdb
+
+  webserver:
+    image: nginx:1.30.0-alpine
+    container_name: nginx_server
+    ports: 
+      - "8000:80"
+    volumes:
+      - ./laravel:/var/www
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - smart_irrigation_net
+
+  fastapi:
+    build: ./fastapi
+    container_name: anomaly_detection_api
+    ports:
+      - "8001:8000"
+    env_file:
+      - ./fastapi/.env.production
+    volumes:
+      - ./fastapi:/app
+    networks:
+      - smart_irrigation_net
+    depends_on:
+      - mariadb
+      - influxdb
+
+  influxdb:
+    image: influxdb:3.8.0-core
+    container_name: influxdb
+    restart: unless-stopped
+    ports: 
+      - "8181:8181"
+    volumes:
+      - sensor_data:/var/lib/influxdb3
+    command: 
+      - influxdb3 
+      - serve
+      - --node-id=host01
+      - --object-store=file
+      - --data-dir=/var/lib/influxdb3
+
+    networks:
+      - smart_irrigation_net
+  
+  mariadb:
+    image: mariadb:10.4.32
+    container_name: mariadb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - sql_data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - smart_irrigation_net
+
+networks: 
+  smart_irrigation_net:
+
+volumes:
+  sensor_data:
+  sql_data:

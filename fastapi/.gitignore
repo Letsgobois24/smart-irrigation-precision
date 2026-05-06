@@ -1,6 +1,5 @@
 .env
-.env.docker
+.env.production
 /trial
 /__pycache__
 *.pyc
-Dockerfile
