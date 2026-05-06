@@ -2,9 +2,6 @@ services:
   app:
     build: ./laravel
     container_name: smart_irrigation_app
-    environment:
-      APP_ENV: production
-      APP_DEBUG: false
     env_file:
       - ./laravel/.env.production
     volumes: 
