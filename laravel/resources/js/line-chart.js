@@ -1,4 +1,4 @@
-export default function lineChart(data, seriesOptions) {
+export default function lineChart(data, seriesOptions, ylabel = '') {
     return {
         chart: null,
         data: data,
@@ -9,7 +9,7 @@ export default function lineChart(data, seriesOptions) {
 
         renderChart() {
             if (this.chart) return;
-            const options = setLineOptionChart(this.data, seriesOptions);
+            const options = setLineOptionChart(this.data, seriesOptions, ylabel);
             this.chart = new ApexCharts(this.$el, options);
             this.chart.render();
 
@@ -17,7 +17,7 @@ export default function lineChart(data, seriesOptions) {
     }
 }
 
-function setLineOptionChart(data, seriesOptions) {
+function setLineOptionChart(data, seriesOptions, ylabel) {
     return {
         stroke: {
             width: 2,
@@ -47,7 +47,7 @@ function setLineOptionChart(data, seriesOptions) {
             },
             labels: {
                 formatter: function(val) {
-                    return val;
+                    return val + ylabel;
                 }
             }
         },

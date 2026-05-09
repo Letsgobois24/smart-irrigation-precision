@@ -14,6 +14,8 @@ class LineChart extends Component
     public string $fieldName;
     public string $table;
     public string $groupby;
+    public string $ylabel = '';
+    public string $xlabel = '';
 
     public string $selectedPeriods = '2 hours';
 
@@ -39,12 +41,14 @@ class LineChart extends Component
         ],
     ];
 
-    public function mount(string $field, string $fieldName, string $table, string $groupby = '')
+    public function mount(string $field, string $fieldName, string $table, string $groupby = '', string $ylabel = '', string | null $xlabel = null)
     {
-        $this->fieldName = $fieldName;
+        $this->fieldName = $fieldName ?? $xlabel;
+        $this->xlabel = $xlabel ?? $fieldName;
         $this->field = $field;
         $this->table = $table;
         $this->groupby = $groupby;
+        $this->ylabel = $ylabel;
     }
 
     #[On('add-data.{table}')]
@@ -55,7 +59,7 @@ class LineChart extends Component
             $data = $this->getRawData($influx);
             $this->sanitize();
             if (count($data) == 0) {
-                throw new Exception("No data available in {$this->fieldName} chart");
+                throw new Exception("No data available in {$this->xlabel} chart");
             }
         } catch (Throwable $e) {
             $this->dispatch('toast', type: 'danger', message: $e->getMessage());
@@ -96,49 +100,53 @@ class LineChart extends Component
 
         $result = $influx->query($query);
         if ($this->groupby) {
-            $result->groupBySeries($this->groupby, $this->fieldName, addAverage: true);
+            $result->groupBySeries($this->groupby, $this->xlabel, addAverage: true);
         }
         return $result->convertTimezone()->get();
     }
 
+    // For global chart that last time is 2 hours
     private function singleLineQuery()
     {
         $groupByField = $this->groupby ? ',' . $this->groupby : '';
         return "SELECT 
             time, 
-            {$this->field} AS '{$this->fieldName}' {$groupByField}
+            {$this->field} AS '{$this->xlabel}' {$groupByField}
         FROM {$this->table}
         WHERE time >= now() - INTERVAL '{$this->selectedPeriods}'
         ORDER BY time";
     }
 
+    // For global chart after last time > 2 hours
     private function aggregateLineQuery()
     {
         $interval = $this->periods[$this->selectedPeriods]['interval'];
         return "SELECT
                     DATE_BIN(INTERVAL '{$interval}', time) AS time,
-                    selector_max({$this->field}, time)['value'] AS 'Max {$this->fieldName}',
-                    selector_min({$this->field}, time)['value'] AS 'Min {$this->fieldName}',
-                    ROUND(AVG({$this->field}), 2) AS 'Average {$this->fieldName}'
+                    selector_max({$this->field}, time)['value'] AS 'Max {$this->xlabel}',
+                    selector_min({$this->field}, time)['value'] AS 'Min {$this->xlabel}',
+                    ROUND(AVG({$this->field}), 2) AS 'Average {$this->xlabel}'
                 FROM {$this->table}
                 WHERE time >= now() - INTERVAL '{$this->selectedPeriods}'
                 GROUP BY 1
                 ORDER BY 1";
     }
 
+    // For node chart
     private function groupByQuery()
     {
         $interval = $this->periods[$this->selectedPeriods]['interval'];
         return "SELECT
                     DATE_BIN(INTERVAL '{$interval}', time) AS time,
                     {$this->groupby},
-                    ROUND(AVG({$this->field}), 2) AS '{$this->fieldName}'
+                    ROUND(AVG({$this->field}), 2) AS '{$this->xlabel}'
                 FROM {$this->table}
                 WHERE time >= now() - INTERVAL '{$this->selectedPeriods}'
                 GROUP BY 1, {$this->groupby}
                 ORDER BY time, {$this->groupby}";
     }
 
+    // Security
     private array $allowedFields = ['ph', 'water_flow', 'soil_moisture'];
     private array $allowedTables = ['environment', 'node'];
     private function sanitize()

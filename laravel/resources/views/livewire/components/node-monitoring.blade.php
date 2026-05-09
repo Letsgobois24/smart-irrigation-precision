@@ -59,7 +59,7 @@
 
         <div class="grid md:grid-cols-2 gap-6">
             <livewire:components.line-chart lazy field="soil_moisture" fieldName="Soil Moisture" table="node"
-                groupby='tree_id' />
+                groupby='tree_id' xlabel='Tree' ylabel='%' />
         </div>
 
     </div>

@@ -17,7 +17,7 @@
 
     </div>
     @if ($data && count($data) > 0)
-        <div x-data="lineChart(@js($data), @js($series_options))" x-init="init()"></div>
+        <div x-data="lineChart(@js($data), @js($series_options), @js($ylabel))" x-init="init()"></div>
     @else
         <div class="flex flex-col items-center justify-center py-30 text-gray-500">
             <x-icons.graph size="48" class="mb-3 text-gray-400" />
