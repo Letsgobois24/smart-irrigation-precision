@@ -21,7 +21,7 @@
     <x-header.header />
     <div class="flex-1">
         <div x-show="isOpenSidebar" @click="isOpenSidebar = false"
-            class="left-0 right-0 bottom-0 top-0 bg-black/20 hidden sm:block lg:hidden fixed"></div>
+            class="left-0 right-0 bottom-0 top-0 bg-black/20 hidden sm:block lg:hidden fixed z-30"></div>
         <x-header.sidebar />
         <div :class="isOpenSidebar ? 'lg:ml-68' : 'lg:ml-0'">
             {{ $slot }}
