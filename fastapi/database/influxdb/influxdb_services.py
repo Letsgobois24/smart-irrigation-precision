@@ -1,7 +1,7 @@
 import pandas as pd
 from database.influxdb.influxdb_client import extendData, addData
 from schema.node_tree import NodeTree
-from schema.environment import Environment
+from schema.global_schema import GlobalSchema
 
 def addNodeTree(data: NodeTree):
     data_dict = data.model_dump(include='trees')['trees']
@@ -13,6 +13,6 @@ def addNodeTree(data: NodeTree):
 
     extendData(df=df, measurement='node')
 
-def addGlobal(data: Environment):
+def addGlobal(data: GlobalSchema):
     data_dict = data.model_dump()
-    addData(data=data_dict, measurement='environment')
+    addData(data=data_dict, measurement='global')

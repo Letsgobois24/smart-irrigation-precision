@@ -15,7 +15,7 @@ class NotificationFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    private $environment_sensor = ['pH', 'arus air', 'katup utama', 'arus listrik'];
+    private $global_sensor = ['pH', 'arus air', 'katup utama', 'arus listrik'];
     private $node_sensor = ['kelembaban tanah', 'katup', 'arus listrik'];
 
     public function definition(): array
@@ -25,7 +25,7 @@ class NotificationFactory extends Factory
         if ($source_type == 'pohon') {
             $sensor_type = fake()->randomElement($this->node_sensor);
         } else {
-            $sensor_type = fake()->randomElement($this->environment_sensor);
+            $sensor_type = fake()->randomElement($this->global_sensor);
         }
 
         return [

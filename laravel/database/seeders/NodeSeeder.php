@@ -39,7 +39,6 @@ class NodeSeeder extends Seeder
 
         try {
             $influx->storeMultiple(rows: $rows);
-            dump('successfull');
         } catch (Throwable $e) {
             dump("Connection Timeout. Detail: " . $e->getMessage());
         }

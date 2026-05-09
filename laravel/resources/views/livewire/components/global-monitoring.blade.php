@@ -64,8 +64,8 @@
 
     <!-- Charts -->
     <div class="grid md:grid-cols-2 gap-6">
-        <livewire:components.line-chart lazy field="ph" fieldName="pH" table="environment" />
-        <livewire:components.line-chart lazy field="water_flow" fieldName="Water Flow" table="environment"
+        <livewire:components.line-chart lazy field="ph" fieldName="pH" table="global" />
+        <livewire:components.line-chart lazy field="water_flow" fieldName="Water Flow" table="global"
             ylabel=' L/m' />
     </div>
 </div>

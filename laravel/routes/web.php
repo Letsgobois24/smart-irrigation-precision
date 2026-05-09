@@ -20,7 +20,7 @@ Route::get('/add', function (InfluxDBService $influx) {
     $time = now('UTC')->startOfMinute()->addHours(7);
 
     $rows[] = [
-        'measurement' => 'environment',
+        'measurement' => 'global',
         'fields' => [
             'water_flow' => fake()->randomFloat(1, 0.1, 2),
             'ph' => fake()->randomFloat(2, 6, 8),

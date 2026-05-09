@@ -7,7 +7,7 @@ use Carbon\CarbonPeriod;
 use Illuminate\Database\Seeder;
 use Throwable;
 
-class EnvironmentSeeder extends Seeder
+class GlobalSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -22,7 +22,7 @@ class EnvironmentSeeder extends Seeder
 
         foreach ($period as $date) {
             $rows[] = [
-                'measurement' => 'environment',
+                'measurement' => 'global',
                 'fields' => [
                     'water_flow' => fake()->randomFloat(1, 0.1, 2),
                     'ph' => fake()->randomFloat(2, 6, 8),
@@ -34,7 +34,6 @@ class EnvironmentSeeder extends Seeder
 
         try {
             $influx->storeMultiple(rows: $rows);
-            dump('successfull');
         } catch (Throwable $e) {
             dump("Connection Timeout. Detail: " . $e->getMessage());
         }

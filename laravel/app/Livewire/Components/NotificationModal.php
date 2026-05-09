@@ -18,7 +18,7 @@ class NotificationModal extends Component
     public bool $isMaxLoaded = false;
     public bool $isNotificationLoaded;
 
-    #[On('add-data.environment')]
+    #[On('add-data.global')]
     #[On('add-data.node')]
     public function mount()
     {

@@ -4,7 +4,7 @@ from database.mariadb.data import generate_notification
 from database.influxdb.influxdb_services import addGlobal, addNodeTree
 from database.mariadb.mariadb_service import sendNotification
 from schema.node_tree import NodeTree
-from schema.environment import Environment
+from schema.global_schema import GlobalSchema
 
 def mqttSavePeriodData(data: dict):
     notification_data = []
@@ -16,7 +16,7 @@ def mqttSavePeriodData(data: dict):
         if(is_anomaly):
             notification_data.append(generate_notification('global'))
 
-        addGlobal(Environment(**data))
+        addGlobal(GlobalSchema(**data))
     else:
         # Node data
         notification_data = []

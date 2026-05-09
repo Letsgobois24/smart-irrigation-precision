@@ -148,7 +148,7 @@ class LineChart extends Component
 
     // Security
     private array $allowedFields = ['ph', 'water_flow', 'soil_moisture'];
-    private array $allowedTables = ['environment', 'node'];
+    private array $allowedTables = ['global', 'node'];
     private function sanitize()
     {
         if (!in_array($this->field, $this->allowedFields)) {

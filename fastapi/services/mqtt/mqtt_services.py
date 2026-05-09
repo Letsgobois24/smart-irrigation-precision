@@ -3,9 +3,6 @@ import json
 import uuid
 import time
 from typing import Tuple
-from schema.node_tree import NodeTree
-from schema.environment import Environment
-from database.influxdb.influxdb_services import addGlobal, addNodeTree
 from services.combined_service import mqttSavePeriodData
 
 pending_request = {}
