@@ -8,12 +8,7 @@
                 {{ $fieldName }} changes over time
             </p>
         </div>
-        <div class="relative w-fit">
-            <div wire:loading wire:target='selectedPeriods' class="absolute right-3 top-1/2 -translate-y-1/2">
-                <x-icons.loading size="16" />
-            </div>
-            <x-form.select-time model="selectedPeriods" :data="$periods" />
-        </div>
+        <x-form.select-time model="selectedPeriods" :data="$periods" />
 
     </div>
     @if ($data && count($data) > 0)
