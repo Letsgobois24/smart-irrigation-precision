@@ -11,8 +11,8 @@ def addNodeTree(data: NodeTree):
         time=data.time
     )
 
-    extendData(df=df, measurement='node')
+    extendData(df=df, measurement='node', tags=['tree_id', 'node_id'])
 
 def addGlobal(data: GlobalSchema):
     data_dict = data.model_dump()
-    addData(data=data_dict, measurement='global')
+    addData(data=data_dict, measurement='global', tags=[])
