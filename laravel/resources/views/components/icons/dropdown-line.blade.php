@@ -1,6 +1,6 @@
-@props(['size', 'class' => ''])
+@props(['size'])
 
-<svg class="{{ $class }}" xmlns="http://www.w3.org/2000/svg" width="{{ $size }}" height="{{ $size }}"
+<svg {{ $attributes }} xmlns="http://www.w3.org/2000/svg" width="{{ $size }}" height="{{ $size }}"
     viewBox="0 0 24 24">
     <g fill="none" fill-rule="evenodd">
         <path
