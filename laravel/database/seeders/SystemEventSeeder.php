@@ -35,12 +35,12 @@ class SystemEventSeeder extends Seeder
                 ],
                 'fields' => [
                     'valve' => $valve_status,
-                    'current_t' => $current_before,
+                    'current_before' => $current_before,
                     'current_avg' => ($current_before + $current_after) / 2,
-                    'current_t+2s' => $current_after,
-                    'moisture_t' => $valve_status ? fake()->randomFloat(1, 50, 60) : fake()->randomFloat(1, 70, 80),
-                    'moisture_t+10m' => !$valve_status ? fake()->randomFloat(1, 50, 60) : fake()->randomFloat(1, 70, 80),
-                    'flow_t' => $valve_status ? fake()->randomFloat(1, 0.1, 0.5) : fake()->randomFloat(1, 1, 2),
+                    'current_after_2s' => $current_after,
+                    'moisture_before' => $valve_status ? fake()->randomFloat(1, 50, 60) : fake()->randomFloat(1, 70, 80),
+                    'moisture_after_10m' => !$valve_status ? fake()->randomFloat(1, 50, 60) : fake()->randomFloat(1, 70, 80),
+                    'water_flow' => $valve_status ? fake()->randomFloat(1, 0.1, 0.5) : fake()->randomFloat(1, 1, 2),
                     'duration' => 600,
                 ],
                 'time' => $date->getTimestamp()

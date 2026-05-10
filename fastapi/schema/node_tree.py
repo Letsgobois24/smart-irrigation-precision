@@ -9,7 +9,7 @@ class Tree(BaseModel):
 
 class NodeTree(BaseModel):
     node_id: Annotated[int, Field(examples=[1, 2, 3], description='Unique node identifier')]
-    time: Annotated[int, Field(default=round(time.time_ns()), gt=0, description='Timestamp in nanoseconds')]
+    time: Annotated[int, Field(default=int(time.time()), gt=0, description='Timestamp in seconds')]
     trees: List[Tree] = Field(..., min_length=1, description='List of trees in the node', example=[
             {"tree_id": 1, "soil_moisture": 40.1, "valve": 1},
             {"tree_id": 2, "soil_moisture": 42.3, "valve": 0},

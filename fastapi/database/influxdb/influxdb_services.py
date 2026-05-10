@@ -15,4 +15,7 @@ def addNodeTree(data: NodeTree):
 
 def addGlobal(data: GlobalSchema):
     data_dict = data.model_dump()
-    addData(data=data_dict, measurement='global', tags=[])
+    addData(data=data_dict, measurement='global')
+
+def addSystemEvent(data):
+    pass
