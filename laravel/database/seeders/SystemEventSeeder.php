@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use App\Services\InfluxDBService;
 use Carbon\CarbonPeriod;
-use Exception;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Throwable;
 
 class SystemEventSeeder extends Seeder
 {
@@ -18,7 +18,7 @@ class SystemEventSeeder extends Seeder
         $rows = [];
 
         $end = now()->startOfHour();
-        $start = (clone $end)->subDays(1);
+        $start = (clone $end)->subDays(2);
         $randomMinutes = random_int(60, 180);
         $period = CarbonPeriod::create($start, "$randomMinutes minutes", $end);
 
@@ -48,12 +48,9 @@ class SystemEventSeeder extends Seeder
             ];
         }
 
-        dump($rows[0]);
-        dump($randomMinutes);
-
         try {
             $influx->storeMultiple(rows: $rows);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             dump("Connection Timeout. Detail: " . $e->getMessage());
         }
     }

@@ -37,7 +37,6 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
             mqttSavePeriodData(data=payload)
         
         if(action == 'system_event'):
-            print(payload)
             addSystemEvent(data=(SystemEventSchema(**payload)))
             return
 

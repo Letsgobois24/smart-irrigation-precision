@@ -19,5 +19,26 @@ def addGlobal(data: GlobalSchema):
     addData(data=data_dict, measurement='global')
 
 def addSystemEvent(data: SystemEventSchema):
+    # Data for system_event table
     data_dict = data.model_dump()
     addData(data=data_dict, measurement='system_event', tags=['tree_id', 'node_id'])
+
+    # Add two tree data for node table
+    tree_data_before = {
+        'node_id': data_dict['node_id'],
+        'tree_id': data_dict['tree_id'],
+        'valve': data_dict['valve'],
+        'soil_moisture': data_dict['moisture_before'],
+        'time': data_dict['time']
+    }
+
+    tree_data_after = {
+        'node_id': data_dict['node_id'],
+        'tree_id': data_dict['tree_id'],
+        'valve': data_dict['valve'],
+        'soil_moisture': data_dict['moisture_after_10m'],
+        'time': data_dict['time'] + data_dict['duration']
+    }
+
+    df = pd.DataFrame(data=[tree_data_before, tree_data_after])
+    extendData(df=df, measurement='node', tags=['tree_id', 'node_id'])
