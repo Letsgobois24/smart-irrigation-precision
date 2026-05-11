@@ -3,7 +3,7 @@ from typing import Annotated
 import time
 
 class SystemEventSchema(BaseModel):
-    node_id: Annotated[int, Field(examples=[1, 2, 3], description='Unique node identifier')]
+    node_id: Annotated[int, Field(..., examples=[1, 2, 3], description='Unique node identifier')]
     tree_id: Annotated[int, Field(..., example=1, description='Tree ID within the node')]
     valve: Annotated[bool | None, Field(..., description="Valve status (1=ON, 0=OFF)")]
     current_before: Annotated[float | None, Field(..., example=100, description='Electric current at time')]

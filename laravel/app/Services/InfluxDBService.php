@@ -150,6 +150,8 @@ class InfluxDBService
                     $value = "\"$value\"";
                 } elseif (is_bool($value)) {
                     $value = $value ? 'true' : 'false';
+                } elseif (is_int($value)) {
+                    $value = $value . 'i';
                 }
                 $fieldParts[] = "$key=$value";
             }

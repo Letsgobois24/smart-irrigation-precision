@@ -4,11 +4,18 @@ import uuid
 import time
 from typing import Tuple
 from services.combined_service import mqttSavePeriodData
+from database.influxdb.influxdb_services import addSystemEvent
+from schema.system_event_schema import SystemEventSchema
 
 pending_request = {}
 def on_connect(client, userdata, flags, rc, properties = None):
     print('Connected with result code', rc)
-    client.subscribe([('device/+/send_data', 1), ('device/global/control', 1), ('device/+/period_data', 1)])
+    client.subscribe([
+        ('device/+/send_data', 1), 
+        ('device/global/control', 1), 
+        ('device/+/period_data', 0),
+        ('device/+/system_event', 1)
+        ])
 
 def on_publish(client, userdata, mid, properties=None):
     print("FastAPI Published")
@@ -26,20 +33,24 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
 
     # Action
     try:
+        if(action == 'period_data'):
+            mqttSavePeriodData(data=payload)
+        
+        if(action == 'system_event'):
+            print(payload)
+            addSystemEvent(data=(SystemEventSchema(**payload)))
+            return
+
+        if(action == 'send_data'):
+            request_id = payload['request_id']
+            pending_request[request_id] = payload
+            return
+
         if(action == 'control'):
             request_id = payload['request_id']
             pending_request[request_id] = payload
             return
 
-        if(action == 'send_data'):
-            print("MQTT Client\n", payload)
-            request_id = payload['request_id']
-            pending_request[request_id] = payload
-            return
-
-        if(action == 'period_data'):
-            mqttSavePeriodData(data=payload)
-            
     except Exception as e:
         print("Error:", e)
 
