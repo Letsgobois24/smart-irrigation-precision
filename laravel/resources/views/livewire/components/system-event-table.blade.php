@@ -1,5 +1,10 @@
 {{-- Table --}}
 <div>
+    <div class="flex md:flex-row flex-col items-center justify-center gap-2">
+        <input type="date">
+        <span class="text-gray-700 hidden md:block">&</span>
+        <input type="date">
+    </div>
     <div class="overflow-x-auto rounded-xl border border-gray-100">
         <table class="min-w-full text-sm text-left border-collapse">
             <thead class="bg-green-50 text-green-800">
@@ -9,6 +14,9 @@
                     </th>
                     <th class="px-4 py-3 font-semibold whitespace-nowrap">
                         Valve
+                    </th>
+                    <th class="px-4 py-3 font-semibold whitespace-nowrap">
+                        Time
                     </th>
                     <th class="px-4 py-3 font-semibold whitespace-nowrap">
                         Current Before
@@ -31,9 +39,6 @@
                     <th class="px-4 py-3 font-semibold whitespace-nowrap">
                         Water Flow
                     </th>
-                    <th class="px-4 py-3 font-semibold whitespace-nowrap">
-                        Time
-                    </th>
                 </tr>
             </thead>
 
@@ -49,6 +54,7 @@
                             </span>
                         </td>
 
+                        {{-- Valve --}}
                         <td class="px-4 py-3">
                             @if ($event['valve'])
                                 <span class="bg-green-100 text-green-700 px-2 py-1 rounded-lg text-xs font-semibold">
@@ -59,6 +65,11 @@
                                     OFF
                                 </span>
                             @endif
+                        </td>
+
+                        {{-- Time --}}
+                        <td class="px-4 py-3 text-gray-500 whitespace-nowrap">
+                            {{ $event['time']->diffForHumans() }}
                         </td>
 
                         {{-- Current Before --}}
@@ -117,12 +128,6 @@
                                 {{ $event['water_flow'] }} L
                             </span>
                         </td>
-
-                        {{-- Time --}}
-                        <td class="px-4 py-3 text-gray-500 whitespace-nowrap">
-                            {{ $event['time']->diffForHumans() }}
-                        </td>
-
                     </tr>
                 @empty
                     <tr>
@@ -135,40 +140,47 @@
             </tbody>
         </table>
     </div>
-    <div class="flex justify-between items-center gap-2 mt-4">
+    {{-- Footer --}}
+    <div class="flex justify-between items-center mt-4">
+        <span class="text-sm text-gray-500">Showing {{ ($page - 1) * $paginate + 1 }} to
+            {{ ($page - 1) * $paginate + count($events) }} of
+            {{ $total_events }} results</span>
+        <div class="flex items-center gap-2">
 
-        {{-- LEFT --}}
-        <button wire:click="previousPage" wire:loading.attr="disabled" wire:target="previousPage"
-            @disabled($page <= 1)
-            class="
-            px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition
-            flex items-center gap-2
+            {{-- LEFT --}}
+            <button wire:click="previousPage" wire:loading.attr="disabled" wire:target="previousPage"
+                @disabled($page <= 1)
+                class="
+                px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition
+                flex items-center gap-2
+    
+                {{ $page <= 1
+                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                    : 'bg-white border border-gray-200 hover:bg-gray-100 text-gray-700 cursor-pointer' }}
+            ">
+                ← Prev
+            </button>
 
-            {{ $page <= 1
-                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                : 'bg-white border border-gray-200 hover:bg-gray-100 text-gray-700 cursor-pointer' }}
-        ">
-            ← Previous
-        </button>
+            {{-- Page Indicator --}}
+            <div class="px-3 py-2 text-sm text-gray-500 font-medium">
+                <span wire:loading.remove='nextPage, previousPage'>Page {{ $page }}</span>
+                <x-icons.loading size='20' wire:loading='nextPage, previousPage' />
+            </div>
 
-        {{-- Page Indicator --}}
-        <div class="px-3 py-2 text-sm text-gray-500 font-medium">
-            <span wire:loading.remove='nextPage, previousPage'>Page {{ $page }}</span>
-            <x-icons.loading size='20' wire:loading='nextPage, previousPage' />
+            {{-- RIGHT --}}
+            <button wire:click="nextPage" wire:loading.attr="disabled" wire:target="nextPage"
+                @disabled($isLast)
+                class="
+                px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition
+                flex items-center gap-2
+    
+                {{ $isLast
+                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                    : 'bg-green-600 hover:bg-green-700 text-white cursor-pointer' }}
+            ">
+                Next →
+            </button>
+
         </div>
-
-        {{-- RIGHT --}}
-        <button wire:click="nextPage" wire:loading.attr="disabled" wire:target="nextPage" @disabled($isLast)
-            class="
-            px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition
-            flex items-center gap-2
-
-            {{ $isLast
-                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                : 'bg-green-600 hover:bg-green-700 text-white cursor-pointer' }}
-        ">
-            Next →
-        </button>
-
     </div>
 </div>

@@ -9,18 +9,17 @@ class SystemEventTable extends Component
 {
     public int $page = 1;
     public bool $isLast = false;
-    private int $paginate = 5;
+    public int $paginate = 5;
 
     public function render(InfluxDBService $influx)
     {
-        $query = $this->systemEventsQuery();
-        $result = $influx->query($query)->convertTimezone()->get();
-
-        $this->isLast = count($result) <= $this->paginate;
+        $events = $this->getEvents($influx);
+        $this->isLast = count($events) <= $this->paginate;
 
         return view('livewire.components.system-event-table', [
             // Tampilkan hanya 5 saja
-            'events' => array_slice($result->toArray(), 0, $this->paginate)
+            'events' => array_slice($events->toArray(), 0, $this->paginate),
+            'total_events' => $this->getCountEvents($influx)
         ]);
     }
 
@@ -29,15 +28,23 @@ class SystemEventTable extends Component
         $this->page -= 1;
     }
 
-    public function nextPage(InfluxDBService $influx)
+    public function nextPage()
     {
         $this->page += 1;
     }
 
-    private function systemEventsQuery()
+    private function getEvents(InfluxDBService $influx)
     {
         $offset = ($this->page - 1) * $this->paginate;
         $limit = $this->paginate + 1;
-        return "SELECT * FROM system_event WHERE node_id=1 ORDER BY time DESC OFFSET $offset LIMIT $limit";
+        $query = "SELECT * FROM system_event WHERE node_id=1 ORDER BY time DESC OFFSET $offset LIMIT $limit";
+
+        return $influx->query($query)->convertTimezone()->get();
+    }
+
+    private function getCountEvents(InfluxDBService $influx)
+    {
+        $query = "SELECT COUNT(*) AS total_events FROM system_event WHERE node_id=1";
+        return $influx->query($query)->get()[0]['total_events'];
     }
 }
