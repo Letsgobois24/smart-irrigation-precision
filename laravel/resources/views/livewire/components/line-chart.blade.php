@@ -1,7 +1,7 @@
 <div class="bg-white rounded-xl shadow p-6 px-4 sm:px-6">
     <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-3">
         <div>
-            <h2 class="font-semibold text-gray-800">
+            <h2 class="text-lg font-bold text-gray-800">
                 {{ $fieldName }} Trend
             </h2>
             <p class="text-sm text-gray-500">
