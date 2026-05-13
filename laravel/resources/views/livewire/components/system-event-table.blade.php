@@ -1,9 +1,26 @@
 {{-- Table --}}
 <div>
-    <div class="flex md:flex-row flex-col items-center justify-center gap-2">
-        <input type="date">
-        <span class="text-gray-700 hidden md:block">&</span>
-        <input type="date">
+    <div x-data wire:ignore x-init="flatpickr($refs.range, dateRange($wire, @js($enableDateRange)))" class="mb-4">
+        <input x-ref="range" type="text" placeholder="Select date range"
+            class="
+            w-full sm:w-54
+            px-4 py-2
+
+            bg-white
+            border border-green-200
+            rounded-xl
+
+            text-sm text-gray-700
+            shadow-sm
+
+            focus:outline-none
+            focus:ring-2
+            focus:ring-green-500
+            focus:border-green-500
+
+            hover:border-green-300
+            transition
+        ">
     </div>
     <div class="overflow-x-auto rounded-xl border border-gray-100">
         <table class="min-w-full text-sm text-left border-collapse">
