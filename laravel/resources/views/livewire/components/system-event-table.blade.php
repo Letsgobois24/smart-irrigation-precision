@@ -1,6 +1,6 @@
 <div>
     {{-- Date range Input --}}
-    <div x-data wire:ignore x-init="dateRange($refs.range, $wire, @js($enableDateRange))" class="mb-4 relative w-fit">
+    <div x-data wire:ignore x-init="$nextTick(() => dateRange($refs.range, $wire, @js($enableDateRange)))" class="mb-4 relative w-fit">
         <input x-ref="range" type="text" placeholder="Select date range"
             class="
             w-full sm:w-64
