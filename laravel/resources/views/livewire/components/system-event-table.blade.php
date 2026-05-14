@@ -1,5 +1,5 @@
-{{-- Table --}}
 <div>
+    {{-- Date range Input --}}
     <div x-data wire:ignore x-init="dateRange($refs.range, $wire, @js($enableDateRange))" class="mb-4 relative w-fit">
         <input x-ref="range" type="text" placeholder="Select date range"
             class="
@@ -27,6 +27,7 @@
             <x-icons.loading size='16' class="text-gray-500" />
         </div>
     </div>
+    {{-- Table --}}
     <div class="overflow-x-auto rounded-xl border border-gray-100">
         <table class="min-w-full text-sm text-left border-collapse">
             <thead class="bg-green-50 text-green-800">
@@ -162,13 +163,14 @@
             </tbody>
         </table>
     </div>
-    {{-- Footer --}}
-    <div class="flex justify-between items-center mt-4">
+    {{-- Pagination --}}
+    <div class="flex sm:flex-row flex-col-reverse sm:justify-between items-center mt-4 gap-3">
+        {{-- Pagination count --}}
         <span class="text-sm text-gray-500">Showing {{ ($page - 1) * $paginate + 1 }} to
             {{ ($page - 1) * $paginate + count($events) }} of
             {{ $total_events }} results</span>
+        {{-- Pagination button --}}
         <div class="flex items-center gap-2">
-
             {{-- LEFT --}}
             <button wire:click="previousPage" wire:loading.attr="disabled" wire:target="previousPage"
                 @disabled($page <= 1)
@@ -180,7 +182,7 @@
                     ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                     : 'bg-white border border-gray-200 hover:bg-gray-100 text-gray-700 cursor-pointer' }}
             ">
-                ← Prev
+                ← <span class="hidden sm:block">Prev</span>
             </button>
 
             {{-- Page Indicator --}}
@@ -200,7 +202,7 @@
                     ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                     : 'bg-green-600 hover:bg-green-700 text-white cursor-pointer' }}
             ">
-                Next →
+                <span class="hidden sm:block">Next</span> →
             </button>
 
         </div>

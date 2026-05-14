@@ -45,6 +45,11 @@ class SystemEventTable extends Component
         ]);
     }
 
+    public function placeholder()
+    {
+        return view('components.placeholder.event-table-placeholder');
+    }
+
     public function previousPage()
     {
         $this->page -= 1;
