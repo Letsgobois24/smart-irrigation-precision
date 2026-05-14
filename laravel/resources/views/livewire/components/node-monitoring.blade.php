@@ -69,9 +69,9 @@
                     </div>
 
                     <!-- Detail Update -->
-                    <div class="mt-2 text-xs text-gray-400">
-                        Last update:
-                        {{ \Carbon\Carbon::parse($tree['time'])->format('d M Y H:i') }}
+                    <div class="mt-2 text-xs text-gray-400 flex flex-wrap gap-x-1">
+                        <span>Last update:</span>
+                        <span>{{ \Carbon\Carbon::parse($tree['time'])->format('d M Y H:i') }}</span>
                     </div>
                 </div>
             @endforeach
