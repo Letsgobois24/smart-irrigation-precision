@@ -55,9 +55,10 @@ class SystemEventTable extends Component
         $this->page += 1;
     }
 
-    public function resetPage()
+    public function applyDateRange(InfluxDBService $influx)
     {
         $this->page = 1;
+        $this->total_events = $this->getCountEvents($influx);
     }
 
     private function getEvents(InfluxDBService $influx)
