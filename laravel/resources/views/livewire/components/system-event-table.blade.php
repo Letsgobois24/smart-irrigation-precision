@@ -22,7 +22,7 @@
             transition
         ">
         {{-- Loading --}}
-        <div wire:loading='getEvents' class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
+        <div wire:loading wire:target='resetPage' class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
             <x-icons.loading size='16' class="text-gray-500" />
         </div>
     </div>
@@ -184,8 +184,8 @@
 
             {{-- Page Indicator --}}
             <div class="w-16 h-4 inline-flex justify-center items-center text-sm text-gray-500 font-medium">
-                <span wire:loading.remove='page'>Page {{ $page }}</span>
-                <x-icons.loading size='20' wire:loading='nextPage, previousPage' />
+                <span wire:loading.remove wire:target='nextPage, previousPage'>Page {{ $page }}</span>
+                <x-icons.loading size='20' wire:loading wire:target='nextPage, previousPage' />
             </div>
 
             {{-- RIGHT --}}

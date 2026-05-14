@@ -18,6 +18,7 @@ export default function dateRange(ref, wire, enableDateRange) {
                 );
                 wire.set('startDate', startDate);
                 wire.set('endDate', endDate);
+                wire.resetPage();
             }
         }
     })

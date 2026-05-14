@@ -9,13 +9,15 @@ use Livewire\Component;
 class SystemEventTable extends Component
 {
     public int $page = 1;
-    public bool $isLast = false;
     public int $paginate = 5;
+
+    public bool $isLast = false;
 
     public string $startDate = '';
     public string $endDate = '';
 
     public array $enableDateRange;
+    public int $total_events;
 
     public function mount(InfluxDBService $influx)
     {
@@ -29,17 +31,17 @@ class SystemEventTable extends Component
             'from' => Carbon::parse($from)->format('Y-m-d'),
             'to' => Carbon::parse($to)->format('Y-m-d')
         ];
+
+        $this->total_events = $this->getCountEvents($influx);
     }
 
     public function render(InfluxDBService $influx)
     {
         $events = $this->getEvents($influx);
-
-        $this->isLast = count($events) <= $this->paginate;
+        $this->isLast = ($this->page - 1) * $this->paginate + count($events) == $this->total_events;
 
         return view('livewire.components.system-event-table', [
-            'events' => array_slice($events->toArray(), 0, $this->paginate),
-            'total_events' => $this->getCountEvents($influx)
+            'events' => $events,
         ]);
     }
 
@@ -53,10 +55,15 @@ class SystemEventTable extends Component
         $this->page += 1;
     }
 
+    public function resetPage()
+    {
+        $this->page = 1;
+    }
+
     private function getEvents(InfluxDBService $influx)
     {
         $offset = ($this->page - 1) * $this->paginate;
-        $limit = $this->paginate + 1;
+        $limit = $this->paginate;
 
         $where = $this->buildWhereClause();
 
