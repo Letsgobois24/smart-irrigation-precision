@@ -23,7 +23,8 @@ function setLineOptionChart(data, seriesOptions, ylabel) {
             width: 2,
         },
         chart: {
-            type: 'line'
+            type: 'line',
+            height: 320
         },
         parsing: {
             x: 'time'
