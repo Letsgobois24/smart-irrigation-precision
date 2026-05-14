@@ -57,9 +57,9 @@
             @endforeach
         </div>
 
-        <div class="grid md:grid-cols-2 gap-6">
+        <div class="grid gap-6">
             <livewire:components.line-chart lazy field="soil_moisture" fieldName="Soil Moisture" table="node"
-                groupby='tree_id' xlabel='Tree' ylabel='%' />
+                groupby='tree_id' xlabel='Tree' ylabel='%' class="col-span-2" />
             <div class="bg-white rounded-2xl shadow p-4 sm:p-6 overflow-hidden">
 
                 {{-- Header --}}

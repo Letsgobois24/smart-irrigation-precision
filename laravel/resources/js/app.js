@@ -7,7 +7,6 @@ import lineChart from './line-chart';
 window.lineChart = lineChart;
 
 import flatpickr from "flatpickr";
-import "flatpickr/dist/flatpickr.min.css";
 window.flatpickr = flatpickr;
 
 function dateRange(wire, enableDateRange) {

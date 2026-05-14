@@ -1,9 +1,9 @@
 {{-- Table --}}
 <div>
-    <div x-data wire:ignore x-init="flatpickr($refs.range, dateRange($wire, @js($enableDateRange)))" class="mb-4">
+    <div x-data wire:ignore x-init="flatpickr($refs.range, dateRange($wire, @js($enableDateRange)))" class="mb-4 relative w-fit">
         <input x-ref="range" type="text" placeholder="Select date range"
             class="
-            w-full sm:w-54
+            w-full sm:w-64
             px-4 py-2
 
             bg-white
@@ -21,6 +21,10 @@
             hover:border-green-300
             transition
         ">
+        {{-- Loading --}}
+        <div wire:loading='getEvents' class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
+            <x-icons.loading size='16' class="text-gray-500" />
+        </div>
     </div>
     <div class="overflow-x-auto rounded-xl border border-gray-100">
         <table class="min-w-full text-sm text-left border-collapse">
@@ -179,8 +183,8 @@
             </button>
 
             {{-- Page Indicator --}}
-            <div class="px-3 py-2 text-sm text-gray-500 font-medium">
-                <span wire:loading.remove='nextPage, previousPage'>Page {{ $page }}</span>
+            <div class="w-16 h-4 inline-flex justify-center items-center text-sm text-gray-500 font-medium">
+                <span wire:loading.remove='page'>Page {{ $page }}</span>
                 <x-icons.loading size='20' wire:loading='nextPage, previousPage' />
             </div>
 
