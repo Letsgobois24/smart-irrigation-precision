@@ -5,28 +5,42 @@
 
     <div class="bg-white shadow rounded-xl p-6 px-4 sm:px-6">
 
-        <div class="flex flex-col sm:flex-row justify-between mb-4">
-            <h3 class="text-lg font-bold text-green-800 flex items-center gap-2">
-                🌱 Node 1
-            </h3>
-            <div class="flex flex-wrap justify-between sm:justify-start items-center gap-2">
-                <div class="flex items-center gap-1">
-                    {{-- Refresh button --}}
-                    <button wire:click='refresh' wire:loading.attr='disabled' wire:loading.class='cursor-wait'
-                        wire:loading.remove.class='cursor-pointer'
-                        class="ml-auto cursor-pointer hover:bg-gray-200 rounded-lg p-1.5">
-                        <x-icons.refresh size="24" wire:target='refresh' wire:loading.class='animate-spin' />
-                    </button>
-                    {{-- Last Update --}}
-                    <span class="text-sm text-gray-500">Last Update:
-                        {{ $node_data[0]['time']->diffForHumans() }}</span>
-                    {{-- Ambil data sekarang --}}
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+
+            <!-- Left -->
+            <div class="flex items-center gap-3">
+                <h3 class="text-lg font-bold text-green-800 flex items-center gap-2">
+                    🌱 Node 1
+                </h3>
+
+                <!-- Status -->
+                <div class="flex items-center gap-1 bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                    Online
                 </div>
-                {{-- Refresh data --}}
+            </div>
+
+            <!-- Right -->
+            <div class="flex items-center gap-2">
+
+                <!-- Refresh Monitoring -->
+                <div class="flex items-center gap-1">
+                    <button wire:click='refresh' wire:loading.attr='disabled' wire:loading.class='cursor-wait opacity-50'
+                        wire:loading.remove.class='cursor-pointer'
+                        class="hover:bg-gray-200 rounded-lg p-2 transition cursor-pointer flex items-center gap-x-2">
+
+                        <x-icons.refresh size="22" wire:target='refresh' wire:loading.class='animate-spin' />
+                        <span class="text-sm text-gray-500">Refresh</span>
+                    </button>
+                </div>
+
+                <!-- Fetch Data -->
                 <button wire:click="fetchNow" wire:loading.attr='disabled' wire:loading.class='cursor-wait opacity-50'
                     wire:loading.remove.class='cursor-pointer'
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg cursor-pointer text-sm shadow flex items-center gap-2">
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm shadow flex items-center gap-2 transition cursor-pointer">
+
                     <x-icons.refresh size="18" wire:loading.class="animate-spin" wire:target="fetchNow" />
+
                     Ambil Data
                 </button>
             </div>
@@ -52,6 +66,12 @@
                     <div class="flex items-center gap-1 mt-1">
                         ⚙️
                         <p class="text-xs text-green-600">Valve {{ $tree['valve'] ? 'ON' : 'OFF' }}</p>
+                    </div>
+
+                    <!-- Detail Update -->
+                    <div class="mt-2 text-xs text-gray-400">
+                        Last update:
+                        {{ \Carbon\Carbon::parse($tree['time'])->format('d M Y H:i') }}
                     </div>
                 </div>
             @endforeach
