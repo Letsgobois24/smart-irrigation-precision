@@ -71,7 +71,7 @@
                     <!-- Detail Update -->
                     <div class="mt-2 text-xs text-gray-400 flex flex-wrap gap-x-1">
                         <span>Last update:</span>
-                        <span>{{ \Carbon\Carbon::parse($tree['time'])->format('d M Y H:i') }}</span>
+                        <span>{{ smartTimeFormat($tree['time']) }}</span>
                     </div>
                 </div>
             @endforeach

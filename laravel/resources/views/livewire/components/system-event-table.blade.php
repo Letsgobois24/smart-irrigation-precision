@@ -39,9 +39,6 @@
                         Valve
                     </th>
                     <th class="px-4 py-3 font-semibold whitespace-nowrap">
-                        Time
-                    </th>
-                    <th class="px-4 py-3 font-semibold whitespace-nowrap">
                         Current Before
                     </th>
                     <th class="px-4 py-3 font-semibold whitespace-nowrap">
@@ -54,13 +51,16 @@
                         Moisture Before
                     </th>
                     <th class="px-4 py-3 font-semibold whitespace-nowrap">
-                        Moisture After
-                    </th>
-                    <th class="px-4 py-3 font-semibold whitespace-nowrap">
                         Duration
                     </th>
                     <th class="px-4 py-3 font-semibold whitespace-nowrap">
+                        Moisture After
+                    </th>
+                    <th class="px-4 py-3 font-semibold whitespace-nowrap">
                         Water Flow
+                    </th>
+                    <th class="px-4 py-3 font-semibold whitespace-nowrap">
+                        Time
                     </th>
                 </tr>
             </thead>
@@ -88,11 +88,6 @@
                                     OFF
                                 </span>
                             @endif
-                        </td>
-
-                        {{-- Time --}}
-                        <td class="px-4 py-3 text-gray-500 whitespace-nowrap">
-                            {{ $event['time']->diffForHumans() }}
                         </td>
 
                         {{-- Current Before --}}
@@ -125,6 +120,11 @@
                             </div>
                         </td>
 
+                        {{-- Duration --}}
+                        <td class="px-4 py-3 text-gray-700 font-medium">
+                            {{ $event['duration'] }} s
+                        </td>
+
                         {{-- Moisture After 10m --}}
                         <td class="px-4 py-3">
                             <div class="flex items-center gap-2">
@@ -140,16 +140,15 @@
                             </div>
                         </td>
 
-                        {{-- Duration --}}
-                        <td class="px-4 py-3 text-gray-700 font-medium">
-                            {{ $event['duration'] }} s
-                        </td>
-
                         {{-- Water Flow --}}
                         <td class="px-4 py-3">
                             <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded-lg text-xs font-semibold">
                                 {{ $event['water_flow'] }} L
                             </span>
+                        </td>
+                        {{-- Time --}}
+                        <td class="px-4 py-3 text-gray-500 whitespace-nowrap">
+                            {{ smartTimeFormat($event['time']) }}
                         </td>
                     </tr>
                 @empty
