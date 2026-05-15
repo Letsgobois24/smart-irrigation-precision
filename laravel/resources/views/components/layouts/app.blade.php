@@ -17,11 +17,18 @@
     <meta name="description" content="@yield('meta_description', 'Artikula adalah ruang baca digital berisi artikel berkualitas.')">
 </head>
 
-<body class="min-h-screen" x-data="{ isOpenSidebar: window.matchMedia('(min-width: 768px)').matches }">
-    <x-header.header />
+<body class="min-h-screen" x-data="{
+    isOpenSidebar: window.matchMedia('(min-width: 768px)').matches,
+    showFloatingHamburger: false,
+    handleScroll() {
+        this.showFloatingHamburger = window.scrollY > $refs.header.offsetHeight + 20
+    }
+
+}" @scroll.window.throttle.30ms="handleScroll">
+    <x-header.header x-ref="header" />
+    <x-header.floating-hamburger x-show="showFloatingHamburger && !isOpenSidebar" />
+
     <div class="flex-1">
-        <div x-show="isOpenSidebar" @click="isOpenSidebar = false"
-            class="left-0 right-0 bottom-0 top-0 bg-black/20 hidden sm:block lg:hidden fixed z-30"></div>
         <x-header.sidebar />
         <div :class="isOpenSidebar ? 'lg:ml-68' : 'lg:ml-0'">
             {{ $slot }}

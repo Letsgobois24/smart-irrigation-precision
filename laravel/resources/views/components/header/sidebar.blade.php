@@ -1,3 +1,7 @@
+{{-- Black Screen --}}
+<div x-show="isOpenSidebar" @click="isOpenSidebar = false"
+    class="left-0 right-0 bottom-0 top-0 bg-black/20 hidden sm:block lg:hidden fixed z-30"></div>
+
 {{-- Sidebar --}}
 <aside x-cloak x-show="isOpenSidebar" x-transition:enter="transition ease-out duration-300"
     x-transition:enter-start="opacity-50 -translate-x-full" x-transition:enter-end="opacity-100 translate-x-0"
@@ -5,10 +9,10 @@
     x-transition:leave-end="opacity-50 -translate-x-full"
     class="fixed block inset-y-0 left-0 z-40 w-full overflow-y-auto bg-white p-6 sm:w-68 sm:ring-1 sm:ring-gray-900/10">
     <button @click="isOpenSidebar = !isOpenSidebar" type="button"
-        class="-m-2.5 inline-flex hover:bg-green-100 transition cursor-pointer items-center justify-center rounded-full p-2 text-gray-100">
+        class="-m-2 inline-flex hover:bg-green-100 transition cursor-pointer items-center justify-center rounded-full p-2 text-gray-100">
         <x-icons.hamburger size="28" class="text-gray-900" />
     </button>
-    <a href="/" class="block w-fit mx-auto">
+    <a href="/" wire:navigate class="block w-fit mx-auto">
         <img src="{{ asset('img/person-logo.png') }}" alt="Logo Artikula" class="h-28 w-auto grayscale-50" />
     </a>
     <button type="button" @click="isOpenSidebar = false"
