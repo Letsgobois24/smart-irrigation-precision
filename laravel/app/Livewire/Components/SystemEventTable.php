@@ -62,7 +62,13 @@ class SystemEventTable extends Component
 
     public function applyDateRange(InfluxDBService $influx)
     {
-        $this->page = 1;
+        $this->reset('page');
+        $this->total_events = $this->getCountEvents($influx);
+    }
+
+    public function showAll(InfluxDBService $influx)
+    {
+        $this->reset('page', 'startDate', 'endDate');
         $this->total_events = $this->getCountEvents($influx);
     }
 

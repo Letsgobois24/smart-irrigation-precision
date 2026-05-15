@@ -1,7 +1,7 @@
 import flatpickr from 'flatpickr';
 
 export default function dateRange(ref, wire, enableDateRange) {
-    flatpickr(ref, {
+    return flatpickr(ref, {
         mode: 'range',
         dateFormat: 'Y-m-d',
         minDate: enableDateRange.from,
@@ -22,4 +22,5 @@ export default function dateRange(ref, wire, enableDateRange) {
             }
         }
     })
+
 }

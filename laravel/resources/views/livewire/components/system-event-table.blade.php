@@ -1,31 +1,84 @@
-<div>
-    {{-- Date range Input --}}
-    <div x-data wire:ignore x-init="$nextTick(() => dateRange($refs.range, $wire, @js($enableDateRange)))" class="mb-4 relative w-fit">
-        <input x-ref="range" type="text" placeholder="Select date range"
-            class="
-            w-full sm:w-64
-            px-4 py-2
+<main>
+    <div x-data="{ dateInput: null }"
+        class="
+        flex flex-col sm:flex-row
+        sm:items-center
+        gap-3
+        mb-4
+    ">
+        {{-- Date Range --}}
+        <div x-data wire:ignore x-init="$nextTick(() => dateInput = dateRange($refs.range, $wire, @js($enableDateRange)))" class="relative">
+            <input x-ref="range" type="text" placeholder="Filter irrigation data..."
+                class="
+                w-full sm:w-72
 
-            bg-white
-            border border-green-200
-            rounded-xl
+                pl-11 pr-10 py-2.5
 
-            text-sm text-gray-700
-            shadow-sm
+                bg-white/90
+                border border-emerald-200
+                rounded-2xl
 
-            focus:outline-none
-            focus:ring-2
-            focus:ring-green-500
-            focus:border-green-500
+                text-sm text-gray-700
+                placeholder:text-gray-400
 
-            hover:border-green-300
-            transition
-        ">
-        {{-- Loading --}}
-        <div wire:loading wire:target='applyDateRange'
-            class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
-            <x-icons.loading size='16' class="text-gray-500" />
+                shadow-sm
+                backdrop-blur-sm
+
+                focus:outline-none
+                focus:ring-2
+                focus:ring-emerald-500/30
+                focus:border-emerald-500
+
+                hover:border-emerald-300
+                transition-all
+            ">
+
+            {{-- Calendar Icon --}}
+            <div
+                class="
+                absolute left-4 top-1/2
+                -translate-y-1/2
+                text-emerald-600
+            ">
+                <x-icons.calendar size="18" />
+            </div>
+
+            {{-- Loading --}}
+            <div wire:loading wire:target="applyDateRange"
+                class="
+                pointer-events-none
+                absolute right-3 top-1/2
+                -translate-y-1/2
+            ">
+                <x-icons.loading size="16" class="text-gray-500" />
+            </div>
         </div>
+
+        {{-- Show All / Reset --}}
+        <button wire:click="showAll" @click='dateInput.clear()' type="button"
+            class="
+            inline-flex items-center justify-center
+            gap-2
+
+            px-4 py-2.5
+
+            rounded-2xl
+
+            bg-emerald-50
+            border border-emerald-200
+
+            text-sm font-medium text-emerald-700
+
+            hover:bg-emerald-100
+            hover:border-emerald-300
+
+            active:scale-[0.98]
+
+            transition-all cursor-pointer
+        ">
+            <x-icons.refresh wire:loading.class='animate-spin' wire:target='showAll' size="16" />
+            <span>Show All</span>
+        </button>
     </div>
     {{-- Table --}}
     <div class="overflow-x-auto rounded-xl border border-gray-100">
@@ -206,4 +259,4 @@
 
         </div>
     </div>
-</div>
+    </div>

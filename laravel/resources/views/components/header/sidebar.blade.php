@@ -9,7 +9,7 @@
     x-transition:leave-end="opacity-50 -translate-x-full"
     class="fixed block inset-y-0 left-0 z-40 w-full overflow-y-auto bg-white p-6 sm:w-68 sm:ring-1 sm:ring-gray-900/10">
     <button @click="isOpenSidebar = !isOpenSidebar" type="button"
-        class="-m-2 inline-flex hover:bg-green-100 transition cursor-pointer items-center justify-center rounded-full p-2 text-gray-100">
+        class="-m-2.5 inline-flex hover:bg-green-100 transition cursor-pointer items-center justify-center rounded-full p-2 text-gray-100">
         <x-icons.hamburger size="28" class="text-gray-900" />
     </button>
     <a href="/" wire:navigate class="block w-fit mx-auto">

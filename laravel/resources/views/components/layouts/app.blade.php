@@ -28,7 +28,7 @@
     <x-header.header x-ref="header" />
     <x-header.floating-hamburger x-show="showFloatingHamburger && !isOpenSidebar" />
 
-    <div class="flex-1">
+    <div>
         <x-header.sidebar />
         <div :class="isOpenSidebar ? 'lg:ml-68' : 'lg:ml-0'">
             {{ $slot }}
