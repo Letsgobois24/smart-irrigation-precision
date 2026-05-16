@@ -8,7 +8,7 @@
                 {{ $fieldName }} changes over time
             </p>
         </div>
-        <x-form.select-time model="selectedPeriods" :data="$periods" />
+        <x-form.select model="selectedPeriods" :data="$periods" disabled_option='Select Time' />
 
     </div>
     @if ($data && count($data) > 0)

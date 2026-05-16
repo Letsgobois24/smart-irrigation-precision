@@ -54,6 +54,10 @@
             </div>
         </div>
 
+        {{-- Select Tree ID --}}
+        <x-form.select wire:change='refreshTotalEvents' model="selected_tree" :data="$trees_id"
+            disabled_option='Select Tree' />
+
         {{-- Show All / Reset --}}
         <button wire:click="showAll" @click='dateInput.clear()' type="button"
             class="
@@ -203,8 +207,8 @@
                             {{ $event['current_before'] }}
                         </td>
 
-                        <td class="px-4 py-3 font-medium text-blue-600">
-                            {{ $event['current_stable_duration'] }}
+                        <td class="px-4 py-3 font-medium text-blue-600 whitespace-nowrap">
+                            {{ $event['current_stable_duration'] }} s
                         </td>
 
                         {{-- Current Stable --}}

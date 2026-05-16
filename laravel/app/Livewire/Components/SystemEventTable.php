@@ -19,6 +19,16 @@ class SystemEventTable extends Component
     public array $enableDateRange;
     public int $total_events;
 
+    public null | int $selected_tree = null;
+
+    public array $trees_id = [
+        null => 'All',
+        1 => 1,
+        2 => 2,
+        3 => 3,
+        4 => 4,
+    ];
+
     public function mount(InfluxDBService $influx)
     {
         $query = "SELECT time FROM system_event ORDER BY time ASC LIMIT 1";
@@ -32,7 +42,7 @@ class SystemEventTable extends Component
             'to' => Carbon::parse($to)->format('Y-m-d')
         ];
 
-        $this->total_events = $this->getCountEvents($influx);
+        $this->refreshTotalEvents($influx);
     }
 
     public function render(InfluxDBService $influx)
@@ -63,12 +73,17 @@ class SystemEventTable extends Component
     public function applyDateRange(InfluxDBService $influx)
     {
         $this->reset('page');
-        $this->total_events = $this->getCountEvents($influx);
+        $this->refreshTotalEvents($influx);
     }
 
     public function showAll(InfluxDBService $influx)
     {
-        $this->reset('page', 'startDate', 'endDate');
+        $this->reset('page', 'startDate', 'endDate', 'selected_tree');
+        $this->refreshTotalEvents($influx);
+    }
+
+    public function refreshTotalEvents(InfluxDBService $influx)
+    {
         $this->total_events = $this->getCountEvents($influx);
     }
 
@@ -106,9 +121,11 @@ class SystemEventTable extends Component
 
     private function buildWhereClause(): string
     {
-        $conditions = [
-            "node_id=1"
-        ];
+        $conditions = ["node_id=1"];
+
+        if ($this->selected_tree) {
+            $conditions[] = "tree_id='$this->selected_tree'";
+        }
 
         if ($this->startDate && $this->endDate) {
             $startDateZulu = Carbon::parse($this->startDate)
