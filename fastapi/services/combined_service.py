@@ -12,18 +12,18 @@ def mqttSavePeriodData(data: dict):
     # Global data
     if(data['node_id'] == 'global'):
         data.pop('node_id')
-        is_anomaly = predictGlobalAnomaly()
-        if(is_anomaly):
-            notification_data.append(generate_notification('global'))
+        # is_anomaly = predictGlobalAnomaly()
+        # if(is_anomaly):
+        #     notification_data.append(generate_notification('global'))
 
         addGlobal(GlobalSchema(**data))
     else:
         # Node data
         notification_data = []
-        for tree in data['trees']:
-            is_anomaly = predictTreeAnomaly()
-            if(is_anomaly):
-                notification_data.append(generate_notification('pohon'))
+        # for tree in data['trees']:
+        #     is_anomaly = predictTreeAnomaly()
+        #     if(is_anomaly):
+        #         notification_data.append(generate_notification('pohon'))
 
         addNodeTree(NodeTree(**data))
     
