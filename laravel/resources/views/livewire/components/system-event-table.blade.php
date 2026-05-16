@@ -84,49 +84,92 @@
     <div class="overflow-x-auto rounded-xl border border-gray-100">
         <table class="min-w-full text-sm text-left border-collapse">
             <thead class="bg-green-50 text-green-800">
-                <tr>
-                    <th class="px-4 py-3 font-semibold whitespace-nowrap">
+
+                {{-- Group Header --}}
+                <tr class="border-b-2 border-green-200">
+
+                    <th rowspan="2"
+                        class="px-4 py-3 font-bold whitespace-nowrap align-middle text-center border-r border-green-200">
                         Tree
                     </th>
-                    <th class="px-4 py-3 font-semibold whitespace-nowrap">
+
+                    <th rowspan="2"
+                        class="px-4 py-3 font-bold whitespace-nowrap align-middle text-center border-r border-green-200">
                         Valve
                     </th>
-                    <th class="px-4 py-3 font-semibold whitespace-nowrap">
-                        Current Before
+
+                    {{-- Current Group --}}
+                    <th colspan="5"
+                        class="px-4 py-3 font-bold text-center border-r border-green-200 bg-green-100/50">
+                        ⚡ Current (mA)
                     </th>
-                    <th class="px-4 py-3 font-semibold whitespace-nowrap">
-                        Current Stable Duration
+
+                    {{-- Moisture Group --}}
+                    <th colspan="4" class="px-4 py-3 font-bold text-center border-r border-green-200 bg-blue-100/40">
+                        💧 Moisture
                     </th>
-                    <th class="px-4 py-3 font-semibold whitespace-nowrap">
-                        Current Stable
+
+                    {{-- Anomaly Group --}}
+                    <th colspan="2" class="px-4 py-3 font-bold text-center border-r border-green-200 bg-red-100/40">
+                        🚨 Anomaly
                     </th>
-                    <th class="px-4 py-3 font-semibold whitespace-nowrap">
-                        Current Delta
-                    </th>
-                    <th class="px-4 py-3 font-semibold whitespace-nowrap">
-                        Current Average
-                    </th>
-                    <th class="px-4 py-3 font-semibold whitespace-nowrap">
-                        Moisture Before
-                    </th>
-                    <th class="px-4 py-3 font-semibold whitespace-nowrap">
-                        Moisture Duration
-                    </th>
-                    <th class="px-4 py-3 font-semibold whitespace-nowrap">
-                        Moisture After
-                    </th>
-                    <th class="px-4 py-3 font-semibold whitespace-nowrap">
-                        Moisture Delta
-                    </th>
-                    <th class="px-4 py-3 font-semibold whitespace-nowrap">
-                        Anomaly Flag
-                    </th>
-                    <th class="px-4 py-3 font-semibold whitespace-nowrap">
-                        Anomaly Score
-                    </th>
-                    <th class="px-4 py-3 font-semibold whitespace-nowrap">
+
+                    <th rowspan="2" class="px-4 py-3 font-bold whitespace-nowrap align-middle text-center">
                         Time
                     </th>
+
+                </tr>
+
+                {{-- Sub Header --}}
+                <tr class="text-xs tracking-wide border-b border-green-100">
+
+                    {{-- Current --}}
+                    <th class="px-4 py-3 whitespace-nowrap">
+                        Before
+                    </th>
+
+                    <th class="px-4 py-3 whitespace-nowrap">
+                        Duration
+                    </th>
+
+                    <th class="px-4 py-3 whitespace-nowrap">
+                        Stable
+                    </th>
+
+                    <th class="px-4 py-3 whitespace-nowrap">
+                        Delta
+                    </th>
+
+                    <th class="px-4 py-3 whitespace-nowrap border-r border-green-200">
+                        Average
+                    </th>
+
+                    {{-- Moisture --}}
+                    <th class="px-4 py-3 whitespace-nowrap">
+                        Before
+                    </th>
+
+                    <th class="px-4 py-3 whitespace-nowrap">
+                        Duration
+                    </th>
+
+                    <th class="px-4 py-3 whitespace-nowrap">
+                        After
+                    </th>
+
+                    <th class="px-4 py-3 whitespace-nowrap border-r border-green-200">
+                        Delta
+                    </th>
+
+                    {{-- Anomaly --}}
+                    <th class="px-4 py-3 whitespace-nowrap">
+                        Flag
+                    </th>
+
+                    <th class="px-4 py-3 whitespace-nowrap border-r border-green-200">
+                        Score
+                    </th>
+
                 </tr>
             </thead>
 
@@ -136,14 +179,14 @@
                     <tr class="hover:bg-gray-50 transition">
 
                         {{-- Tree ID --}}
-                        <td class="px-4 py-3 flex justify-center">
+                        <td class="px-4 py-3 flex justify-center border-r border-green-200">
                             <span class="bg-green-100 text-green-700 px-2 py-1 rounded-lg text-xs font-semibold">
                                 {{ $event['tree_id'] }}
                             </span>
                         </td>
 
                         {{-- Valve --}}
-                        <td class="px-4 py-3">
+                        <td class="px-4 py-3 border-r border-green-200">
                             @if ($event['valve'])
                                 <span class="bg-green-100 text-green-700 px-2 py-1 rounded-lg text-xs font-semibold">
                                     ON
@@ -157,24 +200,24 @@
 
                         {{-- Current Before --}}
                         <td class="px-4 py-3 font-medium text-gray-700">
-                            {{ $event['current_before'] }} mA
+                            {{ $event['current_before'] }}
                         </td>
 
                         <td class="px-4 py-3 font-medium text-blue-600">
-                            {{ $event['current_stable_duration'] }} mA
+                            {{ $event['current_stable_duration'] }}
                         </td>
 
                         {{-- Current Stable --}}
                         <td class="px-4 py-3 font-medium text-gray-700">
-                            {{ $event['current_stable'] }} mA
+                            {{ $event['current_stable'] }}
                         </td>
 
                         <td class="px-4 py-3 font-medium text-gray-700">
-                            {{ $event['current_delta'] }} mA
+                            {{ $event['current_delta'] }}
                         </td>
 
-                        <td class="px-4 py-3 font-medium text-gray-700">
-                            {{ $event['current_avg'] }} mA
+                        <td class="px-4 py-3 font-medium text-gray-700 border-r border-green-200">
+                            {{ $event['current_avg'] }}
                         </td>
 
                         {{-- Moisture Before --}}
@@ -212,16 +255,16 @@
                             </div>
                         </td>
 
-                        <td class="px-4 py-3 font-medium text-gray-700">
-                            {{ $event['moisture_delta'] }} %
+                        <td class="px-4 py-3 font-medium text-gray-700 border-r border-green-200">
+                            {{ $event['moisture_delta'] }}%
                         </td>
 
                         <td class="px-4 py-3 font-medium text-gray-700">
                             {{ $event['anomaly_flag'] ? 'Anomaly' : 'Normal' }}
                         </td>
 
-                        <td class="px-4 py-3 font-medium text-gray-700">
-                            {{ $event['anomaly_score'] }}
+                        <td class="px-4 py-3 font-medium text-gray-700 border-r border-green-200">
+                            {{ $event['anomaly_score'] }}%
                         </td>
 
                         {{-- Time --}}

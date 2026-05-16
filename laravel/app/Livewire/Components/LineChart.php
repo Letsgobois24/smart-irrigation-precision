@@ -142,6 +142,7 @@ class LineChart extends Component
                     ROUND(AVG({$this->field}), 2) AS '{$this->xlabel}'
                 FROM {$this->table}
                 WHERE time >= now() - INTERVAL '{$this->selectedPeriods}'
+                    AND event_source='periodic'
                 GROUP BY 1, {$this->groupby}
                 ORDER BY time, {$this->groupby}";
     }
