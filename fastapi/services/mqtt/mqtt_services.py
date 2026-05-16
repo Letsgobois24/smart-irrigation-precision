@@ -30,11 +30,13 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
 
     print(f"App Message: {msg.topic}")
     payload = json.loads(msg.payload)
+    print("Payload:", payload)
 
     # Action
     try:
         if(action == 'period_data'):
             mqttSavePeriodData(data=payload)
+            return
         
         if(action == 'system_event'):
             addSystemEvent(data=(SystemEventSchema(**payload)))
@@ -49,8 +51,11 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
             request_id = payload['request_id']
             pending_request[request_id] = payload
             return
+        
+        print('masih berjalan')
 
     except Exception as e:
+        print('weli')
         print("Error:", e)
 
 def send_request(node_id: str, client: paho.Client) -> Tuple[str, int] :

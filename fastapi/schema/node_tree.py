@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Annotated, List
+from typing import Annotated, List, Literal
 import time
 
 class Tree(BaseModel):
@@ -16,4 +16,5 @@ class NodeTree(BaseModel):
             {"tree_id": 3, "soil_moisture": 39.8, "valve": 1},
             {"tree_id": 4, "soil_moisture": 41.0, "valve": 0}
         ])
+    event_source: Annotated[Literal['periodic', 'event'], Field(default='periodic', description='Source of the data')]
 
