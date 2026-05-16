@@ -79,6 +79,8 @@
             active:scale-[0.98]
 
             transition-all cursor-pointer
+
+            whitespace-nowrap
         ">
             <x-icons.refresh wire:loading.class='animate-spin' wire:target='showAll' size="16" />
             <span>Show All</span>

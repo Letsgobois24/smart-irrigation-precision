@@ -1,37 +1,3 @@
-@props(['tree'])
-
-@php
-    /**
-     * Kondisi smart irrigation alpukat
-     * < 30   = Kering / Critical
-     * 30-70  = Normal
-     * > 70   = Terlalu basah
-     */
-    $moisture = $tree['soil_moisture'];
-
-    $isDry = $moisture < 30;
-    $isWet = $moisture > 70;
-    $isNormal = !$isDry && !$isWet;
-
-    $cardClass = match (true) {
-        $isDry => 'bg-red-50 border border-red-200',
-        $isWet => 'bg-yellow-50 border border-yellow-200',
-        default => 'bg-green-50 border border-green-200',
-    };
-
-    $badgeClass = match (true) {
-        $isDry => 'bg-red-100 text-red-700',
-        $isWet => 'bg-yellow-100 text-yellow-700',
-        default => 'bg-green-100 text-green-700',
-    };
-
-    $statusText = match (true) {
-        $isDry => 'Soil Dry',
-        $isWet => 'Too Wet',
-        default => 'Optimal',
-    };
-@endphp
-
 <div class="{{ $cardClass }} p-3 rounded-xl transition-all duration-300">
     <!-- Header -->
     <div class="flex items-center justify-between mb-2">
