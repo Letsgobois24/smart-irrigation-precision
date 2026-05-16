@@ -2,7 +2,7 @@
     <div x-data="{ dateInput: null }"
         class="
         flex flex-col sm:flex-row
-        sm:items-center
+        sm:items-stretch
         gap-3
         mb-4
     ">

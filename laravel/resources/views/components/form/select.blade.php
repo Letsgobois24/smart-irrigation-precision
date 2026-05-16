@@ -3,9 +3,9 @@
 <div class="relative">
     <select {{ $attributes }} wire:model.change="{{ $model }}"
         class="appearance-none bg-white border border-gray-200 text-sm font-medium text-gray-700
-               rounded-xl px-4 py-2 pr-10 shadow-sm
+               rounded-2xl px-4 py-2 pr-10 shadow-sm
                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-               hover:border-gray-300 transition cursor-pointer w-full">
+               hover:border-gray-300 transition cursor-pointer w-full h-full">
 
         <option disabled>{{ $disabled_option }}</option>
         @foreach ($data as $key => $value)
