@@ -10,10 +10,7 @@ use Throwable;
 
 class GlobalMonitoring extends Component
 {
-    public int $ph;
-    public float $water_flow;
-    public bool $main_valve;
-    public $time;
+    public array $data;
 
     public function mount(InfluxDBService $influx)
     {
@@ -59,10 +56,6 @@ class GlobalMonitoring extends Component
                 WHERE time <= now() + INTERVAL '7 hours'
                 ORDER BY TIME DESC 
                 LIMIT 1";
-        $data = $influx->query($query)->convertTimezone()->get()[0];
-        $this->ph = $data['ph'];
-        $this->water_flow = $data['water_flow'];
-        $this->main_valve = $data['main_valve'];
-        $this->time = $data['time'];
+        $this->data = $influx->query($query)->convertTimezone()->get()[0];
     }
 }

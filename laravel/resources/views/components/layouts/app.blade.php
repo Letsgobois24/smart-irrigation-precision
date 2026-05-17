@@ -30,7 +30,7 @@
 
     <div>
         <x-header.sidebar />
-        <div :class="isOpenSidebar ? 'lg:ml-68' : 'lg:ml-0'">
+        <div :class="isOpenSidebar ? 'lg:ml-54' : 'lg:ml-0'">
             {{ $slot }}
         </div>
     </div>

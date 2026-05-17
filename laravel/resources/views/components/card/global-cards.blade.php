@@ -1,0 +1,153 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+
+    <!-- PH -->
+    <div
+        class="rounded-2xl border shadow-sm p-4 transition
+        {{ $phNormal ? 'bg-emerald-50 border-emerald-100' : 'bg-red-50 border-red-100' }}">
+
+        <div class="flex justify-between items-start mb-3">
+
+            <div class="flex items-center gap-3">
+                <div
+                    class="p-2 rounded-xl
+                    {{ $phNormal ? 'bg-white text-emerald-600' : 'bg-white text-red-500' }}">
+                    <x-icons.ph size="28" />
+                </div>
+
+                <div>
+                    <p class="text-sm text-gray-500">
+                        pH Air
+                    </p>
+
+                    <h3
+                        class="text-2xl font-bold
+                        {{ $phNormal ? 'text-emerald-700' : 'text-red-600' }}">
+                        {{ $ph }}
+                    </h3>
+                </div>
+            </div>
+
+            <span
+                class="text-xs px-2 py-1 rounded-full font-medium
+                {{ $phNormal ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700' }}">
+
+                {{ $phNormal ? 'Normal' : 'Tidak Normal' }}
+            </span>
+        </div>
+
+        <p class="text-xs text-gray-600">
+            {{ $phNormal ? 'Kondisi pH optimal untuk irigasi.' : 'pH berada di luar batas ideal tanaman.' }}
+        </p>
+    </div>
+
+    <!-- WATER FLOW -->
+    <div
+        class="rounded-2xl border shadow-sm p-4 transition
+        {{ $flowNormal ? 'bg-sky-50 border-sky-100' : 'bg-yellow-50 border-yellow-100' }}">
+
+        <div class="flex justify-between items-start mb-3">
+
+            <div class="flex items-center gap-3">
+                <div
+                    class="p-2 rounded-xl
+                    {{ $flowNormal ? 'bg-white text-sky-600' : 'bg-white text-yellow-600' }}">
+                    <x-icons.water-flow size="24" />
+                </div>
+
+                <div>
+                    <p class="text-sm text-gray-500">
+                        Water Flow
+                    </p>
+
+                    <h3
+                        class="text-2xl font-bold
+                        {{ $flowNormal ? 'text-sky-700' : 'text-yellow-700' }}">
+                        {{ $water_flow }}
+                        <span class="text-lg">L/min</span>
+                    </h3>
+                </div>
+            </div>
+
+            <span
+                class="text-xs px-2 py-1 rounded-full font-medium
+                {{ $flowNormal ? 'bg-sky-100 text-sky-700' : 'bg-yellow-100 text-yellow-700' }}">
+
+                {{ $flowNormal ? 'Flow' : 'Idle' }}
+            </span>
+        </div>
+
+        <p class="text-xs text-gray-600">
+            {{ $flowNormal ? 'Distribusi air berjalan normal.' : 'Tidak ada aliran air terdeteksi.' }}
+        </p>
+    </div>
+
+    <!-- MAIN VALVE -->
+    <div
+        class="rounded-2xl border shadow-sm p-4 transition
+        {{ $main_valve ? 'bg-emerald-50 border-emerald-100' : 'bg-gray-50 border-gray-200' }}">
+
+        <div class="flex justify-between items-start mb-3">
+
+            <div class="flex items-center gap-3">
+                <div
+                    class="p-2 rounded-xl
+                    {{ $main_valve ? 'bg-white text-emerald-600' : 'bg-white text-gray-500' }}">
+                    <x-icons.valve-off size="28" />
+                </div>
+
+                <div>
+                    <p class="text-sm text-gray-500">
+                        Valve
+                    </p>
+
+                    <h3
+                        class="text-xl font-bold
+                        {{ $main_valve ? 'text-emerald-700' : 'text-gray-700' }}">
+
+                        {{ $main_valve ? 'Aktif' : 'Non Aktif' }}
+                    </h3>
+                </div>
+            </div>
+
+            <span
+                class="text-xs px-2 py-1 rounded-full font-medium
+                {{ $main_valve ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-200 text-gray-700' }}">
+
+                {{ $main_valve ? 'ON' : 'OFF' }}
+            </span>
+        </div>
+
+        <p class="text-xs text-gray-600">
+            {{ $main_valve ? 'Katup utama sedang membuka aliran.' : 'Katup utama sedang tertutup.' }}
+        </p>
+    </div>
+
+    <!-- LAST UPDATE -->
+    <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
+
+        <div class="flex justify-between items-start mb-3">
+
+            <div class="flex items-center gap-3">
+                <div class="p-2 rounded-xl bg-gray-100 text-gray-600">
+                    <x-icons.clock size="26" />
+                </div>
+
+                <div>
+                    <p class="text-sm text-gray-500">
+                        Last Update
+                    </p>
+
+                    <h3 class="text-lg font-bold text-gray-800">
+                        {{ $time->diffForHumans() }}
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2 text-xs text-gray-500">
+            <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+            Sistem monitoring aktif
+        </div>
+    </div>
+
+</div>
