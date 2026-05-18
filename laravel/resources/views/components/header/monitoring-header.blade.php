@@ -5,7 +5,7 @@
 
     <!-- LEFT -->
     <div class="flex items-center justify-between gap-4">
-        <div class="flex items-center gap-3">
+        <div class="flex flex-col sm:flex-row w-full items-center gap-3">
             <!-- Node Icon -->
             <div
                 class="w-11 h-11 rounded-xl bg-linear-to-br from-green-500 to-emerald-600 text-white flex items-center justify-center shadow-md">
@@ -14,8 +14,8 @@
 
             <!-- Node Info -->
             <div>
-                <div class="flex items-center gap-2">
-                    <h3 class="text-lg font-bold text-gray-800">
+                <div class="flex items-center justify-center sm:justify-start gap-2">
+                    <h3 class="text-lg font-bold text-gray-800 sm:text-left text-center">
                         {{ $title }}
                     </h3>
                     <!-- Badge -->
@@ -23,7 +23,7 @@
                         {{ $badge }}
                     @endisset
                 </div>
-                <p class="text-sm text-gray-500">
+                <p class="text-sm text-gray-500 w-full sm:text-left text-center">
                     {{ $description }}
                 </p>
             </div>
