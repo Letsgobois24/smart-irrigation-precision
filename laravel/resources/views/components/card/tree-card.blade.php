@@ -8,9 +8,9 @@
             </p>
         </div>
 
-        <span class="text-[10px] px-2 py-1 rounded-full font-medium {{ $badgeClass }}">
+        <x-ui.badge :color="$badgeColor">
             {{ $statusText }}
-        </span>
+        </x-ui.badge>
     </div>
 
     <!-- Moisture -->

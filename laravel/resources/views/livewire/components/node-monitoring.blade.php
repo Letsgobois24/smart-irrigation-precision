@@ -5,14 +5,14 @@
 
     {{-- Node Header --}}
     <div class="bg-white shadow rounded-xl p-6 px-4 sm:px-6">
+        {{-- Monitoring Header --}}
         <x-header.monitoring-header icon='🌱' title="Node 1"
             description='Ringkasan kondisi beberapa pohon dari node 1'>
             <x-slot:badge>
-                <div
-                    class="flex items-center gap-1 bg-emerald-100 text-emerald-700 text-xs font-medium px-2.5 py-1 rounded-full border border-emerald-200">
+                <x-ui.badge size='md' color='emerald' class="flex items-center gap-1 border border-emerald-200">
                     <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
                     Online
-                </div>
+                </x-ui.badge>
             </x-slot:badge>
         </x-header.monitoring-header>
 

@@ -27,12 +27,9 @@
                 </div>
             </div>
 
-            <span
-                class="text-xs px-2 py-1 rounded-full font-medium
-                {{ $phNormal ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700' }}">
-
+            <x-ui.badge :color="$phNormal ? 'emerald' : 'red'" size='md'>
                 {{ $phNormal ? 'Normal' : 'Tidak Normal' }}
-            </span>
+            </x-ui.badge>
         </div>
 
         <p class="text-xs text-gray-600">
@@ -49,8 +46,8 @@
 
             <div class="flex items-center gap-3">
                 <div
-                    class="p-2 rounded-xl
-                    {{ $flowNormal ? 'bg-white text-sky-600' : 'bg-white text-yellow-600' }}">
+                    class="p-2 rounded-xl bg-white
+                    {{ $flowNormal ? 'text-blue-600' : 'text-yellow-600' }}">
                     <x-icons.water-flow size="24" />
                 </div>
 
@@ -61,19 +58,16 @@
 
                     <h3
                         class="text-2xl font-bold
-                        {{ $flowNormal ? 'text-sky-700' : 'text-yellow-700' }}">
+                        {{ $flowNormal ? 'text-blue-700' : 'text-yellow-700' }}">
                         {{ $water_flow }}
                         <span class="text-lg">L/min</span>
                     </h3>
                 </div>
             </div>
 
-            <span
-                class="text-xs px-2 py-1 rounded-full font-medium
-                {{ $flowNormal ? 'bg-sky-100 text-sky-700' : 'bg-yellow-100 text-yellow-700' }}">
-
+            <x-ui.badge :color="$flowNormal ? 'blue' : 'yellow'" size='md'>
                 {{ $flowNormal ? 'Flow' : 'Idle' }}
-            </span>
+            </x-ui.badge>
         </div>
 
         <p class="text-xs text-gray-600">
@@ -109,12 +103,9 @@
                 </div>
             </div>
 
-            <span
-                class="text-xs px-2 py-1 rounded-full font-medium
-                {{ $main_valve ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-200 text-gray-700' }}">
-
+            <x-ui.badge :color="$main_valve ? 'emerald' : 'gray'" size='md'>
                 {{ $main_valve ? 'ON' : 'OFF' }}
-            </span>
+            </x-ui.badge>
         </div>
 
         <p class="text-xs text-gray-600">

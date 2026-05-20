@@ -46,12 +46,12 @@ class TreeCard extends Component
         };
     }
 
-    public function badgeClass()
+    public function badgeColor()
     {
         return match (true) {
-            $this->isDry => 'bg-red-100 text-red-700',
-            $this->isWet => 'bg-yellow-100 text-yellow-700',
-            default => 'bg-green-100 text-green-700',
+            $this->isDry => 'red',
+            $this->isWet => 'yellow',
+            default => 'green',
         };
     }
 

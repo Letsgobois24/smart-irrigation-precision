@@ -182,6 +182,40 @@
             <tbody class="divide-y divide-gray-100">
 
                 @forelse ($events as $event)
+                    @php
+                        /*
+            |--------------------------------------------------------------------------
+            | Current State
+            |--------------------------------------------------------------------------
+            */
+                        $currentStable = $event['current_stable'];
+                        $currentDelta = $event['current_delta'];
+
+                        $isCurrentFlowing = $currentStable > 0;
+
+                        /*
+            |--------------------------------------------------------------------------
+            | Moisture Status
+            |--------------------------------------------------------------------------
+            | < 30   = Dry
+            | 30-70  = Normal
+            | > 70   = Too Wet
+            */
+                        $moistureBefore = $event['moisture_before'];
+                        $moistureAfter = $event['moisture_after'];
+
+                        $beforeStatus = $moistureBefore < 30 ? 'dry' : ($moistureBefore > 70 ? 'wet' : 'normal');
+
+                        $afterStatus = $moistureAfter < 30 ? 'dry' : ($moistureAfter > 70 ? 'wet' : 'normal');
+
+                        /*
+            |--------------------------------------------------------------------------
+            | Anomaly
+            |--------------------------------------------------------------------------
+            */
+                        $isAnomaly = $event['anomaly_flag'];
+                    @endphp
+
                     <tr class="hover:bg-gray-50 transition">
 
                         {{-- Tree ID --}}
@@ -209,39 +243,67 @@
                             {{ $event['current_before'] }}
                         </td>
 
+                        {{-- Duration --}}
                         <td class="px-4 py-3 font-medium text-blue-600 whitespace-nowrap">
                             {{ $event['current_stable_duration'] }} s
                         </td>
 
                         {{-- Current Stable --}}
-                        <td class="px-4 py-3 font-medium text-gray-700">
-                            {{ $event['current_stable'] }}
+                        <td class="px-4 py-3">
+                            <span
+                                class="px-2 py-1 rounded-lg text-xs font-semibold
+                    {{ $isCurrentFlowing ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-500' }}">
+                                {{ $event['current_stable'] }}
+                            </span>
                         </td>
 
-                        <td class="px-4 py-3 font-medium text-gray-700">
-                            {{ $event['current_delta'] }}
+                        {{-- Current Delta --}}
+                        <td class="px-4 py-3">
+                            <span
+                                class="px-2 py-1 rounded-lg text-xs font-semibold
+                    {{ $currentDelta > 0
+                        ? 'bg-green-100 text-green-700'
+                        : ($currentDelta < 0
+                            ? 'bg-red-100 text-red-700'
+                            : 'bg-gray-100 text-gray-600') }}">
+                                {{ $currentDelta }}
+                            </span>
                         </td>
 
-                        <td class="px-4 py-3 font-medium text-gray-700 border-r border-green-200">
-                            {{ $event['current_avg'] }}
+                        {{-- Current Average --}}
+                        <td class="px-4 py-3 border-r border-green-200">
+                            <span
+                                class="px-2 py-1 rounded-lg text-xs font-semibold
+                    {{ $isCurrentFlowing ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500' }}">
+                                {{ $event['current_avg'] }}
+                            </span>
                         </td>
 
                         {{-- Moisture Before --}}
                         <td class="px-4 py-3">
                             <div class="flex items-center gap-2">
-                                <div class="w-16 bg-gray-200 rounded-full h-2">
-                                    <div class="bg-orange-500 h-2 rounded-full"
-                                        style="width: {{ $event['moisture_before'] }}%">
+
+                                <div class="w-16 bg-gray-200 rounded-full h-2 overflow-hidden">
+                                    <div class="h-2 rounded-full
+                            {{ $beforeStatus === 'dry' ? 'bg-orange-500' : ($beforeStatus === 'wet' ? 'bg-blue-500' : 'bg-green-500') }}"
+                                        style="width: {{ $moistureBefore }}%">
                                     </div>
                                 </div>
 
-                                <span class="text-xs font-semibold text-gray-700">
-                                    {{ $event['moisture_before'] }}%
+                                <span
+                                    class="text-xs font-semibold px-2 py-1 rounded-lg
+                        {{ $beforeStatus === 'dry'
+                            ? 'bg-orange-100 text-orange-700'
+                            : ($beforeStatus === 'wet'
+                                ? 'bg-blue-100 text-blue-700'
+                                : 'bg-green-100 text-green-700') }}">
+                                    {{ $moistureBefore }}%
                                 </span>
+
                             </div>
                         </td>
 
-                        {{-- Duration --}}
+                        {{-- Moisture Duration --}}
                         <td class="px-4 py-3 text-gray-700 font-medium">
                             {{ $event['moisture_duration'] }} s
                         </td>
@@ -249,38 +311,77 @@
                         {{-- Moisture After --}}
                         <td class="px-4 py-3">
                             <div class="flex items-center gap-2">
-                                <div class="w-16 bg-gray-200 rounded-full h-2">
-                                    <div class="bg-green-500 h-2 rounded-full"
-                                        style="width: {{ $event['moisture_after'] }}%">
+
+                                <div class="w-16 bg-gray-200 rounded-full h-2 overflow-hidden">
+                                    <div class="h-2 rounded-full
+                            {{ $afterStatus === 'dry' ? 'bg-orange-500' : ($afterStatus === 'wet' ? 'bg-blue-500' : 'bg-green-500') }}"
+                                        style="width: {{ $moistureAfter }}%">
                                     </div>
                                 </div>
 
-                                <span class="text-xs font-semibold text-gray-700">
-                                    {{ $event['moisture_after'] }}%
+                                <span
+                                    class="text-xs font-semibold px-2 py-1 rounded-lg
+                        {{ $afterStatus === 'dry'
+                            ? 'bg-orange-100 text-orange-700'
+                            : ($afterStatus === 'wet'
+                                ? 'bg-blue-100 text-blue-700'
+                                : 'bg-green-100 text-green-700') }}">
+                                    {{ $moistureAfter }}%
                                 </span>
+
                             </div>
                         </td>
 
-                        <td class="px-4 py-3 font-medium text-gray-700 border-r border-green-200">
-                            {{ $event['moisture_delta'] }}%
+                        {{-- Moisture Delta --}}
+                        <td class="px-4 py-3 border-r border-green-200">
+                            <span
+                                class="px-2 py-1 rounded-lg text-xs font-semibold
+                    {{ $event['moisture_delta'] > 0
+                        ? 'bg-green-100 text-green-700'
+                        : ($event['moisture_delta'] < 0
+                            ? 'bg-red-100 text-red-700'
+                            : 'bg-gray-100 text-gray-600') }}">
+                                {{ $event['moisture_delta'] }}%
+                            </span>
                         </td>
 
-                        <td class="px-4 py-3 font-medium text-gray-700">
-                            {{ $event['anomaly_flag'] ? 'Anomaly' : 'Normal' }}
+                        {{-- Anomaly Flag --}}
+                        <td class="px-4 py-3">
+                            @if ($isAnomaly)
+                                <span class="bg-red-100 text-red-700 px-2 py-1 rounded-lg text-xs font-semibold">
+                                    🚨 Anomaly
+                                </span>
+                            @else
+                                <span
+                                    class="bg-emerald-100 text-emerald-700 px-2 py-1 rounded-lg text-xs font-semibold">
+                                    ✅ Normal
+                                </span>
+                            @endif
                         </td>
 
-                        <td class="px-4 py-3 font-medium text-gray-700 border-r border-green-200">
-                            {{ $event['anomaly_score'] }}%
+                        {{-- Anomaly Score --}}
+                        <td class="px-4 py-3 border-r border-green-200">
+                            <span
+                                class="px-2 py-1 rounded-lg text-xs font-semibold
+                    {{ $event['anomaly_score'] >= 70
+                        ? 'bg-red-100 text-red-700'
+                        : ($event['anomaly_score'] >= 40
+                            ? 'bg-yellow-100 text-yellow-700'
+                            : 'bg-green-100 text-green-700') }}">
+                                {{ $event['anomaly_score'] }}%
+                            </span>
                         </td>
 
                         {{-- Time --}}
                         <td class="px-4 py-3 text-gray-500 whitespace-nowrap">
                             {{ smartTimeFormat($event['time']) }}
                         </td>
+
                     </tr>
+
                 @empty
                     <tr>
-                        <td colspan="9" class="text-center py-10 text-gray-400">
+                        <td colspan="14" class="text-center py-10 text-gray-400">
                             Tidak ada data system event
                         </td>
                     </tr>
