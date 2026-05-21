@@ -1,13 +1,13 @@
 <?php
 
+use App\Livewire\Pages\Energy;
 use App\Livewire\Pages\Home;
-use App\Livewire\Pages\Notification;
 use App\Models\Notification as ModelsNotification;
 use App\Services\InfluxDBService;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', Home::class);
-Route::get('/notification', Notification::class);
+Route::get('/energy', Energy::class);
 
 Route::get('/try', function () {
     $notifications = ModelsNotification::all();
