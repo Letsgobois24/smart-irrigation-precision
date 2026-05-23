@@ -2,16 +2,18 @@
 
 use App\Livewire\Pages\Energy;
 use App\Livewire\Pages\Home;
-use App\Models\Notification as ModelsNotification;
+use App\Livewire\Pages\Location;
+use App\Models\Tree;
 use App\Services\InfluxDBService;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', Home::class);
 Route::get('/energy', Energy::class);
+Route::get('/location', Location::class);
 
 Route::get('/try', function () {
-    $notifications = ModelsNotification::all();
-    dd($notifications);
+    $trees = Tree::all();
+    dd($trees);
 });
 
 
