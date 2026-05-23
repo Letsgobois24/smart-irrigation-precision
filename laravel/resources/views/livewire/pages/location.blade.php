@@ -48,7 +48,7 @@
                 <!-- Grid -->
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-medium opacity-80">
-                        {{ $tree['row_idx'] + $tree['col_idx'] }}
+                        {{ chr(64 + $tree['row_idx']) . $tree['col_idx'] }}
                     </span>
 
                     <span class="text-[10px] bg-white/20 px-2 py-1 rounded-full">
@@ -59,7 +59,7 @@
                 <!-- Moisture -->
                 <div class="mt-6">
                     <h2 class="text-3xl font-bold">
-                        {{ $tree['moisture'] }}%
+                        {{ $tree['soil_moisture'] }}%
                     </h2>
 
                     <p class="text-sm opacity-90">
@@ -70,7 +70,7 @@
                 <!-- Footer -->
                 <div class="mt-4 text-xs opacity-80">
                     Last update:
-                    {{ $tree['updated_at'] }}
+                    {{ $tree['time'] ? smartTimeFormat($tree['time']) : '-' }}
                 </div>
 
             </button>

@@ -15,7 +15,7 @@ class NodeMonitoring extends Component
     public function mount(InfluxDBService $influx)
     {
         try {
-            $this->node_data = $this->getData($influx);
+            $this->node_data = $this->getSensorData($influx);
         } catch (Throwable $e) {
             dump($e->getMessage());
         }
@@ -29,7 +29,7 @@ class NodeMonitoring extends Component
     public function refresh(InfluxDBService $influx)
     {
         try {
-            $this->node_data = $this->getData($influx);
+            $this->node_data = $this->getSensorData($influx);
             $this->dispatch("add-data.node");
             $this->dispatch('toast', type: 'success', message: 'Data Node 1 berhasil diperbarui');
         } catch (Throwable $e) {
@@ -45,7 +45,7 @@ class NodeMonitoring extends Component
             if ($response->failed()) {
                 throw new Exception(message: $message['detail'] ?? 'Unknown Error', code: $response->status());
             }
-            $this->node_data = $this->getData($influx);
+            $this->node_data = $this->getSensorData($influx);
             $this->dispatch("add-data.node");
             $this->dispatch('toast', type: $message['type'], message: $message['message']);
         } catch (Throwable $e) {
@@ -53,7 +53,7 @@ class NodeMonitoring extends Component
         }
     }
 
-    private function getData(InfluxDBService $influx)
+    private function getSensorData(InfluxDBService $influx)
     {
         $query = "SELECT 
             DISTINCT ON (tree_id) * FROM node

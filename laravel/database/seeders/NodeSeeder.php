@@ -21,7 +21,7 @@ class NodeSeeder extends Seeder
         $period = CarbonPeriod::create($start, '5 minutes', $end);
 
         foreach ($period as $date) {
-            for ($tree_id = 1; $tree_id <= 4; $tree_id++) {
+            for ($tree_id = 3; $tree_id <= 6; $tree_id++) {
                 $rows[] = [
                     'measurement' => 'node',
                     'tags' => [
