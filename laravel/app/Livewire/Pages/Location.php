@@ -8,6 +8,13 @@ use Livewire\Component;
 
 class Location extends Component
 {
+    public int $max_col = 0;
+
+    public function mount()
+    {
+        $this->max_col = Tree::max('col_idx');
+    }
+
     public function render(InfluxDBService $influx)
     {
         $trees = Tree::all();

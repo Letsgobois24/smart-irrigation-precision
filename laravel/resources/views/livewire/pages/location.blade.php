@@ -29,7 +29,7 @@
     </div>
 
     <!-- Heatmap Grid -->
-    <div class="grid grid-cols-4 gap-4">
+    <div dir="rtl" class="grid gap-4" style="grid-template-columns: repeat({{ $max_col }}, minmax(0, 1fr))">
 
         @foreach ($trees as $tree)
             @php
