@@ -5,6 +5,7 @@ namespace App\Livewire\Components;
 use App\Services\FastAPIServices;
 use App\Services\InfluxDBService;
 use Exception;
+use Illuminate\Http\Client\ConnectionException;
 use Livewire\Component;
 use Throwable;
 
@@ -48,6 +49,8 @@ class NodeMonitoring extends Component
             $this->node_data = $this->getSensorData($influx);
             $this->dispatch("add-data.node");
             $this->dispatch('toast', type: $message['type'], message: $message['message']);
+        } catch (ConnectionException) {
+            $this->dispatch('toast', type: 'danger', message: "Failed to connect server");
         } catch (Throwable $e) {
             $this->dispatch('toast', type: 'danger', message: $e->getMessage());
         }

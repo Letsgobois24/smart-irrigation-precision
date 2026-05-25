@@ -5,6 +5,7 @@ namespace App\Livewire\Components;
 use App\Models\Configuration;
 use App\Services\FastAPIServices;
 use Exception;
+use Illuminate\Http\Client\ConnectionException;
 use Livewire\Component;
 use Throwable;
 
@@ -43,6 +44,8 @@ class DashboardHeader extends Component
 
             $message = 'Sistem berhasil ' . ($this->system_active ? 'diaktifkan' : 'dimatikan');
             $this->dispatch('toast', type: 'success', message: $message);
+        } catch (ConnectionException) {
+            $this->dispatch('toast', type: 'danger', message: "Failed to connect server");
         } catch (Throwable $e) {
             $this->dispatch('toast', type: 'danger', message: $e->getMessage());
         }

@@ -5,6 +5,7 @@ namespace App\Livewire\Components;
 use App\Services\FastAPIServices;
 use App\Services\InfluxDBService;
 use Exception;
+use Illuminate\Http\Client\ConnectionException;
 use Livewire\Component;
 use Throwable;
 
@@ -44,7 +45,10 @@ class GlobalMonitoring extends Component
             $this->update($influx);
             $this->dispatch("add-data.global");
             $this->dispatch('toast', type: $message['type'], message: $message['message']);
+        } catch (ConnectionException) {
+            $this->dispatch('toast', type: 'danger', message: "Failed to connect server");
         } catch (Throwable $e) {
+            dump($e);
             $this->dispatch('toast', type: 'danger', message: $e->getMessage());
         }
     }

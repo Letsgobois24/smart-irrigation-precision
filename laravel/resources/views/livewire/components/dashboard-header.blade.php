@@ -10,7 +10,7 @@
 
         <!-- 🟢 Toggle Sistem -->
         <div class="flex items-center gap-2">
-            <span class="text-sm text-gray-600">Sistem</span>
+            <span class="text-sm text-gray-600">System</span>
 
             <button wire:click="toggleSystem" wire:loading.attr="disabled" wire:loading.class="cursor-wait"
                 wire:loading.remove.class="cursor-pointer"
@@ -27,7 +27,7 @@
 
                 <span wire:loading.remove wire:target="toggleSystem"
                     class="text-xs font-semibold 
-                    {{ $system_active ? 'text-green-600' : 'text-red-500' }}">
+                    {{ $system_active ? 'text-green-700' : 'text-red-700' }}">
                     {{ $system_active ? 'ON' : 'OFF' }}
                 </span>
             </div>
