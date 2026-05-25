@@ -197,9 +197,9 @@
             |--------------------------------------------------------------------------
             | Moisture Status
             |--------------------------------------------------------------------------
-            | < 30   = Dry
-            | 30-70  = Normal
-            | > 70   = Too Wet
+            | < 30   = Dry -> yellow
+            | 30-70  = Normal -> green
+            | > 70   = Too Wet -> blue
             */
                         $moistureBefore = $event['moisture_before'];
                         $moistureAfter = $event['moisture_after'];
@@ -220,63 +220,47 @@
 
                         {{-- Tree ID --}}
                         <td class="px-4 py-3 flex justify-center border-r border-green-200">
-                            <span class="bg-green-100 text-green-700 px-2 py-1 rounded-lg text-xs font-semibold">
+                            <x-ui.badge size='2' color="green">
                                 {{ $event['tree_id'] }}
-                            </span>
+                            </x-ui.badge>
                         </td>
 
                         {{-- Valve --}}
                         <td class="px-4 py-3 border-r border-green-200">
-                            @if ($event['valve'])
-                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded-lg text-xs font-semibold">
-                                    ON
-                                </span>
-                            @else
-                                <span class="bg-red-100 text-red-700 px-2 py-1 rounded-lg text-xs font-semibold">
-                                    OFF
-                                </span>
-                            @endif
+                            <x-ui.badge size='2' :color="$event['valve'] > 0 ? 'blue' : 'red'">
+                                {{ $event['valve'] ? 'ON' : 'OFF' }}
+                            </x-ui.badge>
                         </td>
 
                         {{-- Current Before --}}
-                        <td class="px-4 py-3 font-medium text-gray-700">
+                        <td
+                            class="px-4 py-3 font-medium {{ $event['current_before'] < 1 ? 'text-gray-700' : 'text-blue-700' }}">
                             {{ $event['current_before'] }}
                         </td>
 
                         {{-- Duration --}}
-                        <td class="px-4 py-3 font-medium text-blue-600 whitespace-nowrap">
+                        <td class="px-4 py-3 text-gray-700 font-medium whitespace-nowrap">
                             {{ $event['current_stable_duration'] }} s
                         </td>
 
                         {{-- Current Stable --}}
-                        <td class="px-4 py-3">
-                            <span
-                                class="px-2 py-1 rounded-lg text-xs font-semibold
-                    {{ $isCurrentFlowing ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-500' }}">
-                                {{ $event['current_stable'] }}
-                            </span>
+                        <td
+                            class="px-4 py-3 font-medium {{ $event['current_stable'] < 1 ? 'text-gray-700' : 'text-blue-700' }}">
+                            {{ $event['current_stable'] }}
                         </td>
 
                         {{-- Current Delta --}}
                         <td class="px-4 py-3">
-                            <span
-                                class="px-2 py-1 rounded-lg text-xs font-semibold
-                    {{ $currentDelta > 0
-                        ? 'bg-green-100 text-green-700'
-                        : ($currentDelta < 0
-                            ? 'bg-red-100 text-red-700'
-                            : 'bg-gray-100 text-gray-600') }}">
+                            <x-ui.badge size='2' :color="$currentDelta > 0 ? 'green' : 'red'">
                                 {{ $currentDelta }}
-                            </span>
+                            </x-ui.badge>
                         </td>
 
                         {{-- Current Average --}}
                         <td class="px-4 py-3 border-r border-green-200">
-                            <span
-                                class="px-2 py-1 rounded-lg text-xs font-semibold
-                    {{ $isCurrentFlowing ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500' }}">
+                            <x-ui.badge size='2' color="gray">
                                 {{ $event['current_avg'] }}
-                            </span>
+                            </x-ui.badge>
                         </td>
 
                         {{-- Moisture Before --}}
@@ -290,16 +274,9 @@
                                     </div>
                                 </div>
 
-                                <span
-                                    class="text-xs font-semibold px-2 py-1 rounded-lg
-                        {{ $beforeStatus === 'dry'
-                            ? 'bg-orange-100 text-orange-700'
-                            : ($beforeStatus === 'wet'
-                                ? 'bg-blue-100 text-blue-700'
-                                : 'bg-green-100 text-green-700') }}">
-                                    {{ $moistureBefore }}%
-                                </span>
-
+                                <x-ui.badge size='2' :color="$beforeStatus === 'dry' ? 'yellow' : ($beforeStatus === 'wet' ? 'blue' : 'green')">
+                                    {{ $event['moisture_before'] }}%
+                                </x-ui.badge>
                             </div>
                         </td>
 
@@ -319,57 +296,36 @@
                                     </div>
                                 </div>
 
-                                <span
-                                    class="text-xs font-semibold px-2 py-1 rounded-lg
-                        {{ $afterStatus === 'dry'
-                            ? 'bg-orange-100 text-orange-700'
-                            : ($afterStatus === 'wet'
-                                ? 'bg-blue-100 text-blue-700'
-                                : 'bg-green-100 text-green-700') }}">
-                                    {{ $moistureAfter }}%
-                                </span>
+                                <x-ui.badge size='2' :color="$afterStatus === 'dry' ? 'yellow' : ($afterStatus === 'wet' ? 'blue' : 'green')">
+                                    {{ $event['moisture_after'] }}%
+                                </x-ui.badge>
 
                             </div>
                         </td>
 
                         {{-- Moisture Delta --}}
                         <td class="px-4 py-3 border-r border-green-200">
-                            <span
-                                class="px-2 py-1 rounded-lg text-xs font-semibold
-                    {{ $event['moisture_delta'] > 0
-                        ? 'bg-green-100 text-green-700'
-                        : ($event['moisture_delta'] < 0
-                            ? 'bg-red-100 text-red-700'
-                            : 'bg-gray-100 text-gray-600') }}">
-                                {{ $event['moisture_delta'] }}%
-                            </span>
+                            <x-ui.badge size='2' :color="$event['moisture_delta'] > 0 ? 'green' : 'red'">
+                                {{ $event['moisture_delta'] }}
+                            </x-ui.badge>
                         </td>
 
                         {{-- Anomaly Flag --}}
                         <td class="px-4 py-3">
-                            @if ($isAnomaly)
-                                <span class="bg-red-100 text-red-700 px-2 py-1 rounded-lg text-xs font-semibold">
-                                    🚨 Anomaly
-                                </span>
-                            @else
-                                <span
-                                    class="bg-emerald-100 text-emerald-700 px-2 py-1 rounded-lg text-xs font-semibold">
-                                    ✅ Normal
-                                </span>
-                            @endif
+                            <x-ui.badge size='2' :color="$isAnomaly ? 'red' : 'green'">
+                                {{ $isAnomaly ? 'Anomaly' : 'Normal' }}
+                            </x-ui.badge>
                         </td>
 
                         {{-- Anomaly Score --}}
                         <td class="px-4 py-3 border-r border-green-200">
-                            <span
-                                class="px-2 py-1 rounded-lg text-xs font-semibold
-                    {{ $event['anomaly_score'] >= 70
-                        ? 'bg-red-100 text-red-700'
-                        : ($event['anomaly_score'] >= 40
-                            ? 'bg-yellow-100 text-yellow-700'
-                            : 'bg-green-100 text-green-700') }}">
+                            <x-ui.badge size='2' :color="$event['anomaly_score'] >= 70
+                                ? 'red'
+                                : ($event['anomaly_score'] >= 40
+                                    ? 'yellow'
+                                    : 'green')">
                                 {{ $event['anomaly_score'] }}%
-                            </span>
+                            </x-ui.badge>
                         </td>
 
                         {{-- Time --}}

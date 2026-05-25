@@ -18,9 +18,9 @@ class SystemEventSchema(BaseModel):
     @computed_field
     @property
     def current_delta(self) -> float:
-        return round(abs(self.current_stable - self.current_before), 2)
+        return round(self.current_stable - self.current_before, 2)
 
     @computed_field
     @property
     def moisture_delta(self) -> float:
-        return round(abs(self.moisture_after - self.moisture_before), 1)
+        return round(self.moisture_after - self.moisture_before, 1)

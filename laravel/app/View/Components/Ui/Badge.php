@@ -32,9 +32,9 @@ class Badge extends Component
     public function textClass()
     {
         return match ($this->size) {
-            'sm' => 'text-[10px]',
-            'md' => 'text-xs',
-            'lg' => 'text-sm',
+            '1' => 'text-[10px]',
+            '2' => 'text-xs',
+            '3' => 'text-sm',
             default => 'text-[10px]',
         };
     }
