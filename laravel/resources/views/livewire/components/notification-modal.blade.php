@@ -44,7 +44,10 @@
                 <div class="w-full md:w-1/3 border-r overflow-y-auto"
                     x-show="view === 'list' || window.innerWidth >= 768">
                     <div class="flex justify-between items-center p-4 border-b">
-                        <h2 class="font-semibold">🔔 Notifikasi</h2>
+                        <div class="flex gap-x-2 items-center">
+                            <x-icons.bell size='22' class="text-yellow-500" />
+                            <h2 class="font-semibold">Notifikasi</h2>
+                        </div>
 
                         <!-- CLOSE -->
                         <button @click="isOpenNotification = false"
