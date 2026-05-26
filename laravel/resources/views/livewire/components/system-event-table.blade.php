@@ -89,7 +89,7 @@
     {{-- Table --}}
     <div class="overflow-x-auto rounded-xl border border-gray-100">
         <table class="min-w-full text-sm text-left border-collapse">
-            <thead class="bg-green-50 text-green-800">
+            <thead class="bg-green-50 text-green-800 text-center">
 
                 {{-- Group Header --}}
                 <tr class="border-b-2 border-green-200">
@@ -111,16 +111,16 @@
                     </th>
 
                     {{-- Moisture Group --}}
-                    <th colspan="4" class="px-4 py-3 font-bold text-center border-r border-green-200 bg-blue-100/40">
+                    <th colspan="4" class="px-4 py-3 font-bold border-r border-green-200 bg-blue-100/40">
                         💧 Moisture
                     </th>
 
                     {{-- Anomaly Group --}}
-                    <th colspan="2" class="px-4 py-3 font-bold text-center border-r border-green-200 bg-red-100/40">
+                    <th colspan="2" class="px-4 py-3 font-bold border-r border-green-200 bg-red-100/40">
                         🚨 Anomaly
                     </th>
 
-                    <th rowspan="2" class="px-4 py-3 font-bold whitespace-nowrap align-middle text-center">
+                    <th rowspan="2" class="px-4 py-3 font-bold whitespace-nowrap align-middle">
                         Time
                     </th>
 
@@ -214,19 +214,20 @@
             |--------------------------------------------------------------------------
             */
                         $isAnomaly = $event['anomaly_flag'];
+
                     @endphp
 
-                    <tr class="hover:bg-gray-50 transition">
+                    <tr class="hover:bg-gray-50 transition font-mono">
 
                         {{-- Tree ID --}}
-                        <td class="px-4 py-3 flex justify-center border-r border-green-200">
+                        <td class="px-4 py-3 border-r border-green-200">
                             <x-ui.badge size='2' color="green">
                                 {{ $event['tree_id'] }}
                             </x-ui.badge>
                         </td>
 
                         {{-- Valve --}}
-                        <td class="px-4 py-3 border-r border-green-200">
+                        <td class="px-4 py-3 font-sans border-r border-green-200">
                             <x-ui.badge size='2' :color="$event['valve'] > 0 ? 'blue' : 'red'">
                                 {{ $event['valve'] ? 'ON' : 'OFF' }}
                             </x-ui.badge>
@@ -235,31 +236,31 @@
                         {{-- Current Before --}}
                         <td
                             class="px-4 py-3 font-medium {{ $event['current_before'] < 1 ? 'text-gray-700' : 'text-blue-700' }}">
-                            {{ $event['current_before'] }}
+                            {{ number_format($event['current_before'], 1) }}
                         </td>
 
                         {{-- Duration --}}
                         <td class="px-4 py-3 text-gray-700 font-medium whitespace-nowrap">
-                            {{ $event['current_stable_duration'] }} s
+                            {{ number_format($event['current_stable_duration'], 2) }} s
                         </td>
 
                         {{-- Current Stable --}}
                         <td
                             class="px-4 py-3 font-medium {{ $event['current_stable'] < 1 ? 'text-gray-700' : 'text-blue-700' }}">
-                            {{ $event['current_stable'] }}
+                            {{ number_format($event['current_stable'], 1) }}
                         </td>
 
                         {{-- Current Delta --}}
                         <td class="px-4 py-3">
                             <x-ui.badge size='2' :color="$currentDelta > 0 ? 'green' : 'red'">
-                                {{ $currentDelta }}
+                                {{ sprintf('%+.1f', number_format($currentDelta, 1)) }}
                             </x-ui.badge>
                         </td>
 
                         {{-- Current Average --}}
                         <td class="px-4 py-3 border-r border-green-200">
                             <x-ui.badge size='2' color="gray">
-                                {{ $event['current_avg'] }}
+                                {{ number_format($event['current_avg'], 1) }}
                             </x-ui.badge>
                         </td>
 
@@ -275,7 +276,7 @@
                                 </div>
 
                                 <x-ui.badge size='2' :color="$beforeStatus === 'dry' ? 'yellow' : ($beforeStatus === 'wet' ? 'blue' : 'green')">
-                                    {{ $event['moisture_before'] }}%
+                                    {{ number_format($event['moisture_before'], 1) }}%
                                 </x-ui.badge>
                             </div>
                         </td>
@@ -297,7 +298,7 @@
                                 </div>
 
                                 <x-ui.badge size='2' :color="$afterStatus === 'dry' ? 'yellow' : ($afterStatus === 'wet' ? 'blue' : 'green')">
-                                    {{ $event['moisture_after'] }}%
+                                    {{ number_format($event['moisture_after'], 1) }}%
                                 </x-ui.badge>
 
                             </div>
@@ -306,12 +307,12 @@
                         {{-- Moisture Delta --}}
                         <td class="px-4 py-3 border-r border-green-200">
                             <x-ui.badge size='2' :color="$event['moisture_delta'] > 0 ? 'green' : 'red'">
-                                {{ $event['moisture_delta'] }}
+                                {{ sprintf('%+.1f', number_format($event['moisture_delta'], 1)) }}%
                             </x-ui.badge>
                         </td>
 
                         {{-- Anomaly Flag --}}
-                        <td class="px-4 py-3">
+                        <td class="px-4 py-3 font-sans">
                             <x-ui.badge size='2' :color="$isAnomaly ? 'red' : 'green'">
                                 {{ $isAnomaly ? 'Anomaly' : 'Normal' }}
                             </x-ui.badge>
@@ -329,7 +330,7 @@
                         </td>
 
                         {{-- Time --}}
-                        <td class="px-4 py-3 text-gray-500 whitespace-nowrap">
+                        <td class="px-4 py-3 font-sans text-gray-500 whitespace-nowrap">
                             {{ smartTimeFormat($event['time']) }}
                         </td>
 
