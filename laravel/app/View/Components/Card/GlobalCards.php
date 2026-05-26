@@ -12,6 +12,8 @@ class GlobalCards extends Component
     public float $water_flow;
     public bool $main_valve;
     public \Carbon\Carbon $time;
+    public bool $flow_normal = false;
+    public bool $ph_normal = false;
 
     public function __construct(
         array $globalData
@@ -20,6 +22,9 @@ class GlobalCards extends Component
         $this->water_flow = $globalData['water_flow'];
         $this->main_valve = $globalData['main_valve'];
         $this->time = $globalData['time'];
+
+        $this->ph_normal = $this->ph >= 5.5 && $this->ph <= 7.5;
+        $this->flow_normal = $this->water_flow > 0;
     }
 
     /**
@@ -28,15 +33,5 @@ class GlobalCards extends Component
     public function render(): View|Closure|string
     {
         return view('components.card.global-cards');
-    }
-
-    public function phNormal()
-    {
-        return $this->ph >= 5.5 && $this->ph <= 7.5;
-    }
-
-    public function flowNormal()
-    {
-        return $this->water_flow > 0;
     }
 }

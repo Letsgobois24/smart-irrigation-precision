@@ -3,14 +3,14 @@
     <!-- PH -->
     <div
         class="rounded-2xl border shadow-sm p-4 transition
-        {{ $phNormal ? 'bg-emerald-50 border-emerald-100' : 'bg-red-50 border-red-100' }}">
+        {{ $ph_normal ? 'bg-emerald-50 border-emerald-100' : 'bg-red-50 border-red-100' }}">
 
         <div class="flex justify-between items-start mb-3">
 
             <div class="flex items-center gap-3">
                 <div
                     class="p-2 rounded-xl
-                    {{ $phNormal ? 'bg-white text-emerald-600' : 'bg-white text-red-500' }}">
+                    {{ $ph_normal ? 'bg-white text-emerald-600' : 'bg-white text-red-500' }}">
                     <x-icons.ph size="28" />
                 </div>
 
@@ -20,34 +20,34 @@
                     </p>
 
                     <h3
-                        class="text-2xl font-bold
-                        {{ $phNormal ? 'text-emerald-700' : 'text-red-600' }}">
+                        class="text-2xl font-bold font-mono
+                        {{ $ph_normal ? 'text-emerald-700' : 'text-red-600' }}">
                         {{ $ph }}
                     </h3>
                 </div>
             </div>
 
-            <x-ui.badge :color="$phNormal ? 'emerald' : 'red'" size='md'>
-                {{ $phNormal ? 'Normal' : 'Tidak Normal' }}
+            <x-ui.badge :color="$ph_normal ? 'emerald' : 'red'" size='md'>
+                {{ $ph_normal ? 'Normal' : 'Tidak Normal' }}
             </x-ui.badge>
         </div>
 
         <p class="text-xs text-gray-600">
-            {{ $phNormal ? 'Kondisi pH optimal untuk irigasi.' : 'pH berada di luar batas ideal tanaman.' }}
+            {{ $ph_normal ? 'Kondisi pH optimal untuk irigasi.' : 'pH berada di luar batas ideal tanaman.' }}
         </p>
     </div>
 
     <!-- WATER FLOW -->
     <div
         class="rounded-2xl border shadow-sm p-4 transition
-        {{ $flowNormal ? 'bg-sky-50 border-sky-100' : 'bg-yellow-50 border-yellow-100' }}">
+        {{ $flow_normal ? 'bg-sky-50 border-sky-100' : 'bg-yellow-50 border-yellow-100' }}">
 
         <div class="flex justify-between items-start mb-3">
 
             <div class="flex items-center gap-3">
                 <div
                     class="p-2 rounded-xl bg-white
-                    {{ $flowNormal ? 'text-blue-600' : 'text-yellow-600' }}">
+                    {{ $flow_normal ? 'text-blue-600' : 'text-yellow-600' }}">
                     <x-icons.water-flow size="24" />
                 </div>
 
@@ -58,20 +58,20 @@
 
                     <h3
                         class="text-2xl font-bold
-                        {{ $flowNormal ? 'text-blue-700' : 'text-yellow-700' }}">
-                        {{ $water_flow }}
+                        {{ $flow_normal ? 'text-blue-700' : 'text-yellow-700' }}">
+                        <span class="font-mono">{{ $water_flow }}</span>
                         <span class="text-lg">L/min</span>
                     </h3>
                 </div>
             </div>
 
-            <x-ui.badge :color="$flowNormal ? 'blue' : 'yellow'" size='md'>
-                {{ $flowNormal ? 'Flow' : 'Idle' }}
+            <x-ui.badge :color="$flow_normal ? 'blue' : 'yellow'" size='md'>
+                {{ $flow_normal ? 'Flow' : 'Idle' }}
             </x-ui.badge>
         </div>
 
         <p class="text-xs text-gray-600">
-            {{ $flowNormal ? 'Distribusi air berjalan normal.' : 'Tidak ada aliran air terdeteksi.' }}
+            {{ $flow_normal ? 'Distribusi air berjalan normal.' : 'Tidak ada aliran air terdeteksi.' }}
         </p>
     </div>
 
