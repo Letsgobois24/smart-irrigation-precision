@@ -16,7 +16,7 @@ class SystemEventTable extends Component
     public string $startDate = '';
     public string $endDate = '';
 
-    public array $enableDateRange;
+    public array $date_range;
     public int $total_events;
 
     public null | int $selected_tree = null;
@@ -31,17 +31,7 @@ class SystemEventTable extends Component
 
     public function mount(InfluxDBService $influx)
     {
-        $query = "SELECT time FROM system_event ORDER BY time ASC LIMIT 1";
-        $from = $influx->query($query)->get()[0]['time'];
-
-        $query = "SELECT time FROM system_event ORDER BY time DESC LIMIT 1";
-        $to = $influx->query($query)->get()[0]['time'];
-
-        $this->enableDateRange = [
-            'from' => Carbon::parse($from)->format('Y-m-d'),
-            'to' => Carbon::parse($to)->format('Y-m-d')
-        ];
-
+        $this->date_range = $this->getDateRange($influx);
         $this->refreshTotalEvents($influx);
     }
 
@@ -85,6 +75,20 @@ class SystemEventTable extends Component
     public function refreshTotalEvents(InfluxDBService $influx)
     {
         $this->total_events = $this->getCountEvents($influx);
+    }
+
+    private function getDateRange(InfluxDBService $influx)
+    {
+        $query = "SELECT time FROM system_event ORDER BY time ASC LIMIT 1";
+        $from = $influx->query($query)->get()[0]['time'];
+
+        $query = "SELECT time FROM system_event ORDER BY time DESC LIMIT 1";
+        $to = $influx->query($query)->get()[0]['time'];
+
+        return [
+            'from' => Carbon::parse($from)->format('Y-m-d'),
+            'to' => Carbon::parse($to)->format('Y-m-d')
+        ];
     }
 
     private function getEvents(InfluxDBService $influx)

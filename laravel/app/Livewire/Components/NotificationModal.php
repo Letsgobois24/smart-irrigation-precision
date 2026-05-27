@@ -18,6 +18,10 @@ class NotificationModal extends Component
     public bool $isMaxLoaded = false;
     public bool $isNotificationLoaded;
 
+    public array $date_range;
+
+    public array $locations = [];
+
     #[On('add-data.global')]
     #[On('add-data.node')]
     public function mount()
@@ -33,12 +37,24 @@ class NotificationModal extends Component
 
     public function detailNotification(int $id)
     {
+        if ($this->active_notification['id'] == $id) return;
         $this->active_notification = Notification::find($id);
     }
 
     public function openNotification()
     {
         if ($this->isNotificationLoaded) return;
+
+        $trees = Notification::select('tree_id')->whereNotNull('tree_id')->distinct()->orderBy('tree_id')->pluck('tree_id');
+        $locations['all'] = 'All';
+        $locations['global'] = 'Global';
+        foreach ($trees as $tree) {
+            $locations[$tree] = 'Tree ' . $tree;
+        }
+        $this->locations = $locations;
+
+        $this->date_range = $this->getDateRange();
+
         $this->updateNotifications();
         $this->isNotificationLoaded = true;
     }
@@ -70,6 +86,14 @@ class NotificationModal extends Component
         }
 
         $this->notifications = array_merge($this->notifications, $new_notifications);
+    }
+
+    private function getDateRange()
+    {
+        $from = Notification::orderBy('created_at', 'asc')->value('created_at');
+        $to = Notification::orderBy('created_at', 'asc')->value('created_at');
+
+        return compact('from', 'to');
     }
 
     private function updateNotifications(null | int $active_id = null)

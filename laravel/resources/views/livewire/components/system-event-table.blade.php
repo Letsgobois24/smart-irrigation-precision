@@ -7,52 +7,7 @@
         mb-4
     ">
         {{-- Date Range --}}
-        <div x-data wire:ignore x-init="$nextTick(() => dateInput = dateRange($refs.range, $wire, @js($enableDateRange)))" class="relative">
-            <input x-ref="range" type="text" placeholder="Filter irrigation data..."
-                class="
-                w-full sm:w-72
-
-                pl-11 pr-10 py-2.5
-
-                bg-white/90
-                border border-emerald-200
-                rounded-2xl
-
-                text-sm text-gray-700
-                placeholder:text-gray-400
-
-                shadow-sm
-                backdrop-blur-sm
-
-                focus:outline-none
-                focus:ring-2
-                focus:ring-emerald-500/30
-                focus:border-emerald-500
-
-                hover:border-emerald-300
-                transition-all
-            ">
-
-            {{-- Calendar Icon --}}
-            <div
-                class="
-                absolute left-4 top-1/2
-                -translate-y-1/2
-                text-emerald-600
-            ">
-                <x-icons.calendar size="18" />
-            </div>
-
-            {{-- Loading --}}
-            <div wire:loading wire:target="applyDateRange"
-                class="
-                pointer-events-none
-                absolute right-3 top-1/2
-                -translate-y-1/2
-            ">
-                <x-icons.loading size="16" class="text-gray-500" />
-            </div>
-        </div>
+        <x-form.date-range :date_range="$date_range" placeholder="Filter irrigation data..." />
 
         {{-- Select Tree ID --}}
         <x-form.select wire:change='refreshTotalEvents' model="selected_tree" :data="$trees_id"

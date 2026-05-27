@@ -62,43 +62,52 @@
                         <!-- FILTER -->
                         <div class="space-y-2">
 
-                            <!-- Severity -->
-                            <div class="flex flex-wrap gap-2">
-                                <x-ui.badge color='gray' size='sm'>
-                                    Semua
-                                </x-ui.badge>
-                                <x-ui.badge color='green' size='sm'>
-                                    Rendah
-                                </x-ui.badge>
-                                <x-ui.badge color='yellow' size='sm'>
-                                    Sedang
-                                </x-ui.badge>
-                                <x-ui.badge color='red' size='sm'>
-                                    Tinggi
-                                </x-ui.badge>
+                            <!-- Severity Select -->
+                            <div>
+                                <label class="text-[13px] font-medium mb-2 ml-1">Severity</label>
+                                <div class="flex flex-wrap gap-2">
+                                    <x-ui.badge color='gray' size='sm' class="cursor-pointer">
+                                        Semua
+                                    </x-ui.badge>
+                                    <x-ui.badge color='green' size='sm' class="cursor-pointer">
+                                        Rendah
+                                    </x-ui.badge>
+                                    <x-ui.badge color='yellow' size='sm' class="cursor-pointer">
+                                        Sedang
+                                    </x-ui.badge>
+                                    <x-ui.badge color='red' size='sm' class="cursor-pointer">
+                                        Tinggi
+                                    </x-ui.badge>
+                                </div>
                             </div>
 
-                            <!-- Select -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            {{-- Status --}}
+                            <div>
+                                <label class="text-[13px] font-medium mb-2 ml-1">Status</label>
+                                <div class="flex flex-wrap gap-2">
+                                    <x-ui.badge color='gray' size='sm' class="cursor-pointer">
+                                        All
+                                    </x-ui.badge>
+                                    <x-ui.badge color='blue' size='sm' class="cursor-pointer">
+                                        Active
+                                    </x-ui.badge>
+                                    <x-ui.badge color='green' size='sm' class="cursor-pointer">
+                                        Resolved
+                                    </x-ui.badge>
+                                </div>
+                            </div>
 
-                                <!-- Lokasi -->
-                                <select
-                                    class="text-sm border rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-500">
-                                    <option>Semua Lokasi</option>
-                                    <option>Global</option>
-                                    <option>Pohon 1</option>
-                                    <option>Pohon 2</option>
-                                </select>
-
+                            <!-- Filter -->
+                            <div class="grid grid-cols-1 md:grid-cols-5 gap-2">
                                 <!-- Date -->
-                                <select
-                                    class="text-sm border rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-500">
-                                    <option>Semua Waktu</option>
-                                    <option>Hari Ini</option>
-                                    <option>7 Hari</option>
-                                    <option>30 Hari</option>
-                                </select>
-
+                                <div class="col-span-3">
+                                    <x-form.date-range :date_range="$date_range" width='full' placeholder='Select Date' />
+                                </div>
+                                <!-- Location -->
+                                <div class="col-span-2">
+                                    <x-form.select wire:change='' model="selected_location" :data="$locations"
+                                        disabled_option='Select Location' />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -172,7 +181,7 @@
                             </div>
 
                             <span class="text-xs text-gray-500">
-                                {{ $active_notification['created_at'] }}
+                                {{ smartTimeFormat(new \Carbon\Carbon($active_notification['created_at'])) }}
                             </span>
                         </div>
 
