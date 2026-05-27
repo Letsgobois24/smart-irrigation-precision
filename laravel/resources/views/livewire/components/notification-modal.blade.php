@@ -1,23 +1,3 @@
-@php
-    function getBadgeColor(string $severity): string
-    {
-        return match ($severity) {
-            'tinggi' => 'red',
-            'sedang' => 'yellow',
-            'rendah' => 'green',
-        };
-    }
-
-    function getTextColor(string $severity): string
-    {
-        return match ($severity) {
-            'tinggi' => 'text-red-600',
-            'sedang' => 'text-yellow-600',
-            'rendah' => 'text-green-600',
-        };
-    }
-@endphp
-
 <div x-data="{ isOpenNotification: false, view: 'list' }">
     <!-- BUTTON -->
     <button wire:click='openNotification' @click="isOpenNotification = true; view='list'"
@@ -125,6 +105,9 @@
 
                     {{-- Notification List --}}
                     @foreach ($notifications as $notification)
+                        @php
+                            $config_class = $this->getConfigClass($notification['severity']);
+                        @endphp
                         <div wire:click="detailNotification(@js($notification['id']))" @click="view='detail'"
                             class="p-4 cursor-pointer border-b"
                             :class="@js($active_notification['id'] === $notification['id'])
@@ -133,7 +116,7 @@
                                 'hover:bg-gray-50'">
 
                             <div class="flex items-center gap-x-1">
-                                <h5 class="text-sm font-semibold {{ getTextColor($notification['severity']) }}">
+                                <h5 class="text-sm font-semibold {{ $config_class['text'] }}">
                                     {{ $notification['title'] }}
                                 </h5>
 
@@ -143,7 +126,7 @@
                                     @endif
                                 </div>
 
-                                <x-ui.badge class="capitalize" size='sm' :color="getBadgeColor($notification['severity'])">
+                                <x-ui.badge class="capitalize" size='sm' :color="$config_class['badge']">
                                     {{ $notification['severity'] }}
                                 </x-ui.badge>
                             </div>
@@ -175,14 +158,16 @@
                     </div>
 
                     <div wire:loading.remove wire:target='detailNotification' class="space-y-4">
-
+                        @php
+                            $config_class = $this->getConfigClass($active_notification['severity']);
+                        @endphp
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                             <div class="flex items-center gap-2">
-                                <h5 class="text-lg font-semibold {{ getTextColor($notification['severity']) }}">
-                                    {{ $notification['title'] }}
+                                <h5 class="text-lg font-semibold {{ $config_class['text'] }}">
+                                    {{ $active_notification['title'] }}
                                 </h5>
-                                <x-ui.badge class="capitalize" size='md' :color="getBadgeColor($notification['severity'])">
-                                    {{ $notification['severity'] }}
+                                <x-ui.badge class="capitalize" size='md' :color="$config_class['badge']">
+                                    {{ $active_notification['severity'] }}
                                 </x-ui.badge>
                             </div>
 

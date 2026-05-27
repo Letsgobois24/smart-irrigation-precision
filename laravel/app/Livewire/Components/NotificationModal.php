@@ -99,4 +99,23 @@ class NotificationModal extends Component
             })
             ->toArray();
     }
+
+    // Component Function
+    function getConfigClass(string $severity): array
+    {
+        return match ($severity) {
+            'rendah' => [
+                'badge' => 'green',
+                'text' => 'text-green-700'
+            ],
+            'sedang' => [
+                'badge' => 'yellow',
+                'text' => 'text-yellow-700'
+            ],
+            'tinggi' => [
+                'badge' => 'red',
+                'text' => 'text-red-700'
+            ],
+        };
+    }
 }
