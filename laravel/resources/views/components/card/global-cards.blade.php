@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <x-ui.badge class="capitalize" :color="$ph_config['color']" size='md'>
+            <x-ui.badge class="capitalize" :color="$ph_config['color']" size='2'>
                 {{ $ph_config['label'] }}
             </x-ui.badge>
         </div>
@@ -62,7 +62,7 @@
                 </div>
             </div>
 
-            <x-ui.badge class="capitalize" :color="$flow_config['color']" size='md'>
+            <x-ui.badge class="capitalize" :color="$flow_config['color']" size='2'>
                 {{ $flow_config['label'] }}
             </x-ui.badge>
         </div>
@@ -92,7 +92,7 @@
                     </h3>
                 </div>
             </div>
-            <x-ui.badge :color="$valve_config['color']" size="md">
+            <x-ui.badge :color="$valve_config['color']" size="2">
                 {{ $valve_config['label'] }}
             </x-ui.badge>
         </div>

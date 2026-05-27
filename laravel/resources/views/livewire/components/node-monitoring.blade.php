@@ -9,7 +9,7 @@
         <x-header.monitoring-header icon='🌱' title="Node 1"
             description='Ringkasan kondisi beberapa pohon dari node 1'>
             <x-slot:badge>
-                <x-ui.badge size='md' color='emerald' class="flex items-center gap-1 border border-emerald-200">
+                <x-ui.badge size='2' color='emerald' class="flex items-center gap-1 border border-emerald-200">
                     <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
                     Online
                 </x-ui.badge>

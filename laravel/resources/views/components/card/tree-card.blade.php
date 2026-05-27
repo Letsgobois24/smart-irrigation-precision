@@ -35,7 +35,7 @@
             {{ $tree['valve'] ? 'text-green-600' : 'text-gray-500' }}
         ">
             Valve
-            <x-ui.badge :color="$tree['valve'] ? 'green' : 'red'" size="md">
+            <x-ui.badge :color="$tree['valve'] ? 'green' : 'red'" size="1">
                 {{ $tree['valve'] ? 'ON' : 'OFF' }}
             </x-ui.badge>
         </p>

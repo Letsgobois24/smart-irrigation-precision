@@ -15,7 +15,7 @@ class Badge extends Component
     // yellow, red, green
     public function __construct(
         private string $color,
-        private string $size = 'sm',
+        private string $size = '1',
         public string $class = ''
     ) {
         //
@@ -32,10 +32,9 @@ class Badge extends Component
     public function textClass()
     {
         return match ($this->size) {
-            '1' => 'text-[10px]',
-            '2' => 'text-xs',
-            '3' => 'text-sm',
-            default => 'text-[10px]',
+            '1' => 'text-[10px] font-medium',
+            '2' => 'text-xs font-semibold',
+            '3' => 'text-sm font-bold',
         };
     }
 
