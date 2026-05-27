@@ -1,3 +1,23 @@
+@php
+    function getBadgeColor(string $severity): string
+    {
+        return match ($severity) {
+            'tinggi' => 'red',
+            'sedang' => 'yellow',
+            'rendah' => 'green',
+        };
+    }
+
+    function getTextColor(string $severity): string
+    {
+        return match ($severity) {
+            'tinggi' => 'text-red-600',
+            'sedang' => 'text-yellow-600',
+            'rendah' => 'text-green-600',
+        };
+    }
+@endphp
+
 <div x-data="{ isOpenNotification: false, view: 'list' }">
     <!-- BUTTON -->
     <button wire:click='openNotification' @click="isOpenNotification = true; view='list'"
@@ -64,21 +84,18 @@
 
                             <!-- Severity -->
                             <div class="flex flex-wrap gap-2">
-                                <button class="px-2 py-1 rounded-full text-xs bg-gray-100">
+                                <x-ui.badge color='gray' size='sm'>
                                     Semua
-                                </button>
-
-                                <button class="px-2 py-1 rounded-full text-xs bg-green-100 text-green-700">
+                                </x-ui.badge>
+                                <x-ui.badge color='green' size='sm'>
                                     Rendah
-                                </button>
-
-                                <button class="px-2 py-1 rounded-full text-xs bg-yellow-100 text-yellow-700">
+                                </x-ui.badge>
+                                <x-ui.badge color='yellow' size='sm'>
                                     Sedang
-                                </button>
-
-                                <button class="px-2 py-1 rounded-full text-xs bg-red-100 text-red-700">
+                                </x-ui.badge>
+                                <x-ui.badge color='red' size='sm'>
                                     Tinggi
-                                </button>
+                                </x-ui.badge>
                             </div>
 
                             <!-- Select -->
@@ -106,6 +123,7 @@
                         </div>
                     </div>
 
+                    {{-- Notification List --}}
                     @foreach ($notifications as $notification)
                         <div wire:click="detailNotification(@js($notification['id']))" @click="view='detail'"
                             class="p-4 cursor-pointer border-b"
@@ -115,9 +133,9 @@
                                 'hover:bg-gray-50'">
 
                             <div class="flex items-center gap-x-1">
-                                <x-ui.severity-text :severity="$notification['severity']" class="text-sm font-semibold">
+                                <h5 class="text-sm font-semibold {{ getTextColor($notification['severity']) }}">
                                     {{ $notification['title'] }}
-                                </x-ui.severity-text>
+                                </h5>
 
                                 <div class="flex-1">
                                     @if ($notification['is_active'])
@@ -125,9 +143,9 @@
                                     @endif
                                 </div>
 
-                                <x-ui.severity-badge :severity="$notification['severity']" class="text-[10px] px-2 py-0.5">
-                                    {{ strtoupper($notification['severity']) }}
-                                </x-ui.severity-badge>
+                                <x-ui.badge class="capitalize" size='sm' :color="getBadgeColor($notification['severity'])">
+                                    {{ $notification['severity'] }}
+                                </x-ui.badge>
                             </div>
 
                             <div class="text-xs text-gray-500">
@@ -160,13 +178,12 @@
 
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                             <div class="flex items-center gap-2">
-                                <x-ui.severity-text :severity="$active_notification['severity']" class="text-lg font-semibold">
-                                    ⚠️ {{ $active_notification['title'] }}
-                                </x-ui.severity-text>
-
-                                <x-ui.severity-badge :severity="$active_notification['severity']" class="text-xs px-2 py-0.5 font-semibold">
-                                    {{ strtoupper($active_notification['severity']) }}
-                                </x-ui.severity-badge>
+                                <h5 class="text-lg font-semibold {{ getTextColor($notification['severity']) }}">
+                                    {{ $notification['title'] }}
+                                </h5>
+                                <x-ui.badge class="capitalize" size='md' :color="getBadgeColor($notification['severity'])">
+                                    {{ $notification['severity'] }}
+                                </x-ui.badge>
                             </div>
 
                             <span class="text-xs text-gray-500">

@@ -1,3 +1,3 @@
-<span class="{{ $textClass }} px-2 py-1 rounded-full {{ $badgeClass }} {{ $class }}">
+<span class="{{ $sizeClass() }} {{ $colorClass }} {{ $class }}">
     {{ $slot }}
 </span>

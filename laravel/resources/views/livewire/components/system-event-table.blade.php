@@ -221,14 +221,14 @@
 
                         {{-- Tree ID --}}
                         <td class="px-4 py-3 border-r border-green-200">
-                            <x-ui.badge size='2' color="green">
+                            <x-ui.badge size='sm' color="green">
                                 {{ $event['tree_id'] }}
                             </x-ui.badge>
                         </td>
 
                         {{-- Valve --}}
                         <td class="px-4 py-3 font-sans border-r border-green-200">
-                            <x-ui.badge size='2' :color="$event['valve'] ? 'green' : 'red'">
+                            <x-ui.badge size='sm' :color="$event['valve'] ? 'green' : 'red'">
                                 {{ $event['valve'] ? 'ON' : 'OFF' }}
                             </x-ui.badge>
                         </td>
@@ -252,14 +252,14 @@
 
                         {{-- Current Delta --}}
                         <td class="px-4 py-3">
-                            <x-ui.badge size='2' :color="$currentDelta > 0 ? 'green' : 'red'">
+                            <x-ui.badge size='sm' :color="$currentDelta > 0 ? 'green' : 'red'">
                                 {{ sprintf('%+.1f', number_format($currentDelta, 1)) }}
                             </x-ui.badge>
                         </td>
 
                         {{-- Current Average --}}
                         <td class="px-4 py-3 border-r border-green-200">
-                            <x-ui.badge size='2' color="gray">
+                            <x-ui.badge size='sm' color="gray">
                                 {{ number_format($event['current_avg'], 1) }}
                             </x-ui.badge>
                         </td>
@@ -275,7 +275,7 @@
                                     </div>
                                 </div>
 
-                                <x-ui.badge size='2' :color="$beforeStatus === 'dry' ? 'yellow' : ($beforeStatus === 'wet' ? 'blue' : 'green')">
+                                <x-ui.badge size='sm' :color="$beforeStatus === 'dry' ? 'yellow' : ($beforeStatus === 'wet' ? 'blue' : 'green')">
                                     {{ number_format($event['moisture_before'], 1) }}%
                                 </x-ui.badge>
                             </div>
@@ -297,7 +297,7 @@
                                     </div>
                                 </div>
 
-                                <x-ui.badge size='2' :color="$afterStatus === 'dry' ? 'yellow' : ($afterStatus === 'wet' ? 'blue' : 'green')">
+                                <x-ui.badge size='sm' :color="$afterStatus === 'dry' ? 'yellow' : ($afterStatus === 'wet' ? 'blue' : 'green')">
                                     {{ number_format($event['moisture_after'], 1) }}%
                                 </x-ui.badge>
 
@@ -306,21 +306,21 @@
 
                         {{-- Moisture Delta --}}
                         <td class="px-4 py-3 border-r border-green-200">
-                            <x-ui.badge size='2' :color="$event['moisture_delta'] > 0 ? 'green' : 'red'">
+                            <x-ui.badge size='sm' :color="$event['moisture_delta'] > 0 ? 'green' : 'red'">
                                 {{ sprintf('%+.1f', number_format($event['moisture_delta'], 1)) }}%
                             </x-ui.badge>
                         </td>
 
                         {{-- Anomaly Flag --}}
                         <td class="px-4 py-3 font-sans">
-                            <x-ui.badge size='2' :color="$isAnomaly ? 'red' : 'green'">
+                            <x-ui.badge size='sm' :color="$isAnomaly ? 'red' : 'green'">
                                 {{ $isAnomaly ? 'Anomaly' : 'Normal' }}
                             </x-ui.badge>
                         </td>
 
                         {{-- Anomaly Score --}}
                         <td class="px-4 py-3 border-r border-green-200">
-                            <x-ui.badge size='2' :color="$event['anomaly_score'] >= 70
+                            <x-ui.badge size='sm' :color="$event['anomaly_score'] >= 70
                                 ? 'red'
                                 : ($event['anomaly_score'] >= 40
                                     ? 'yellow'

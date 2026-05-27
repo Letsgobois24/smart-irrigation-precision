@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <x-ui.badge class="capitalize" :color="$ph_config['color']" size='2'>
+            <x-ui.badge class="capitalize" :color="$ph_config['color']" size='sm'>
                 {{ $ph_config['label'] }}
             </x-ui.badge>
         </div>
@@ -62,7 +62,7 @@
                 </div>
             </div>
 
-            <x-ui.badge class="capitalize" :color="$flow_config['color']" size='2'>
+            <x-ui.badge class="capitalize" :color="$flow_config['color']" size='sm'>
                 {{ $flow_config['label'] }}
             </x-ui.badge>
         </div>

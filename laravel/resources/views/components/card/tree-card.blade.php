@@ -11,7 +11,7 @@
             </p>
         </div>
 
-        <x-ui.badge :color="$statusConfig['badge_color']">
+        <x-ui.badge size='xs' :color="$statusConfig['badge_color']">
             {{ $statusConfig['badge'] }}
         </x-ui.badge>
     </div>
