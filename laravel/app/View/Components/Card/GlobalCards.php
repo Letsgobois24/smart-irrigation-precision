@@ -20,8 +20,8 @@ class GlobalCards extends Component
         array $globalData
     ) {
         $this->ph = $globalData['ph'];
-        $this->water_flow = 2.1 ?? $globalData['water_flow'];
-        $this->valve = $globalData['main_valve'];
+        $this->water_flow = $globalData['water_flow'];
+        $this->valve = false ?? $globalData['main_valve'];
         $this->time = $globalData['time'];
 
         $ph_status = $this->getStatusPH($this->ph);
@@ -110,7 +110,7 @@ class GlobalCards extends Component
         return match ($isActive) {
             true => [
                 'label' => 'ON',
-                'status' => 'Aktif',
+                'status' => 'Active',
                 'color' => 'emerald',
                 'bg' => 'bg-emerald-50',
                 'border' => 'border-emerald-100',
@@ -121,12 +121,12 @@ class GlobalCards extends Component
 
             default => [
                 'label' => 'OFF',
-                'status' => 'Non Aktif',
-                'color' => 'gray',
-                'bg' => 'bg-gray-50',
-                'border' => 'border-gray-200',
-                'text' => 'text-gray-700',
-                'icon' => 'text-gray-500',
+                'status' => 'Non Active',
+                'color' => 'red',
+                'bg' => 'bg-red-50',
+                'border' => 'border-red-100',
+                'text' => 'text-red-700',
+                'icon' => 'text-red-600',
                 'description' => 'Katup utama sedang tertutup.',
             ]
         };

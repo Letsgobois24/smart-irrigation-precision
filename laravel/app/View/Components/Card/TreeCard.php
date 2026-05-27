@@ -8,59 +8,62 @@ use Illuminate\View\Component;
 
 class TreeCard extends Component
 {
-    /**
-     * Kondisi smart irrigation alpukat
-     * < 30   = Kering / Critical
-     * 30-70  = Normal
-     * > 70   = Terlalu basah
-     */
-
-    public bool $isDry;
-    public bool $isWet;
-    public bool $isNormal;
+    public array $statusConfig = [];
 
     public function __construct(
         public array $tree,
     ) {
-        $moisture = $tree['soil_moisture'];
+        $status = $this->getMoistureStatus(
+            $tree['soil_moisture']
+        );
 
-        $this->isDry = $moisture < 30;
-        $this->isWet = $moisture > 70;
-        $this->isNormal = !$this->isDry && !$this->isWet;
+        $this->statusConfig = $this->getStatusConfig($status);
     }
 
-    /**
-     * Get the view / contents that represent the component.
-     */
     public function render(): View|Closure|string
     {
         return view('components.card.tree-card');
     }
 
-    public function cardClass()
+    private function getMoistureStatus(float $moisture): string
     {
         return match (true) {
-            $this->isDry => 'bg-red-50 border border-red-200',
-            $this->isWet => 'bg-yellow-50 border border-yellow-200',
-            default => 'bg-green-50 border border-green-200',
+            $moisture < 30 => 'dry',
+            $moisture > 70 => 'wet',
+            default => 'optimal',
         };
     }
 
-    public function badgeColor()
+    private function getStatusConfig(string $status): array
     {
-        return match (true) {
-            $this->isDry => 'red',
-            $this->isWet => 'yellow',
-            default => 'green',
-        };
-    }
+        return match ($status) {
 
-    public function statusText()
-    {
-        return match (true) {
-            $this->isDry => 'Soil Dry',
-            $this->isWet => 'Too Wet',
-            default => 'Optimal',
+            'dry' => [
+                'badge' => 'Soil Dry',
+                'badge_color' => 'red',
+                'card' => 'bg-red-50 border border-red-200',
+                'icon' => 'text-red-500',
+                'description' => 'Irrigation recommended',
+                'description_color' => 'text-red-600',
+            ],
+
+            'wet' => [
+                'badge' => 'Too Wet',
+                'badge_color' => 'yellow',
+                'card' => 'bg-yellow-50 border border-yellow-200',
+                'icon' => 'text-yellow-500',
+                'description' => 'Soil moisture too high',
+                'description_color' => 'text-yellow-700',
+            ],
+
+            default => [
+                'badge' => 'Optimal',
+                'badge_color' => 'green',
+                'card' => 'bg-green-50 border border-green-200',
+                'icon' => 'text-blue-500',
+                'description' => 'Soil condition stable',
+                'description_color' => 'text-green-600',
+            ],
         };
     }
 }

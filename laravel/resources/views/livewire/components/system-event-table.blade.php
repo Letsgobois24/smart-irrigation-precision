@@ -228,7 +228,7 @@
 
                         {{-- Valve --}}
                         <td class="px-4 py-3 font-sans border-r border-green-200">
-                            <x-ui.badge size='2' :color="$event['valve'] > 0 ? 'blue' : 'red'">
+                            <x-ui.badge size='2' :color="$event['valve'] ? 'green' : 'red'">
                                 {{ $event['valve'] ? 'ON' : 'OFF' }}
                             </x-ui.badge>
                         </td>
