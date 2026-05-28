@@ -3,6 +3,7 @@
 namespace App\Livewire\Components;
 
 use App\Models\Notification;
+use App\Models\Tree;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Throwable;
@@ -18,9 +19,49 @@ class NotificationModal extends Component
     public bool $isMaxLoaded = false;
     public bool $isNotificationLoaded;
 
+    // Filter Options
     public array $date_range;
-
     public array $locations = [];
+    public array $severities = [
+        '' => [
+            'name' => 'All',
+            'color' => 'gray'
+        ],
+        'rendah' => [
+            'name' => 'Low',
+            'color' => 'green'
+        ],
+        'sedang' => [
+            'name' => 'Medium',
+            'color' => 'yellow'
+        ],
+        'tinggi' => [
+            'name' => 'High',
+            'color' => 'red'
+        ],
+    ];
+
+    public array $statuses = [
+        '' => [
+            'name' => 'All',
+            'color' => 'gray'
+        ],
+        '0' => [
+            'name' => 'Active',
+            'color' => 'blue'
+        ],
+        '1' => [
+            'name' => 'Resolved',
+            'color' => 'green'
+        ],
+    ];
+
+    // Selected Filter
+    public string $selected_severity = '';
+    public string $selected_status = '';
+    public string $startDate = '';
+    public string $endDate = '';
+    public string $selected_location = '';
 
     #[On('add-data.global')]
     #[On('add-data.node')]
@@ -45,7 +86,7 @@ class NotificationModal extends Component
     {
         if ($this->isNotificationLoaded) return;
 
-        $trees = Notification::select('tree_id')->whereNotNull('tree_id')->distinct()->orderBy('tree_id')->pluck('tree_id');
+        $trees = Tree::select('tree_id')->active()->orderBy('tree_id')->pluck('tree_id');
         $locations['all'] = 'All';
         $locations['global'] = 'Global';
         foreach ($trees as $tree) {
@@ -88,6 +129,36 @@ class NotificationModal extends Component
         $this->notifications = array_merge($this->notifications, $new_notifications);
     }
 
+    public function setSeverity(string $severity)
+    {
+        $this->selected_severity = $severity;
+        $this->filterNotifications();
+    }
+
+    public function setStatus(string $is_active)
+    {
+        $this->selected_status = $is_active;
+        $this->filterNotifications();
+    }
+
+    public function applyDateRange()
+    {
+        dump($this->startDate);
+        dump($this->endDate);
+        $this->filterNotifications();
+    }
+
+    public function setLocation()
+    {
+        $this->filterNotifications();
+        dump($this->selected_location);
+    }
+
+    private function filterNotifications()
+    {
+        dump('filterNotifications');
+    }
+
     private function getDateRange()
     {
         $from = Notification::orderBy('created_at', 'asc')->value('created_at');
@@ -125,7 +196,7 @@ class NotificationModal extends Component
     }
 
     // Component Function
-    function getConfigClass(string $severity): array
+    public function getConfigClass(string $severity): array
     {
         return match ($severity) {
             'rendah' => [

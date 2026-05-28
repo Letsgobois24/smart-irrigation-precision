@@ -1,3 +1,3 @@
-<span class="{{ $sizeClass() }} {{ $colorClass }} {{ $class }}">
+<span {{ $attributes }} class="{{ $sizeClass() }} {{ $colorClass }} {{ $class }}">
     {{ $slot }}
 </span>

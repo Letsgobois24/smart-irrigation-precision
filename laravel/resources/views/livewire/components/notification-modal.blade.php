@@ -61,23 +61,17 @@
 
                         <!-- FILTER -->
                         <div class="space-y-2">
-
                             <!-- Severity Select -->
                             <div>
                                 <label class="text-[13px] font-medium mb-2 ml-1">Severity</label>
                                 <div class="flex flex-wrap gap-2">
-                                    <x-ui.badge color='gray' size='sm' class="cursor-pointer">
-                                        Semua
-                                    </x-ui.badge>
-                                    <x-ui.badge color='green' size='sm' class="cursor-pointer">
-                                        Rendah
-                                    </x-ui.badge>
-                                    <x-ui.badge color='yellow' size='sm' class="cursor-pointer">
-                                        Sedang
-                                    </x-ui.badge>
-                                    <x-ui.badge color='red' size='sm' class="cursor-pointer">
-                                        Tinggi
-                                    </x-ui.badge>
+                                    @foreach ($severities as $key => $severity)
+                                        <x-ui.badge wire:click="setSeverity('{{ $key }}')" :color="$severity['color']"
+                                            size='sm'
+                                            class="cursor-pointer {{ $key == $selected_severity ? 'border-2' : 'border' }}">
+                                            {{ $severity['name'] }}
+                                        </x-ui.badge>
+                                    @endforeach
                                 </div>
                             </div>
 
@@ -85,15 +79,13 @@
                             <div>
                                 <label class="text-[13px] font-medium mb-2 ml-1">Status</label>
                                 <div class="flex flex-wrap gap-2">
-                                    <x-ui.badge color='gray' size='sm' class="cursor-pointer">
-                                        All
-                                    </x-ui.badge>
-                                    <x-ui.badge color='blue' size='sm' class="cursor-pointer">
-                                        Active
-                                    </x-ui.badge>
-                                    <x-ui.badge color='green' size='sm' class="cursor-pointer">
-                                        Resolved
-                                    </x-ui.badge>
+                                    @foreach ($statuses as $key => $status)
+                                        <x-ui.badge :color="$status['color']" wire:click="setStatus('{{ $key }}')"
+                                            size='sm'
+                                            class="cursor-pointer {{ $key == $selected_status ? 'border-2' : 'border' }}">
+                                            {{ $status['name'] }}
+                                        </x-ui.badge>
+                                    @endforeach
                                 </div>
                             </div>
 
@@ -101,11 +93,13 @@
                             <div class="grid grid-cols-1 md:grid-cols-5 gap-2">
                                 <!-- Date -->
                                 <div class="col-span-3">
+                                    <label class="text-[13px] font-medium mb-2 ml-1.5">Date</label>
                                     <x-form.date-range :date_range="$date_range" width='full' placeholder='Select Date' />
                                 </div>
                                 <!-- Location -->
                                 <div class="col-span-2">
-                                    <x-form.select wire:change='' model="selected_location" :data="$locations"
+                                    <label class="text-[13px] font-medium mb-2 ml-1.5">Location</label>
+                                    <x-form.select wire:change='setLocation' model="selected_location" :data="$locations"
                                         disabled_option='Select Location' />
                                 </div>
                             </div>
