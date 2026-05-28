@@ -151,9 +151,15 @@ class NotificationModal extends Component
         $this->filterNotifications();
     }
 
+    public function resetFilter()
+    {
+        $this->reset('offset', 'selected_severity', 'selected_status', 'start_date', 'end_date', 'selected_location');
+        $this->notifications = $this->getAllNotifications();
+    }
+
     private function filterNotifications()
     {
-        $this->reset('notifications');
+        $this->reset('notifications', 'offset');
         $this->notifications = $this->getAllNotifications();
     }
 

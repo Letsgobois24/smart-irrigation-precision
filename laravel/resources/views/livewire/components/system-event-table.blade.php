@@ -5,7 +5,7 @@
         sm:items-stretch
         gap-3
         mb-4
-    ">
+">
         {{-- Date Range --}}
         <x-form.date-range :date_range="$date_range" placeholder="Filter irrigation data..." />
 
