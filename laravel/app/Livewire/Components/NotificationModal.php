@@ -59,8 +59,8 @@ class NotificationModal extends Component
     // Selected Filter
     public string $selected_severity = '';
     public string $selected_status = '';
-    public string $startDate = '';
-    public string $endDate = '';
+    public string $start_date = '';
+    public string $end_date = '';
     public string $selected_location = '';
 
     #[On('add-data.global')]
@@ -143,8 +143,8 @@ class NotificationModal extends Component
 
     public function applyDateRange()
     {
-        dump($this->startDate);
-        dump($this->endDate);
+        dump($this->start_date);
+        dump($this->end_date);
         $this->filterNotifications();
     }
 

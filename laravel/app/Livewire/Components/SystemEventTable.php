@@ -13,8 +13,8 @@ class SystemEventTable extends Component
 
     public bool $isLast = false;
 
-    public string $startDate = '';
-    public string $endDate = '';
+    public string $start_date = '';
+    public string $end_date = '';
 
     public array $date_range;
     public int $total_events;
@@ -68,7 +68,7 @@ class SystemEventTable extends Component
 
     public function showAll(InfluxDBService $influx)
     {
-        $this->reset('page', 'startDate', 'endDate', 'selected_tree');
+        $this->reset('page', 'start_date', 'end_date', 'selected_tree');
         $this->refreshTotalEvents($influx);
     }
 
@@ -131,12 +131,12 @@ class SystemEventTable extends Component
             $conditions[] = "tree_id='$this->selected_tree'";
         }
 
-        if ($this->startDate && $this->endDate) {
-            $startDateZulu = Carbon::parse($this->startDate)
+        if ($this->start_date && $this->end_date) {
+            $startDateZulu = Carbon::parse($this->start_date)
                 ->startOfDay()
                 ->toIso8601ZuluString();
 
-            $endDateZulu = Carbon::parse($this->endDate)
+            $endDateZulu = Carbon::parse($this->end_date)
                 ->addDay()
                 ->startOfDay()
                 ->toIso8601ZuluString();

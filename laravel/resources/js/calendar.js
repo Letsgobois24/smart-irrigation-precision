@@ -16,8 +16,8 @@ export default function dateRange(ref, wire, enableDateRange) {
                     selectedDates[1],
                     'Y-m-d'
                 );
-                wire.set('startDate', startDate);
-                wire.set('endDate', endDate);
+                wire.set('start_date', startDate);
+                wire.set('end_date', endDate);
                 wire.applyDateRange();
             }
         }
