@@ -62,13 +62,23 @@
                         <!-- FILTER -->
                         <div class="space-y-2">
                             <!-- Severity Select -->
+                            @php
+                                function activeBadge(bool $is_active)
+                                {
+                                    if ($is_active) {
+                                        return 'scale-105 ring-1 ring-offset-1 shadow-sm';
+                                    }
+                                    return 'opacity-70 hover:opacity-100 hover:scale-105';
+                                }
+                            @endphp
+
                             <div>
                                 <label class="text-[13px] font-medium mb-2 ml-1">Severity</label>
                                 <div class="flex flex-wrap gap-2">
                                     @foreach ($severities as $key => $severity)
                                         <x-ui.badge wire:click="setSeverity('{{ $key }}')" :color="$severity['color']"
                                             size='sm'
-                                            class="cursor-pointer {{ $key == $selected_severity ? 'border-2' : 'border' }}">
+                                            class="cursor-pointer {{ activeBadge($key == $selected_severity) }}">
                                             {{ $severity['name'] }}
                                         </x-ui.badge>
                                     @endforeach
@@ -82,7 +92,7 @@
                                     @foreach ($statuses as $key => $status)
                                         <x-ui.badge :color="$status['color']" wire:click="setStatus('{{ $key }}')"
                                             size='sm'
-                                            class="cursor-pointer {{ $key == $selected_status ? 'border-2' : 'border' }}">
+                                            class="cursor-pointer {{ activeBadge($key == $selected_status) }}">
                                             {{ $status['name'] }}
                                         </x-ui.badge>
                                     @endforeach

@@ -46,14 +46,14 @@ class NotificationModal extends Component
             'name' => 'All',
             'color' => 'gray'
         ],
-        '0' => [
+        '1' => [
             'name' => 'Active',
             'color' => 'blue'
         ],
-        '1' => [
+        '0' => [
             'name' => 'Resolved',
             'color' => 'green'
-        ],
+        ]
     ];
 
     // Selected Filter
@@ -87,7 +87,7 @@ class NotificationModal extends Component
         if ($this->isNotificationLoaded) return;
 
         $trees = Tree::select('tree_id')->active()->orderBy('tree_id')->pluck('tree_id');
-        $locations['all'] = 'All';
+        $locations[''] = 'All';
         $locations['global'] = 'Global';
         foreach ($trees as $tree) {
             $locations[$tree] = 'Tree ' . $tree;
@@ -141,22 +141,20 @@ class NotificationModal extends Component
         $this->filterNotifications();
     }
 
-    public function applyDateRange()
+    public function setDateRange()
     {
-        dump($this->start_date);
-        dump($this->end_date);
         $this->filterNotifications();
     }
 
     public function setLocation()
     {
         $this->filterNotifications();
-        dump($this->selected_location);
     }
 
     private function filterNotifications()
     {
-        dump('filterNotifications');
+        $this->reset('notifications');
+        $this->notifications = $this->getAllNotifications();
     }
 
     private function getDateRange()
@@ -178,13 +176,26 @@ class NotificationModal extends Component
         }
     }
 
-    private function getAllNotifications()
+    private function getAllNotifications(): array
     {
-        return Notification::select(['id', 'title', 'source_type', 'created_at', 'severity', 'is_active', 'tree_id'])
-            ->orderBy('is_active', 'desc')
+        $filters = [
+            'severity' => $this->selected_severity,
+            'is_active' => $this->selected_status,
+            'location' => $this->selected_location,
+            'date' => [
+                'from' => $this->start_date,
+                'to' => $this->end_date
+            ],
+        ];
+
+        $notifications = Notification::select(['id', 'title', 'source_type', 'created_at', 'severity', 'is_active', 'tree_id'])
+            ->filter($filters)
+            ->activeOrder($this->selected_status)
             ->orderBy('created_at', 'desc')
             ->offset($this->offset)
-            ->limit($this->limit)
+            ->limit($this->limit);
+
+        return $notifications
             ->get()
             ->map(function ($row) {
                 return [

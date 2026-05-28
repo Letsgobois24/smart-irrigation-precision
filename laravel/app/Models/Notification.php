@@ -21,21 +21,36 @@ class Notification extends Model
     #[Scope]
     protected function filter(Builder $query, array $filters): void
     {
-        $query->when($filters['severity'] ?? false, function ($query, $severity) {
+        $query->when($filters['severity'], function ($query, $severity) {
             $query->where('severity', $severity);
         });
 
-        $query->when($filters['is_active'] ?? false, function ($query, $is_active) {
-            $query->where('is_active', $is_active);
+        $query->when($filters['is_active'] != '', function ($query) use ($filters) {
+            $query->where('is_active', $filters['is_active']);
         });
 
-        $query->when($filters['date'] ?? false, function ($query, $date) {
-            $query->where('created_at', '>=', $date['from']);
-            $query->where('created_at', '>=', $date['to']);
+        $query->when($filters['date']['from'], function ($query, $from) {
+            $query->whereDate('created_at', '>=', $from);
         });
 
-        $query->when($filters['location'] ?? false, function ($query, $location) {
-            $query->where('tree_id', $location);
+        $query->when($filters['date']['to'], function ($query, $to) {
+            $query->whereDate('created_at', '<=', $to);
+        });
+
+        $query->when($filters['location'], function ($query, $location) use ($filters) {
+            if ($filters['location'] == 'global') {
+                $query->where('source_type', 'global');
+            } else {
+                $query->where('tree_id', $location);
+            }
+        });
+    }
+
+    #[Scope]
+    protected function activeOrder(Builder $query, string $is_active)
+    {
+        $query->when($is_active == '', function ($query) {
+            $query->orderBy('is_active', 'desc');
         });
     }
 }

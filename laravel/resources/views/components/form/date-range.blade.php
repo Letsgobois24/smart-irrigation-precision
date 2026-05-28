@@ -42,7 +42,7 @@
     </div>
 
     {{-- Loading --}}
-    <div wire:loading wire:target="applyDateRange"
+    <div wire:loading wire:target="setDateRange"
         class="
                 pointer-events-none
                 absolute right-3 top-1/2

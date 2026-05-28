@@ -18,7 +18,7 @@ export default function dateRange(ref, wire, enableDateRange) {
                 );
                 wire.set('start_date', startDate);
                 wire.set('end_date', endDate);
-                wire.applyDateRange();
+                wire.setDateRange();
             }
         }
     })
