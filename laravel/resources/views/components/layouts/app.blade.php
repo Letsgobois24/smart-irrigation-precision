@@ -25,14 +25,14 @@
     }
 
 }" @scroll.window.throttle.30ms="handleScroll">
-    <x-header.header x-ref="header" />
+    @persist('header')
+        <x-header.header x-ref="header" />
+    @endpersist
     <x-header.floating-hamburger x-show="showFloatingHamburger && !isOpenSidebar" />
 
-    <div>
-        <x-header.sidebar />
-        <div :class="isOpenSidebar ? 'lg:ml-54' : 'lg:ml-0'">
-            {{ $slot }}
-        </div>
+    <x-header.sidebar />
+    <div :class="isOpenSidebar ? 'lg:ml-54' : 'lg:ml-0'">
+        {{ $slot }}
     </div>
 
     <x-toaster />
