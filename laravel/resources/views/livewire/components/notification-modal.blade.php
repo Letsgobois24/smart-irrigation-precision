@@ -227,84 +227,100 @@
                         Kembali
                     </button>
 
-                    @php
-                        $config_class = $this->getConfigClass($active_notification['severity']);
-                    @endphp
+                    @if (!$active_notification)
+                        <!-- EMPTY DETAIL -->
+                        <div class="h-full flex flex-col items-center justify-center text-center px-6">
 
-                    <div class="space-y-4">
+                            <x-icons.bell-off size="52" class="text-gray-300 mb-4" />
 
-                        <!-- HEADER -->
-                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                            <h3 class="text-lg font-semibold text-gray-700">
+                                Belum ada notifikasi dipilih
+                            </h3>
 
-                            <div class="flex items-center gap-2">
-
-                                <h5 class="text-lg font-semibold {{ $config_class['text'] }}">
-                                    {{ $active_notification['title'] }}
-                                </h5>
-
-                                <x-ui.badge class="capitalize" size='md' :color="$config_class['badge']">
-
-                                    {{ $active_notification['severity'] }}
-                                </x-ui.badge>
-                            </div>
-
-                            <span class="text-xs text-gray-500">
-                                {{ smartTimeFormat(new \Carbon\Carbon($active_notification['created_at'])) }}
-                            </span>
+                            <p class="text-sm text-gray-500 mt-1 max-w-sm">
+                                Pilih salah satu notifikasi pada panel kiri untuk melihat detail.
+                            </p>
                         </div>
+                    @else
+                        @php
+                            $config_class = $this->getConfigClass($active_notification['severity']);
+                        @endphp
 
-                        <!-- MESSAGE -->
-                        <p class="text-sm text-gray-600">
-                            {{ $active_notification['message'] }}
-                        </p>
+                        <div class="space-y-4">
 
-                        <!-- SENSOR -->
-                        <div class="bg-gray-50 p-4 rounded-lg text-sm space-y-2">
+                            <!-- HEADER -->
+                            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
 
-                            <div class="flex justify-between">
-                                <span>
-                                    {{ ucwords($active_notification['sensor_type']) }}
-                                </span>
+                                <div class="flex items-center gap-2">
 
-                                <span class="font-bold text-red-600">
-                                    {{ $active_notification['value'] }}
-                                </span>
-                            </div>
+                                    <h5 class="text-lg font-semibold {{ $config_class['text'] }}">
+                                        {{ $active_notification['title'] }}
+                                    </h5>
 
-                            <div class="flex justify-between text-gray-500">
-                                <span>Threshold</span>
+                                    <x-ui.badge class="capitalize" size='md' :color="$config_class['badge']">
 
-                                <span>
-                                    {{ $active_notification['threshold'] }}
-                                </span>
-                            </div>
+                                        {{ $active_notification['severity'] }}
+                                    </x-ui.badge>
+                                </div>
 
-                            <div class="text-xs text-gray-500">
-                                Deviasi:
-
-                                <span class="font-semibold">
-                                    {{ $active_notification['value'] - $active_notification['threshold'] }}
+                                <span class="text-xs text-gray-500">
+                                    {{ smartTimeFormat(new \Carbon\Carbon($active_notification['created_at'])) }}
                                 </span>
                             </div>
+
+                            <!-- MESSAGE -->
+                            <p class="text-sm text-gray-600">
+                                {{ $active_notification['message'] }}
+                            </p>
+
+                            <!-- SENSOR -->
+                            <div class="bg-gray-50 p-4 rounded-lg text-sm space-y-2">
+
+                                <div class="flex justify-between">
+                                    <span>
+                                        {{ ucwords($active_notification['sensor_type']) }}
+                                    </span>
+
+                                    <span class="font-bold text-red-600">
+                                        {{ $active_notification['value'] }}
+                                    </span>
+                                </div>
+
+                                <div class="flex justify-between text-gray-500">
+                                    <span>Threshold</span>
+
+                                    <span>
+                                        {{ $active_notification['threshold'] }}
+                                    </span>
+                                </div>
+
+                                <div class="text-xs text-gray-500">
+                                    Deviasi:
+
+                                    <span class="font-semibold">
+                                        {{ $active_notification['value'] - $active_notification['threshold'] }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- RECOMMENDATION -->
+                            <div class="bg-green-50 p-3 rounded-lg text-sm text-green-700">
+                                💡 Rekomendasi:
+                                {{ $active_notification['recomendation'] }}
+                            </div>
+
+                            <!-- ACTION -->
+                            <button wire:click="resolve" wire:loading.attr='disabled'
+                                wire:loading.class='cursor-wait opacity-50' wire:loading.remove.class='cursor-pointer'
+                                class="w-full md:w-auto px-4 py-2 rounded-lg transition-all duration-200
+                {{ $active_notification['is_active']
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                    : 'bg-gray-200 hover:bg-gray-300 text-gray-700' }}">
+
+                                {{ $active_notification['is_active'] ? 'Terselesaikan' : 'Batalkan Penyelesaian' }}
+                            </button>
                         </div>
-
-                        <!-- RECOMMENDATION -->
-                        <div class="bg-green-50 p-3 rounded-lg text-sm text-green-700">
-                            💡 Rekomendasi:
-                            {{ $active_notification['recomendation'] }}
-                        </div>
-
-                        <!-- ACTION -->
-                        <button wire:click="resolve" wire:loading.attr='disabled'
-                            wire:loading.class='cursor-wait opacity-50' wire:loading.remove.class='cursor-pointer'
-                            class="w-full md:w-auto px-4 py-2 rounded-lg transition-all duration-200
-                            {{ $active_notification['is_active']
-                                ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                                : 'bg-gray-200 hover:bg-gray-300 text-gray-700' }}">
-
-                            {{ $active_notification['is_active'] ? 'Terselesaikan' : 'Batalkan Penyelesaian' }}
-                        </button>
-                    </div>
+                    @endif
                 </div>
             @endif
         </div>
