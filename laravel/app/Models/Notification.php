@@ -12,11 +12,6 @@ class Notification extends Model
     /** @use HasFactory<\Database\Factories\NotificationFactory> */
     use HasFactory;
 
-    public static function getDate(string $order_by = 'asc')
-    {
-        return self::select('created_at')->limit(1)->orderBy('created_at', $order_by)->first();
-    }
-
     protected function scopeFilter(Builder $query, array $filters): void
     {
         $query->when($filters['severity'], function ($query, $severity) {

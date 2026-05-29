@@ -170,7 +170,7 @@ class NotificationModal extends Component
     private function getDateRange()
     {
         $from = Notification::orderBy('created_at', 'asc')->value('created_at');
-        $to = Notification::orderBy('created_at', 'asc')->value('created_at');
+        $to = Notification::orderBy('created_at', 'desc')->value('created_at');
 
         return compact('from', 'to');
     }
