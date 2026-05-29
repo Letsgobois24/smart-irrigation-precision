@@ -18,23 +18,15 @@
             class="
             inline-flex items-center justify-center
             gap-2
-
-            px-4 py-2.5
-
+            px-4 py-2
             rounded-2xl
-
             bg-emerald-50
             border border-emerald-200
-
             text-sm font-medium text-emerald-700
-
             hover:bg-emerald-100
             hover:border-emerald-300
-
             active:scale-[0.98]
-
             transition-all cursor-pointer
-
             whitespace-nowrap
         ">
             <x-icons.refresh wire:loading.class='animate-spin' wire:target='showAll' size="16" />
@@ -305,7 +297,7 @@
     {{-- Pagination --}}
     <div class="flex sm:flex-row flex-col-reverse sm:justify-between items-center mt-4 gap-3">
         {{-- Pagination count --}}
-        <span class="text-[13px] text-gray-500">Showing {{ ($page - 1) * $paginate + 1 }} to
+        <span class="text-sm text-gray-500">Showing {{ ($page - 1) * $paginate + 1 }} to
             {{ ($page - 1) * $paginate + count($events) }} of
             {{ $total_events }} results</span>
         {{-- Pagination button --}}
