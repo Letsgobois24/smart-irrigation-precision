@@ -3,8 +3,8 @@
 use App\Livewire\Pages\Energy;
 use App\Livewire\Pages\Home;
 use App\Livewire\Pages\Location;
-use App\Models\Tree;
 use App\Services\InfluxDBService;
+use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', Home::class);
@@ -12,8 +12,10 @@ Route::get('/energy', Energy::class);
 Route::get('/location', Location::class);
 
 Route::get('/try', function () {
-    $trees = Tree::all();
-    dd($trees);
+    $end = now()->startOfHour();
+    $start = (clone $end)->subDays(10);
+    $period = CarbonPeriod::create($start, '120 minutes', $end)->toArray();
+    dd($period);
 });
 
 
