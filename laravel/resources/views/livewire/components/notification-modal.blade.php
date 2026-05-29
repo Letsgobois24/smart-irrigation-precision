@@ -55,19 +55,16 @@
                         </div>
 
                         <!-- FILTER -->
-                        <div class="space-y-2">
-
-                            @php
-                                function activeBadge(bool $is_active)
-                                {
-                                    if ($is_active) {
-                                        return 'scale-105 ring-1 ring-offset-1 shadow-sm';
-                                    }
-
-                                    return 'opacity-70 hover:opacity-100 hover:scale-105';
+                        @php
+                            function activeBadge(bool $is_active)
+                            {
+                                if ($is_active) {
+                                    return 'scale-105 ring-1 ring-offset-1 shadow-sm';
                                 }
-                            @endphp
-
+                                return 'opacity-70 hover:opacity-100 hover:scale-105';
+                            }
+                        @endphp
+                        <div class="gap-2 grid-cols-2">
                             <!-- Severity -->
                             <div>
                                 <label class="text-[13px] font-medium mb-2 ml-1">
@@ -104,31 +101,27 @@
                                 </div>
                             </div>
 
-                            <!-- FILTER -->
-                            <div class="grid grid-cols-1 md:grid-cols-5 gap-2">
+                            <!-- DATE -->
+                            <div class="col-span-3">
+                                <label class="text-[13px] font-medium mb-2 ml-1.5">
+                                    Date
+                                </label>
 
-                                <!-- DATE -->
-                                <div class="col-span-3">
-                                    <label class="text-[13px] font-medium mb-2 ml-1.5">
-                                        Date
-                                    </label>
-
-                                    <x-form.date-range :date_range="$date_range" width='full' placeholder='Select Date' />
-                                </div>
-
-                                <!-- LOCATION -->
-                                <div class="col-span-2">
-                                    <label class="text-[13px] font-medium mb-2 ml-1.5">
-                                        Location
-                                    </label>
-
-                                    <x-form.select wire:change='setLocation' model="selected_location" :data="$locations"
-                                        disabled_option='Select Location' />
-                                </div>
-                                <span class="col-span-full text-center text-[13px] text-gray-500">
-                                    {{ $total_result ? "Showing $total_result results" : 'No results found' }}
-                                </span>
+                                <x-form.date-range :date_range="$date_range" width='full' placeholder='Select Date' />
                             </div>
+
+                            <!-- LOCATION -->
+                            <div class="col-span-2">
+                                <label class="text-[13px] font-medium mb-2 ml-1.5">
+                                    Location
+                                </label>
+
+                                <x-form.select wire:change='setLocation' model="selected_location" :data="$locations"
+                                    disabled_option='Select Location' />
+                            </div>
+                            <span class="col-span-full text-center text-[13px] text-gray-500">
+                                {{ $total_result ? "Showing $total_result results" : 'No results found' }}
+                            </span>
                         </div>
                     </div>
 
@@ -201,7 +194,6 @@
 
                     <!-- LOADING MORE -->
                     <div wire:loading.flex wire:target='loadMore' class="w-full h-16 items-center justify-center">
-
                         <x-icons.loading size="24" class="animate-spin text-gray-500" />
                     </div>
                 </div>
@@ -219,11 +211,9 @@
 
                     <!-- BACK -->
                     <button @click="view='list'" class="mb-3 text-sm text-gray-600 md:hidden cursor-pointer group">
-
                         <span class="inline-block group-hover:-translate-x-1 transition">
                             ←
                         </span>
-
                         Kembali
                     </button>
 
