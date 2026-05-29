@@ -305,7 +305,7 @@
     {{-- Pagination --}}
     <div class="flex sm:flex-row flex-col-reverse sm:justify-between items-center mt-4 gap-3">
         {{-- Pagination count --}}
-        <span class="text-sm text-gray-500">Showing {{ ($page - 1) * $paginate + 1 }} to
+        <span class="text-[13px] text-gray-500">Showing {{ ($page - 1) * $paginate + 1 }} to
             {{ ($page - 1) * $paginate + count($events) }} of
             {{ $total_events }} results</span>
         {{-- Pagination button --}}

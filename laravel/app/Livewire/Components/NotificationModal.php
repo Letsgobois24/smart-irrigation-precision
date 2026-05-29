@@ -12,7 +12,9 @@ class NotificationModal extends Component
 {
     public $active_notification = [];
     public array | null $notifications = null;
-    public int $count_notifications;
+    public int $total_active = 0;
+    public int $total_result = 0;
+
     private int $limit = 20;
     public int $offset = 0;
 
@@ -67,7 +69,7 @@ class NotificationModal extends Component
     #[On('add-data.node')]
     public function mount()
     {
-        $this->count_notifications = Notification::where('is_active', 1)->count();
+        $this->total_active = Notification::where('is_active', 1)->count();
         $this->isNotificationLoaded = false;
     }
 
@@ -121,12 +123,12 @@ class NotificationModal extends Component
         $this->offset += $this->limit;
         $new_notifications = $this->getAllNotifications();
 
+        $this->notifications = array_merge($this->notifications, $new_notifications);
+
         // Cek apabila list sudah load semua notifikasi
-        if (count($new_notifications) < $this->limit) {
+        if (count($this->notifications) >= $this->total_result) {
             $this->isMaxLoaded = true;
         }
-
-        $this->notifications = array_merge($this->notifications, $new_notifications);
     }
 
     public function setSeverity(string $severity)
@@ -153,14 +155,16 @@ class NotificationModal extends Component
 
     public function resetFilter()
     {
-        $this->reset('offset', 'selected_severity', 'selected_status', 'start_date', 'end_date', 'selected_location');
+        $this->reset('offset', 'selected_severity', 'selected_status', 'start_date', 'end_date', 'selected_location', 'isMaxLoaded');
         $this->notifications = $this->getAllNotifications();
+        $this->updateTotalResult();
     }
 
     private function filterNotifications()
     {
-        $this->reset('notifications', 'offset');
+        $this->reset('offset', 'isMaxLoaded');
         $this->notifications = $this->getAllNotifications();
+        $this->updateTotalResult();
     }
 
     private function getDateRange()
@@ -173,8 +177,9 @@ class NotificationModal extends Component
 
     private function updateNotifications(null | int $active_id = null)
     {
-        $this->count_notifications = Notification::where('is_active', 1)->count();
+        $this->total_active = Notification::where('is_active', 1)->count();
         $this->notifications = $this->getAllNotifications();
+        $this->updateTotalResult();
 
         if (count($this->notifications) > 0) {
             $active_id = $active_id ?? $this->notifications[0]['id'];
@@ -184,16 +189,7 @@ class NotificationModal extends Component
 
     private function getAllNotifications(): array
     {
-        $filters = [
-            'severity' => $this->selected_severity,
-            'is_active' => $this->selected_status,
-            'location' => $this->selected_location,
-            'date' => [
-                'from' => $this->start_date,
-                'to' => $this->end_date
-            ],
-        ];
-
+        $filters = $this->getFilterConfig();
         $notifications = Notification::select(['id', 'title', 'source_type', 'created_at', 'severity', 'is_active', 'tree_id'])
             ->filter($filters)
             ->activeOrder($this->selected_status)
@@ -210,6 +206,26 @@ class NotificationModal extends Component
                 ];
             })
             ->toArray();
+    }
+
+    // Update total result
+    private function updateTotalResult(): void
+    {
+        $filters = $this->getFilterConfig();
+        $this->total_result = Notification::filter($filters)->count();
+    }
+
+    private function getFilterConfig()
+    {
+        return [
+            'severity' => $this->selected_severity,
+            'is_active' => $this->selected_status,
+            'location' => $this->selected_location,
+            'date' => [
+                'from' => $this->start_date,
+                'to' => $this->end_date
+            ],
+        ];
     }
 
     // Component Function

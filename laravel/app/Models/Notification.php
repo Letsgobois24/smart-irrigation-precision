@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,8 +17,7 @@ class Notification extends Model
         return self::select('created_at')->limit(1)->orderBy('created_at', $order_by)->first();
     }
 
-    #[Scope]
-    protected function filter(Builder $query, array $filters): void
+    protected function scopeFilter(Builder $query, array $filters): void
     {
         $query->when($filters['severity'], function ($query, $severity) {
             $query->where('severity', $severity);
@@ -46,8 +44,7 @@ class Notification extends Model
         });
     }
 
-    #[Scope]
-    protected function activeOrder(Builder $query, string $is_active)
+    protected function scopeActiveOrder(Builder $query, string $is_active)
     {
         $query->when($is_active == '', function ($query) {
             $query->orderBy('is_active', 'desc');

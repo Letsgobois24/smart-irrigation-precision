@@ -3,10 +3,10 @@
     <button wire:click='openNotification' @click="isOpenNotification = true; view='list'"
         class="flex relative cursor-pointer ml-3 mr-7 size-10 justify-center items-center rounded-full hover:bg-green-50/30">
 
-        @if ($count_notifications > 0)
+        @if ($total_active > 0)
             <div
                 class="absolute top-0.5 right-1 bg-orange-500 size-4.5 rounded-full flex justify-center items-center text-xs">
-                {{ $count_notifications }}
+                {{ $total_active }}
             </div>
         @endif
 
@@ -17,7 +17,7 @@
     <div x-show="isOpenNotification" x-cloak x-transition.opacity.duration.200ms
         class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-        <div @click.outside="isOpenNotification = false" x-transition.scale.duration.200ms
+        <div @click.outside="isOpenNotification = false"
             class="bg-white w-full max-w-5xl h-[90vh] md:h-[80vh] rounded-2xl shadow-xl flex flex-col md:flex-row overflow-hidden">
 
             {{-- FIRST LOADING --}}
@@ -38,7 +38,7 @@
                     </div>
 
                     <!-- HEADER -->
-                    <div class="p-4 border-b space-y-3">
+                    <div class="p-4 pb-2 border-b space-y-3">
 
                         <div class="flex justify-between items-center">
                             <div class="flex gap-x-2 items-center">
@@ -125,6 +125,9 @@
                                     <x-form.select wire:change='setLocation' model="selected_location" :data="$locations"
                                         disabled_option='Select Location' />
                                 </div>
+                                <span class="col-span-full text-center text-[13px] text-gray-500">
+                                    {{ $total_result ? "Showing $total_result results" : 'No results found' }}
+                                </span>
                             </div>
                         </div>
                     </div>
