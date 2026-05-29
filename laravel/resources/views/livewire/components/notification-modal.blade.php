@@ -64,9 +64,9 @@
                                 return 'opacity-70 hover:opacity-100 hover:scale-105';
                             }
                         @endphp
-                        <div class="gap-2 grid-cols-2">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-y-2 gap-x-3">
                             <!-- Severity -->
-                            <div>
+                            <div class="md:col-span-full">
                                 <label class="text-[13px] font-medium mb-2 ml-1">
                                     Severity
                                 </label>
@@ -84,7 +84,7 @@
                             </div>
 
                             <!-- Status -->
-                            <div>
+                            <div class="md:col-span-full">
                                 <label class="text-[13px] font-medium mb-2 ml-1">
                                     Status
                                 </label>
@@ -102,7 +102,7 @@
                             </div>
 
                             <!-- DATE -->
-                            <div class="col-span-3">
+                            <div class="md:col-span-3">
                                 <label class="text-[13px] font-medium mb-2 ml-1.5">
                                     Date
                                 </label>
@@ -111,7 +111,7 @@
                             </div>
 
                             <!-- LOCATION -->
-                            <div class="col-span-2">
+                            <div class="md:col-span-2">
                                 <label class="text-[13px] font-medium mb-2 ml-1.5">
                                     Location
                                 </label>
