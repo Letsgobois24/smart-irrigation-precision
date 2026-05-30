@@ -39,6 +39,11 @@ class Notification extends Model
         });
     }
 
+    protected function scopeIsActive(Builder $query)
+    {
+        $query->where('is_active', 1);
+    }
+
     protected function scopeActiveOrder(Builder $query, string $is_active)
     {
         $query->when($is_active == '', function ($query) {

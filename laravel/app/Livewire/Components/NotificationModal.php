@@ -69,7 +69,7 @@ class NotificationModal extends Component
     #[On('add-data.node')]
     public function mount()
     {
-        $this->total_active = Notification::where('is_active', 1)->count();
+        $this->total_active = Notification::isActive()->count();
         $this->isNotificationLoaded = false;
     }
 
@@ -116,6 +116,7 @@ class NotificationModal extends Component
         }
 
         $this->updateNotifications($id);
+        $this->total_active = Notification::isActive()->count();
     }
 
     public function loadMore()
@@ -177,7 +178,6 @@ class NotificationModal extends Component
 
     private function updateNotifications(null | int $active_id = null)
     {
-        $this->total_active = Notification::where('is_active', 1)->count();
         $this->notifications = $this->getAllNotifications();
         $this->updateTotalResult();
 
