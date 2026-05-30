@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Notification extends Model
 {
@@ -49,5 +49,10 @@ class Notification extends Model
         $query->when($is_active == '', function ($query) {
             $query->orderBy('is_active', 'desc');
         });
+    }
+
+    public function tree(): BelongsTo
+    {
+        return $this->belongsTo(Tree::class, 'notifications_tree_id_foreign');
     }
 }

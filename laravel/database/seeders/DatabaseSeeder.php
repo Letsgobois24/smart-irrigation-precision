@@ -16,8 +16,9 @@ class DatabaseSeeder extends Seeder
             // GlobalSeeder::class,
             // NodeSeeder::class,
             // NotificationSeeder::class,
+            TreeSeeder::class,
             ConfigurationSeeder::class,
-            TreeSeeder::class
+            NotificationSeeder::class
         ]);
     }
 }

@@ -17,7 +17,7 @@ class Location extends Component
 
     public function render(InfluxDBService $influx)
     {
-        $trees = Tree::all();
+        $trees = Tree::withCount('notifications')->get();
 
         $active_trees_id = $this->getActiveTreeId($trees);
         $sensors = $this->getSensorData($influx, $active_trees_id);

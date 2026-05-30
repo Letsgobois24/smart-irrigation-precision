@@ -18,15 +18,15 @@ class NotificationSeeder extends Seeder
             'title' => 'Kelembapan Tanah Rendah',
             'message' => 'Kelembapan tanah berada di bawah threshold optimal selama 15 menit.',
             'recomendation' => 'Aktifkan irigasi',
-            'source_type' => 'pohon',
+            'source_type' => 'tree',
             'sensor_type' => 'kelembaban tanah',
-            'severity' => 'tinggi',
+            'severity' => 'high',
             'value' => 32,
             'threshold' => 45,
             'node_id' => 1,
             'tree_id' => 2,
             'is_active' => fake()->boolean(80),
-            'is_read' => fake()->boolean(80),
+            'is_read' => fake()->boolean(60),
         ]);
 
         Notification::create([
@@ -35,13 +35,13 @@ class NotificationSeeder extends Seeder
             'recomendation' => 'Periksa kemungkinan kebocoran',
             'source_type' => 'global',
             'sensor_type' => 'arus air',
-            'severity' => 'sedang',
+            'severity' => 'medium',
             'value' => 2.1,
             'threshold' => 1.9,
             'node_id' => null,
             'tree_id' => null,
             'is_active' => fake()->boolean(80),
-            'is_read' => fake()->boolean(80),
+            'is_read' => fake()->boolean(60),
         ]);
 
         $end = now()->startOfHour();

@@ -60,8 +60,13 @@
                         </p>
                     </div>
 
-                    <!-- FOOTER -->
+                    <!-- Anomaly Count -->
                     <div class="mt-4 text-xs opacity-80">
+                        Anomaly Detected: {{ $tree['notifications_count'] }}
+                    </div>
+
+                    <!-- FOOTER -->
+                    <div class="text-xs opacity-80">
                         Last update:
                         {{ $tree['time'] ? smartTimeFormat($tree['time']) : '-' }}
                     </div>
