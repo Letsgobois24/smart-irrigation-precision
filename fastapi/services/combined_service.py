@@ -23,7 +23,7 @@ def mqttSavePeriodData(data: dict):
         # for tree in data['trees']:
         #     is_anomaly = predictTreeAnomaly()
         #     if(is_anomaly):
-        #         notification_data.append(generate_notification('pohon'))
+        #         notification_data.append(generate_notification('tree'))
 
         addNodeTree(NodeTree(**data))
     

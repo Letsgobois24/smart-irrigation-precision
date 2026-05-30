@@ -6,10 +6,10 @@ global_cases = [
     {
         'source_type': 'global',
         'title': 'Sistem Irigasi Nonaktif',
-        'message': 'Sistem irigasi global sedang tidak aktif.',
+        'message': 'Sistem irigasi global medium tidak aktif.',
         'recomendation': 'Aktifkan sistem melalui dashboard',
         'sensor_type': 'system',
-        'severity': 'tinggi',
+        'severity': 'high',
         'value_range': (0, 1),
         'threshold': 1
     },
@@ -19,7 +19,7 @@ global_cases = [
         'message': 'Server tidak menerima data dari seluruh node.',
         'recomendation': 'Periksa koneksi jaringan utama',
         'sensor_type': 'network',
-        'severity': 'tinggi',
+        'severity': 'high',
         'value_range': (0, 0),
         'threshold': 1
     },
@@ -29,7 +29,7 @@ global_cases = [
         'message': 'Pola data global tidak normal.',
         'recomendation': 'Periksa seluruh sistem dan sensor',
         'sensor_type': 'system',
-        'severity': 'tinggi',
+        'severity': 'high',
         'value_range': (50, 100),
         'threshold': 60
     },
@@ -39,7 +39,7 @@ global_cases = [
         'message': 'Penggunaan air meningkat drastis.',
         'recomendation': 'Periksa kebocoran atau over-irrigation',
         'sensor_type': 'flow',
-        'severity': 'sedang',
+        'severity': 'medium',
         'value_range': (200, 500),
         'threshold': 300
     },
@@ -48,82 +48,82 @@ global_cases = [
 # ================= POHON =================
 tree_cases = [
     {
-        'source_type': 'pohon',
+        'source_type': 'tree',
         'title': 'Kelembapan Tanah Rendah',
         'message': 'Kelembapan tanah di bawah threshold.',
         'recomendation': 'Aktifkan irigasi',
         'sensor_type': 'kelembaban tanah',
-        'severity': 'tinggi',
+        'severity': 'high',
         'value_range': (10, 40),
         'threshold': 45
     },
     {
-        'source_type': 'pohon',
+        'source_type': 'tree',
         'title': 'Kelembapan Tanah Tinggi',
         'message': 'Tanah terlalu basah.',
         'recomendation': 'Matikan irigasi',
         'sensor_type': 'kelembaban tanah',
-        'severity': 'sedang',
+        'severity': 'medium',
         'value_range': (70, 95),
         'threshold': 65
     },
     {
-        'source_type': 'pohon',
+        'source_type': 'tree',
         'title': 'Suhu Tanah Tinggi',
         'message': 'Suhu tanah terlalu tinggi.',
         'recomendation': 'Tambahkan irigasi atau shading',
         'sensor_type': 'suhu tanah',
-        'severity': 'sedang',
+        'severity': 'medium',
         'value_range': (35, 50),
         'threshold': 33
     },
     {
-        'source_type': 'pohon',
+        'source_type': 'tree',
         'title': 'pH Tanah Asam',
         'message': 'pH tanah terlalu rendah.',
         'recomendation': 'Tambahkan kapur/dolomit',
         'sensor_type': 'pH tanah',
-        'severity': 'sedang',
+        'severity': 'medium',
         'value_range': (3, 5),
         'threshold': 6.5
     },
     {
-        'source_type': 'pohon',
+        'source_type': 'tree',
         'title': 'pH Tanah Basa',
         'message': 'pH tanah terlalu tinggi.',
         'recomendation': 'Tambahkan bahan organik',
         'sensor_type': 'pH tanah',
-        'severity': 'sedang',
+        'severity': 'medium',
         'value_range': (8, 10),
         'threshold': 6.5
     },
     {
-        'source_type': 'pohon',
+        'source_type': 'tree',
         'title': 'Debit Air Rendah',
         'message': 'Aliran air ke tanaman tidak mencukupi.',
         'recomendation': 'Periksa saluran atau pompa',
         'sensor_type': 'flow meter',
-        'severity': 'tinggi',
+        'severity': 'high',
         'value_range': (5, 15),
         'threshold': 20
     },
     {
-        'source_type': 'pohon',
+        'source_type': 'tree',
         'title': 'Tanaman Stres Kekeringan',
         'message': 'Indikasi kekurangan air pada tanaman.',
         'recomendation': 'Segera lakukan irigasi',
         'sensor_type': 'vegetation index',
-        'severity': 'tinggi',
+        'severity': 'high',
         'value_range': (0, 30),
         'threshold': 40
     },
     {
-        'source_type': 'pohon',
+        'source_type': 'tree',
         'title': 'Kelembaban Udara Rendah',
         'message': 'Udara terlalu kering di sekitar tanaman.',
         'recomendation': 'Tambahkan penyiraman ringan',
         'sensor_type': 'kelembaban udara',
-        'severity': 'rendah',
+        'severity': 'low',
         'value_range': (20, 40),
         'threshold': 50
     }

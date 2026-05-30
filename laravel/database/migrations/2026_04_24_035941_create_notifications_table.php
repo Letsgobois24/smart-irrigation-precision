@@ -18,13 +18,15 @@ return new class extends Migration
             $table->string('title');
             $table->text('message');
             $table->text('recomendation');
-            $table->enum('source_type', ['global', 'pohon']);
+            $table->enum('source_type', ['global', 'tree']);
             $table->string('sensor_type');
-            $table->enum('severity', ['rendah', 'sedang', 'tinggi']);
+            $table->enum('severity', ['low', 'medium', 'high']);
             $table->float('value', 2);
             $table->float('threshold', 2);
             $table->unsignedInteger('node_id')->nullable();
-            $table->unsignedInteger('tree_id')->nullable();
+            $table->foreignId('tree_id')
+                ->nullable()
+                ->constrained('trees', 'tree_id');
             $table->boolean('is_active');
             $table->boolean('is_read');
             $table->timestamps();

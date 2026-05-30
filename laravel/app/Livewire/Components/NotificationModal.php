@@ -29,15 +29,15 @@ class NotificationModal extends Component
             'name' => 'All',
             'color' => 'gray'
         ],
-        'rendah' => [
+        'low' => [
             'name' => 'Low',
             'color' => 'green'
         ],
-        'sedang' => [
+        'medium' => [
             'name' => 'Medium',
             'color' => 'yellow'
         ],
-        'tinggi' => [
+        'high' => [
             'name' => 'High',
             'color' => 'red'
         ],
@@ -88,7 +88,7 @@ class NotificationModal extends Component
     {
         if ($this->isNotificationLoaded) return;
 
-        $trees = Tree::select('tree_id')->active()->orderBy('tree_id')->pluck('tree_id');
+        $trees = Tree::select('tree_id')->isActive()->orderBy('tree_id')->pluck('tree_id');
         $locations[''] = 'All';
         $locations['global'] = 'Global';
         foreach ($trees as $tree) {
@@ -232,15 +232,15 @@ class NotificationModal extends Component
     public function getConfigClass(string $severity): array
     {
         return match ($severity) {
-            'rendah' => [
+            'low' => [
                 'badge' => 'green',
                 'text' => 'text-green-700'
             ],
-            'sedang' => [
+            'medium' => [
                 'badge' => 'yellow',
                 'text' => 'text-yellow-700'
             ],
-            'tinggi' => [
+            'high' => [
                 'badge' => 'red',
                 'text' => 'text-red-700'
             ],

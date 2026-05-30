@@ -20,9 +20,9 @@ class NotificationFactory extends Factory
 
     public function definition(): array
     {
-        $source_type = fake()->randomElement(['global', 'pohon']);
+        $source_type = fake()->randomElement(['global', 'tree']);
         $sensor_type = null;
-        if ($source_type == 'pohon') {
+        if ($source_type == 'tree') {
             $sensor_type = fake()->randomElement($this->node_sensor);
         } else {
             $sensor_type = fake()->randomElement($this->global_sensor);
@@ -34,11 +34,11 @@ class NotificationFactory extends Factory
             'recomendation' => fake()->text(),
             'source_type' => $source_type,
             'sensor_type' => $sensor_type,
-            'severity' => fake()->randomElement(['rendah', 'sedang', 'tinggi']),
+            'severity' => fake()->randomElement(['low', 'medium', 'high']),
             'value' => fake()->randomFloat(2, 0, 100),
             'threshold' => fake()->randomFloat(2, 0, 100),
-            'node_id' => $source_type == 'pohon' ? 1 : null,
-            'tree_id' => $source_type == 'pohon' ? fake()->numberBetween(1, 4) : null,
+            'node_id' => $source_type == 'tree' ? 1 : null,
+            'tree_id' => $source_type == 'tree' ? fake()->numberBetween(1, 4) : null,
             'is_active' => fake()->boolean(80),
             'is_read' => fake()->boolean(80),
         ];
