@@ -7,7 +7,7 @@
     };
 @endphp
 
-<div x-data wire:ignore x-init="$nextTick(() => dateInput = dateRange($refs.range, $wire, @js($date_range)))" class="relative">
+<div x-data x-init="$nextTick(() => dateInput = dateRange($refs.range, $wire, @js($date_range)))" class="relative">
     <input x-ref="range" type="text" placeholder="{{ $placeholder }}"
         class="{{ $width_class }}
                 px-10 py-2

@@ -9,10 +9,10 @@
             </button>
         </div>
 
+        {{-- Notification Modal --}}
         <div class="justify-end items-center">
             <livewire:components.notification-modal />
         </div>
     </div>
-    {{-- Notification Modal --}}
 
 </nav>
