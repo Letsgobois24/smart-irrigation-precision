@@ -61,23 +61,21 @@ class GlobalCards extends Component
                 'text' => 'text-red-700',
                 'description' => 'pH terlalu asam.',
             ],
-
-            'base' => [
-                'label' => 'base',
-                'color' => 'purple',
-                'bg' => 'bg-purple-50',
-                'border' => 'border-purple-100',
-                'text' => 'text-purple-700',
-                'description' => 'pH terlalu basa.',
-            ],
-
-            default => [
+            'optimal' => [
                 'label' => 'optimal',
                 'color' => 'emerald',
                 'bg' => 'bg-emerald-50',
                 'border' => 'border-emerald-100',
                 'text' => 'text-emerald-700',
                 'description' => 'Kondisi pH optimal untuk irigasi.',
+            ],
+            default => [
+                'label' => 'base',
+                'color' => 'purple',
+                'bg' => 'bg-purple-50',
+                'border' => 'border-purple-100',
+                'text' => 'text-purple-700',
+                'description' => 'pH terlalu basa.',
             ],
         };
     }

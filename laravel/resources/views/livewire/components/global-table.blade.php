@@ -1,11 +1,7 @@
-<main>
-    <div x-data="{ dateInput: null }" class="flex flex-col sm:flex-row sm:items-stretch gap-3 mb-4">
+<div x-data="{ dateInput: null }">
+    <div class="flex flex-col sm:flex-row sm:items-stretch gap-3 mb-4">
         {{-- Date Range --}}
         <x-form.date-range :date_range="$date_range" placeholder="Filter irrigation data..." />
-
-        {{-- Select Tree ID --}}
-        <x-form.select wire:change='refreshTotalEvents' model="selected_tree" :data="$trees_id"
-            disabled_option='Select Tree' />
 
         {{-- Show All / Reset --}}
         <button wire:click="showAll" @click='dateInput.clear()' type="button"
@@ -33,116 +29,68 @@
         <table wire:loading.remove class="min-w-full text-sm text-left border-collapse">
             <thead class="bg-green-50 text-green-800 text-center">
 
-                {{-- Group Header --}}
-                <tr class="border-b-2 border-green-200">
-
-                    <th rowspan="2"
-                        class="px-4 py-3 font-bold whitespace-nowrap align-middle text-center border-r border-green-200">
-                        Tree
-                    </th>
-
-                    <th rowspan="2"
-                        class="px-4 py-3 font-bold whitespace-nowrap align-middle text-center border-r border-green-200">
-                        Valve
-                    </th>
-
-                    {{-- Current Group --}}
-                    <th colspan="5"
-                        class="px-4 py-3 font-bold text-center border-r border-green-200 bg-green-100/50">
-                        ⚡ Current (mA)
-                    </th>
-
-                    {{-- Moisture Group --}}
-                    <th colspan="4" class="px-4 py-3 font-bold border-r border-green-200 bg-blue-100/40">
-                        💧 Moisture
-                    </th>
-
-                    {{-- Anomaly Group --}}
-                    <th colspan="2" class="px-4 py-3 font-bold border-r border-green-200 bg-red-100/40">
-                        🚨 Anomaly
-                    </th>
-
-                    <th rowspan="2" class="px-4 py-3 font-bold whitespace-nowrap align-middle">
-                        Time
-                    </th>
-
-                </tr>
-
                 {{-- Sub Header --}}
-                <tr class="text-xs tracking-wide border-b border-green-100">
-
+                <tr class="border-b border-green-100">
                     {{-- Current --}}
                     <th class="px-4 py-3 whitespace-nowrap">
-                        Before
+                        pH
                     </th>
-
                     <th class="px-4 py-3 whitespace-nowrap">
-                        Duration
+                        Water Flow (L/min)
                     </th>
-
                     <th class="px-4 py-3 whitespace-nowrap">
-                        Stable
+                        Main Valve
                     </th>
-
                     <th class="px-4 py-3 whitespace-nowrap">
-                        Delta
+                        Time
                     </th>
-
-                    <th class="px-4 py-3 whitespace-nowrap border-r border-green-200">
-                        Average
-                    </th>
-
-                    {{-- Moisture --}}
-                    <th class="px-4 py-3 whitespace-nowrap">
-                        Before
-                    </th>
-
-                    <th class="px-4 py-3 whitespace-nowrap">
-                        Duration
-                    </th>
-
-                    <th class="px-4 py-3 whitespace-nowrap">
-                        After
-                    </th>
-
-                    <th class="px-4 py-3 whitespace-nowrap border-r border-green-200">
-                        Delta
-                    </th>
-
-                    {{-- Anomaly --}}
-                    <th class="px-4 py-3 whitespace-nowrap">
-                        Flag
-                    </th>
-
-                    <th class="px-4 py-3 whitespace-nowrap border-r border-green-200">
-                        Score
-                    </th>
-
                 </tr>
             </thead>
 
             <tbody class="divide-y divide-gray-100">
-                @forelse ($events as $event)
-                    <x-table.body-row :row="$event" />
+                @forelse ($data as $row)
+                    <tr class="hover:bg-gray-50 transition font-mono text-center">
+                        {{-- pH --}}
+                        <td class="px-4 py-3 border-r border-green-200">
+                            <x-ui.badge size='sm' :color="$this->pHColor($row['ph'])">
+                                {{ number_format($row['ph'], 1) }}
+                            </x-ui.badge>
+                        </td>
+                        {{-- Water Flow --}}
+                        <td
+                            class="px-4 py-3 font-medium border-r border-green-200 {{ $row['water_flow'] < 0.1 ? 'text-gray-700' : 'text-blue-700' }}">
+                            {{ number_format($row['water_flow'], 1) }}
+                        </td>
+                        {{-- Main Valve --}}
+                        <td class="px-4 py-3 font-sans border-r border-green-200">
+                            <x-ui.badge size='sm' :color="$row['main_valve'] ? 'green' : 'red'">
+                                {{ $row['main_valve'] ? 'ON' : 'OFF' }}
+                            </x-ui.badge>
+                        </td>
+                        {{-- Time --}}
+                        <td class="px-4 py-3 font-sans text-gray-500 whitespace-nowrap">
+                            {{ smartTimeFormat($row['time']) }}
+                        </td>
+                    </tr>
+
                 @empty
                     <tr>
                         <td colspan="14" class="text-center py-10 text-gray-400">
-                            Tidak ada data system event
+                            Tidak ada data yang tersedia
                         </td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
 
-        <x-placeholder.table columns='10' rows='5' wire:loading />
+        <x-placeholder.table columns='5' rows='5' wire:loading />
     </div>
 
     {{-- Pagination --}}
     <div class="flex sm:flex-row flex-col-reverse sm:justify-between items-center mt-4 gap-3">
         {{-- Pagination count --}}
         <span class="text-sm text-gray-500">Showing {{ ($page - 1) * $paginate + 1 }} to
-            {{ ($page - 1) * $paginate + count($events) }} of
-            {{ $total_events }} results</span>
+            {{ ($page - 1) * $paginate + count($data) }}</span>
         {{-- Pagination button --}}
         <div class="flex items-center gap-2">
             {{-- LEFT --}}
@@ -180,5 +128,4 @@
 
         </div>
     </div>
-    </div>
-</main>
+</div>
