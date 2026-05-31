@@ -33,9 +33,10 @@
             <span>Show All</span>
         </button>
     </div>
+
     {{-- Table --}}
     <div class="overflow-x-auto rounded-xl border border-gray-100">
-        <table class="min-w-full text-sm text-left border-collapse">
+        <table wire:loading.remove class="min-w-full text-sm text-left border-collapse">
             <thead class="bg-green-50 text-green-800 text-center">
 
                 {{-- Group Header --}}
@@ -138,7 +139,10 @@
                 @endforelse
             </tbody>
         </table>
+
+        <x-placeholder.table columns='10' rows='5' wire:loading />
     </div>
+
     {{-- Pagination --}}
     <div class="flex sm:flex-row flex-col-reverse sm:justify-between items-center mt-4 gap-3">
         {{-- Pagination count --}}
@@ -163,8 +167,7 @@
 
             {{-- Page Indicator --}}
             <div class="w-16 h-4 inline-flex justify-center items-center text-sm text-gray-500 font-medium">
-                <span wire:loading.remove wire:target='nextPage, previousPage'>Page {{ $page }}</span>
-                <x-icons.loading size='20' wire:loading wire:target='nextPage, previousPage' />
+                Page {{ $page }}
             </div>
 
             {{-- RIGHT --}}
