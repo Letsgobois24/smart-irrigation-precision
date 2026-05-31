@@ -25,9 +25,7 @@
     }
 
 }" @scroll.window.throttle.30ms="handleScroll">
-    @persist('header')
-        <x-header.header x-ref="header" />
-    @endpersist
+    <x-header.header x-ref="header" />
     <x-header.floating-hamburger x-show="showFloatingHamburger && !isOpenSidebar" />
     <x-header.sidebar />
     <div :class="isOpenSidebar ? 'lg:ml-54' : 'lg:ml-0'">

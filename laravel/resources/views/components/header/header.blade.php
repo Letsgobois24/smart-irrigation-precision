@@ -11,7 +11,10 @@
 
         {{-- Notification Modal --}}
         <div class="justify-end items-center">
-            <livewire:components.notification-modal />
+            @persist('notification-modal')
+                <livewire:components.notification-modal />
+            @endpersist
+
         </div>
     </div>
 
