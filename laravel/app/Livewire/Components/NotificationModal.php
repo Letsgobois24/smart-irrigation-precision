@@ -86,8 +86,10 @@ class NotificationModal extends Component
 
     public function openNotification()
     {
+        // Jika sudah diload tidak akan melanjutkan
         if ($this->isNotificationLoaded) return;
 
+        // Set location select options
         $trees = Tree::select('tree_id')->isActive()->orderBy('tree_id')->pluck('tree_id');
         $locations[''] = 'All';
         $locations['global'] = 'Global';
@@ -132,6 +134,14 @@ class NotificationModal extends Component
         }
     }
 
+    #[On('filter-location')]
+    public function setNotificationByLocation(string $tree_id)
+    {
+        $this->reset('offset', 'selected_severity', 'selected_status', 'start_date', 'end_date', 'isMaxLoaded');
+        $this->selected_location = $tree_id;
+        $this->setLocation();
+    }
+
     public function setSeverity(string $severity)
     {
         $this->selected_severity = $severity;
@@ -159,6 +169,8 @@ class NotificationModal extends Component
         $this->reset('offset', 'selected_severity', 'selected_status', 'start_date', 'end_date', 'selected_location', 'isMaxLoaded');
         $this->notifications = $this->getAllNotifications();
         $this->updateTotalResult();
+
+        // dump($this->active_notification);
     }
 
     private function filterNotifications()

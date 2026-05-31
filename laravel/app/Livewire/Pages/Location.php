@@ -4,6 +4,7 @@ namespace App\Livewire\Pages;
 
 use App\Models\Tree;
 use App\Services\InfluxDBService;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 
 class Location extends Component
@@ -17,7 +18,11 @@ class Location extends Component
 
     public function render(InfluxDBService $influx)
     {
-        $trees = Tree::withCount('notifications')->get();
+        $trees = Tree::withCount([
+            'notifications' => function (Builder $query) {
+                $query->where('notifications.is_active', true);
+            }
+        ])->get();
 
         $active_trees_id = $this->getActiveTreeId($trees);
         $sensors = $this->getSensorData($influx, $active_trees_id);
@@ -27,6 +32,7 @@ class Location extends Component
             'trees' => $trees
         ]);
     }
+
 
     private function getActiveTreeId(object $trees)
     {

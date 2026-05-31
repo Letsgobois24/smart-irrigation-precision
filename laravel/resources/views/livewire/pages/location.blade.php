@@ -50,7 +50,7 @@
 
                 @if ($tree['is_active'])
                     <!-- ACTIVE CONTENT -->
-                    <div class="mt-6">
+                    <div class="mt-4">
                         <h2 class="text-3xl font-bold">
                             {{ $tree['soil_moisture'] }}%
                         </h2>
@@ -60,15 +60,16 @@
                         </p>
                     </div>
 
-                    <!-- Anomaly Count -->
-                    <div class="mt-4 text-xs opacity-80">
-                        Anomaly Detected: {{ $tree['notifications_count'] }}
+                    <!-- Last Update -->
+                    <div class="mt-2 text-xs opacity-80">
+                        Last update:
+                        {{ smartTimeFormat($tree['time']) }}
                     </div>
 
-                    <!-- FOOTER -->
-                    <div class="text-xs opacity-80">
-                        Last update:
-                        {{ $tree['time'] ? smartTimeFormat($tree['time']) : '-' }}
+                    <!-- Anomaly Count -->
+                    <div x-on:click="$dispatch('filter-location', { tree_id: @js($tree['tree_id']) })"
+                        class="mt-3 text-sm font-medium cursor-pointer text-red-700 hover:underline">
+                        Active Anomaly: {{ $tree['notifications_count'] }}
                     </div>
                 @else
                     <!-- INACTIVE CONTENT -->

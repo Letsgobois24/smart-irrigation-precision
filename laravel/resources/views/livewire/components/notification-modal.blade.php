@@ -1,4 +1,4 @@
-<div x-data="{ isOpenNotification: false, view: 'list' }">
+<div x-data="{ isOpenNotification: false, view: 'list' }" @filter-location.window="isOpenNotification = true; $wire.openNotification();">
     <!-- BUTTON -->
     <button wire:click='openNotification' @click="isOpenNotification = true; view='list'"
         class="flex relative cursor-pointer ml-3 mr-7 size-10 justify-center items-center rounded-full hover:bg-green-50/30">
@@ -31,7 +31,7 @@
                     x-show="view === 'list' || window.innerWidth >= 768">
 
                     <!-- FILTER LOADING OVERLAY -->
-                    <div wire:loading.flex wire:target="setSeverity,setStatus,setLocation,resetFilter"
+                    <div wire:loading.flex wire:target="setSeverity,setStatus,setDateRange,setLocation,resetFilter"
                         class="absolute inset-0 bg-white/60 backdrop-blur-[1px] z-20 items-center justify-center">
 
                         <x-icons.loading size="28" class="animate-spin text-gray-500" />
@@ -188,7 +188,7 @@
                     @endif
 
                     <!-- LOAD MORE -->
-                    @if (!$isMaxLoaded)
+                    @if (!$isMaxLoaded && $notifications)
                         <div x-intersect="$wire.loadMore()" class="h-6"></div>
                     @endif
 
