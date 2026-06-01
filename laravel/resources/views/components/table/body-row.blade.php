@@ -45,7 +45,7 @@
 
     {{-- Moisture Before --}}
     <td class="px-4 py-3">
-        <x-ui.cell :value="$moistureBefore" :bar-color="$moistureBarColor($beforeStatus)" :badge-color="$moistureColor($beforeStatus)" />
+        <x-ui.moisture-cell :value="$row['moisture_before']" />
     </td>
 
     {{-- Moisture Duration --}}
@@ -55,7 +55,7 @@
 
     {{-- Moisture After --}}
     <td class="px-4 py-3">
-        <x-ui.cell :value="$moistureAfter" :bar-color="$moistureBarColor($afterStatus)" :badge-color="$moistureColor($afterStatus)" />
+        <x-ui.moisture-cell :value="$row['moisture_after']" />
     </td>
 
     {{-- Moisture Delta --}}

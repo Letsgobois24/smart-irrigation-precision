@@ -3,9 +3,8 @@
         Monitoring Data Node
     </h2>
 
-    {{-- Node Header --}}
     <div class="bg-white shadow rounded-xl p-6 px-4 sm:px-6">
-        {{-- Monitoring Header --}}
+        {{-- Node Monitoring Header --}}
         <x-header.monitoring-header icon='🌱' title="Node 1"
             description='Ringkasan kondisi beberapa pohon dari node 1'>
             <x-slot:badge>
@@ -17,17 +16,33 @@
         </x-header.monitoring-header>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <!-- 4 Trees -->
+            <!-- New 4 Trees Data -->
             @foreach ($node_data as $tree)
                 <x-card.tree-card :tree="$tree" />
             @endforeach
         </div>
 
         <div class="grid gap-6">
+            {{-- Soil Moisture Chart --}}
             <livewire:components.line-chart lazy field="soil_moisture" fieldName="Soil Moisture" table="node"
                 groupby='tree_id' xlabel='Tree' ylabel='%' class="col-span-2" />
+            {{-- Node Monitoring --}}
             <div class="bg-white rounded-2xl shadow p-4 sm:p-6 overflow-hidden">
+                {{-- Header --}}
+                <div class="flex flex-col mb-3">
+                    <h2 class="text-lg font-bold text-gray-800">
+                        Tree Table
+                    </h2>
+                    <p class="text-sm text-gray-500">
+                        Riwayat data pohon
+                    </p>
+                </div>
+                {{-- Table --}}
+                <livewire:components.node-table lazy />
+            </div>
 
+            {{-- System Event Monitoring --}}
+            <div class="bg-white rounded-2xl shadow p-4 sm:p-6 overflow-hidden">
                 {{-- Header --}}
                 <div class="flex flex-col mb-3">
                     <h2 class="text-lg font-bold text-gray-800">
@@ -37,10 +52,10 @@
                         Riwayat proses irigasi otomatis
                     </p>
                 </div>
-
                 {{-- Table --}}
                 <livewire:components.system-event-table lazy />
             </div>
+
         </div>
     </div>
 </div>
