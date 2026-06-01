@@ -82,8 +82,8 @@
                 @endforelse
             </tbody>
         </table>
+        <x-placeholder.table columns='4' rows='5' wire:loading.table class="divide-y divide-gray-100" />
 
-        <x-placeholder.table columns='5' rows='5' wire:loading />
     </div>
 
     {{-- Pagination --}}

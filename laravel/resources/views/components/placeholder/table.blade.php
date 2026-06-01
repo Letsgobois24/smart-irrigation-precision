@@ -6,7 +6,7 @@
         <tr>
             @for ($i = 0; $i < $columns; $i++)
                 <th class="px-4 py-3">
-                    <div class="h-4 w-20 bg-gray-300 rounded"></div>
+                    <div class="h-6 w-20 bg-gray-300 rounded"></div>
                 </th>
             @endfor
         </tr>
