@@ -30,7 +30,7 @@
 
     {{-- Table --}}
     <div class="overflow-x-auto rounded-xl border border-gray-100">
-        <table wire:loading.remove class="min-w-full text-sm text-left border-collapse">
+        <table class="table-fixed min-w-full text-sm text-left border-collapse">
             <thead class="bg-green-50 text-green-800 text-center">
 
                 {{-- Group Header --}}
@@ -121,7 +121,7 @@
                 </tr>
             </thead>
 
-            <tbody class="divide-y divide-gray-100">
+            <tbody wire:loading.remove class="divide-y divide-gray-100">
                 @forelse ($events as $event)
                     <x-table.body-row :row="$event" />
                 @empty
@@ -132,9 +132,9 @@
                     </tr>
                 @endforelse
             </tbody>
+            <x-placeholder.table-body columns='14' rows='5' td-class='border-r border-green-200'
+                class="divide-y divide-gray-100 hidden" />
         </table>
-
-        <x-placeholder.table columns='10' rows='5' wire:loading />
     </div>
 
     {{-- Pagination --}}
