@@ -23,10 +23,7 @@ class NotificationModal extends Component
 
     // Filter Options
     public array $date_range;
-    public array $locations = [
-        '' => 'All',
-        'global' => 'Global'
-    ];
+    public array $locations = ['global' => 'Global'];
     public array $severities = [
         '' => [
             'name' => 'All',
@@ -93,10 +90,8 @@ class NotificationModal extends Component
         if ($this->isNotificationLoaded) return;
 
         // Set location select options
-        $trees = Tree::getTreeId();
-        foreach ($trees as $tree) {
-            $this->locations[$tree] = 'Tree ' . $tree;
-        }
+        $trees = Tree::getOptions();
+        $this->locations = array_merge($this->locations, $trees);
 
         $this->date_range = $this->getDateRange();
 

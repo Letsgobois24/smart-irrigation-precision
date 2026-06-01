@@ -4,11 +4,14 @@ namespace App\Livewire\Components;
 
 use App\Models\Tree;
 use App\Services\InfluxDBService;
+use App\Services\TreeServices;
 use Carbon\Carbon;
 use Livewire\Component;
 
-class SystemEventTable extends Component
+class NodeTable extends Component
 {
+    private string $table = 'node';
+
     public int $page = 1;
     public int $paginate = 5;
 
@@ -16,30 +19,26 @@ class SystemEventTable extends Component
 
     public string $start_date = '';
     public string $end_date = '';
-
-    public array $date_range;
-    public int $total_events;
-
     public null | int $selected_tree = null;
 
     public array $trees_id = [];
 
-    public function mount(InfluxDBService $influx)
-    {
-        $this->trees_id = Tree::getOptions();
+    public array $date_range;
+    public int $total_rows;
 
+    public function mount(InfluxDBService $influx,)
+    {
+        // Get option for Tree Id
+        $this->trees_id = Tree::getOptions(node_id: 1);
         $this->date_range = $this->getDateRange($influx);
-        $this->refreshTotalEvents($influx);
     }
 
     public function render(InfluxDBService $influx)
     {
-        $events = $this->getEvents($influx);
-        $this->isLast = ($this->page - 1) * $this->paginate + count($events) == $this->total_events;
+        $data = $this->getData($influx);
+        $this->isLast = count($data) < $this->paginate;
 
-        return view('livewire.components.system-event-table', [
-            'events' => $events,
-        ]);
+        return view('livewire.components.node-table', compact('data'));
     }
 
     public function placeholder()
@@ -57,29 +56,22 @@ class SystemEventTable extends Component
         $this->page += 1;
     }
 
-    public function setDateRange(InfluxDBService $influx)
+    public function setDateRange()
     {
         $this->reset('page');
-        $this->refreshTotalEvents($influx);
     }
 
-    public function showAll(InfluxDBService $influx)
+    public function showAll()
     {
         $this->reset('page', 'start_date', 'end_date', 'selected_tree');
-        $this->refreshTotalEvents($influx);
-    }
-
-    public function refreshTotalEvents(InfluxDBService $influx)
-    {
-        $this->total_events = $this->getCountEvents($influx);
     }
 
     private function getDateRange(InfluxDBService $influx)
     {
-        $query = "SELECT time FROM system_event ORDER BY time ASC LIMIT 1";
+        $query = "SELECT time FROM '$this->table' ORDER BY time ASC LIMIT 1";
         $from = $influx->query($query)->get()[0]['time'];
 
-        $query = "SELECT time FROM system_event ORDER BY time DESC LIMIT 1";
+        $query = "SELECT time FROM '$this->table' ORDER BY time DESC LIMIT 1";
         $to = $influx->query($query)->get()[0]['time'];
 
         return [
@@ -88,36 +80,24 @@ class SystemEventTable extends Component
         ];
     }
 
-    private function getEvents(InfluxDBService $influx)
+    private function getData(InfluxDBService $influx)
     {
         $offset = ($this->page - 1) * $this->paginate;
         $limit = $this->paginate;
 
-        $where = $this->buildWhereClause();
+        $query = ["SELECT * FROM '$this->table'"];
 
-        $query = "
-            SELECT *
-            FROM system_event
-            WHERE $where
-            ORDER BY time DESC
-            OFFSET $offset
-            LIMIT $limit
-        ";
+        if ($where = $this->buildWhereClause()) {
+            $query[] = "WHERE $where";
+        }
 
-        return $influx->query($query)->convertTimezone()->get();
-    }
+        $query[] = "ORDER BY time DESC";
+        $query[] = "OFFSET $offset";
+        $query[] = "LIMIT $limit";
 
-    private function getCountEvents(InfluxDBService $influx)
-    {
-        $where = $this->buildWhereClause();
-
-        $query = "
-            SELECT COUNT(*) AS total_events
-            FROM system_event
-            WHERE $where
-        ";
-
-        return $influx->query($query)->get()[0]['total_events'];
+        return $influx->query(implode("\n", $query))
+            ->convertTimezone()
+            ->get();
     }
 
     private function buildWhereClause(): string
@@ -143,5 +123,14 @@ class SystemEventTable extends Component
         }
 
         return implode(' AND ', $conditions);
+    }
+
+    public function pHColor(float $ph): string
+    {
+        return match (true) {
+            $ph < 5.5 => 'red',
+            $ph <= 7.5 => 'emerald',
+            default => 'purple',
+        };
     }
 }
