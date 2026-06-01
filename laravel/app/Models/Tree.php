@@ -19,4 +19,9 @@ class Tree extends Model
     {
         return $this->hasMany(Notification::class, 'tree_id', 'tree_id');
     }
+
+    public static function getTreeId()
+    {
+        return self::select('tree_id')->isActive()->orderBy('tree_id')->pluck('tree_id');
+    }
 }
