@@ -26,11 +26,12 @@ class NodeSeeder extends Seeder
                     'measurement' => 'node',
                     'tags' => [
                         'node_id' => 1,
-                        'tree_id' => $tree_id
+                        'tree_id' => $tree_id,
+                        'event_source' => 'periodic'
                     ],
                     'fields' => [
                         'soil_moisture' => fake()->randomFloat(1, 50, 80),
-                        'valve' => fake()->boolean(75)
+                        'valve' => fake()->boolean(75),
                     ],
                     'time' => $date->getTimestamp()
                 ];
