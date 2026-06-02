@@ -20,10 +20,16 @@ class NodeTable extends Component
     public string $start_date = '';
     public string $end_date = '';
     public null | int $selected_tree = null;
+    public string $selected_event = '';
 
+    public array $event_sources = [
+        '' => 'All',
+        'periodic' => 'Periodic',
+        'event' => 'Event'
+    ];
+    public array $date_range;
     public array $trees_id = [];
 
-    public array $date_range;
     public int $total_rows;
 
     public function mount(InfluxDBService $influx,)
@@ -104,8 +110,14 @@ class NodeTable extends Component
     {
         $conditions = ["node_id=1"];
 
+        // Location Filter
         if ($this->selected_tree) {
             $conditions[] = "tree_id='$this->selected_tree'";
+        }
+
+        // Source Event Filter
+        if ($this->selected_event) {
+            $conditions[] = "event_source='$this->selected_event'";
         }
 
         if ($this->start_date && $this->end_date) {

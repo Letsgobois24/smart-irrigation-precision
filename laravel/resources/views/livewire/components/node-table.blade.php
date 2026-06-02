@@ -2,8 +2,10 @@
     <div class="flex flex-col sm:flex-row sm:items-stretch gap-3 mb-4">
         {{-- Date Range --}}
         <x-form.date-range :date_range="$date_range" placeholder="Filter irrigation data..." />
-        {{-- Select Tree ID --}}
+        {{-- Select location --}}
         <x-form.select model="selected_tree" :data="$trees_id" disabled_option='Select Tree' />
+        {{-- Select location --}}
+        <x-form.select model="selected_event" :data="$event_sources" disabled_option='Select Source' />
         {{-- Show All / Reset --}}
         <x-ui.button.show-all click="showAll" @click='dateInput.clear()' />
     </div>
