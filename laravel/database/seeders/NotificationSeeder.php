@@ -24,7 +24,7 @@ class NotificationSeeder extends Seeder
             'value' => 32,
             'threshold' => 45,
             'node_id' => 1,
-            'tree_id' => 2,
+            'tree_id' => 6,
             'is_active' => fake()->boolean(80),
             'is_read' => fake()->boolean(60),
         ]);
