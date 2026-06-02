@@ -1,4 +1,4 @@
-<div>
+<div class="mb-10">
     <h2 class="text-xl font-semibold text-green-700 mb-4">
         Monitoring Data Node
     </h2>
@@ -27,34 +27,9 @@
             <livewire:components.line-chart lazy field="soil_moisture" fieldName="Soil Moisture" table="node"
                 groupby='tree_id' xlabel='Tree' ylabel='%' class="col-span-2" />
             {{-- Node Monitoring --}}
-            <div class="bg-white rounded-2xl shadow p-4 sm:p-6 overflow-hidden">
-                {{-- Header --}}
-                <div class="flex flex-col mb-3">
-                    <h2 class="text-lg font-bold text-gray-800">
-                        Tree Table
-                    </h2>
-                    <p class="text-sm text-gray-500">
-                        Riwayat data pohon
-                    </p>
-                </div>
-                {{-- Table --}}
+            <x-container title="Tree Table" description='Riwayat data pohon'>
                 <livewire:components.node-table lazy />
-            </div>
-
-            {{-- System Event Monitoring --}}
-            <div class="bg-white rounded-2xl shadow p-4 sm:p-6 overflow-hidden">
-                {{-- Header --}}
-                <div class="flex flex-col mb-3">
-                    <h2 class="text-lg font-bold text-gray-800">
-                        🚨 System Event Monitoring
-                    </h2>
-                    <p class="text-sm text-gray-500">
-                        Riwayat proses irigasi otomatis
-                    </p>
-                </div>
-                {{-- Table --}}
-                <livewire:components.system-event-table lazy />
-            </div>
+            </x-container>
 
         </div>
     </div>
