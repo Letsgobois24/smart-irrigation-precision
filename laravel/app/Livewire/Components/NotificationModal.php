@@ -91,7 +91,7 @@ class NotificationModal extends Component
 
         // Set location select options
         $trees = Tree::getOptions();
-        $this->locations = array_merge($this->locations, $trees);
+        $this->locations = $this->locations + $trees;
 
         $this->date_range = $this->getDateRange();
 

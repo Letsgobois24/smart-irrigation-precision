@@ -124,13 +124,4 @@ class NodeTable extends Component
 
         return implode(' AND ', $conditions);
     }
-
-    public function pHColor(float $ph): string
-    {
-        return match (true) {
-            $ph < 5.5 => 'red',
-            $ph <= 7.5 => 'emerald',
-            default => 'purple',
-        };
-    }
 }

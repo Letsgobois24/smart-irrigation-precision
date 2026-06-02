@@ -17,7 +17,7 @@ class NodeMonitoring extends Component
 
     public function mount(InfluxDBService $influx)
     {
-        $this->trees = Tree::getTreeId(1);
+        $this->trees = Tree::getTreeId(1)->toArray();
 
         try {
             $this->node_data = $this->getSensorData($influx);

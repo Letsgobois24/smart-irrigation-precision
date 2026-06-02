@@ -32,7 +32,7 @@ class Tree extends Model
                 $builder->where('node_id', $node_id);
             });
 
-            return $builder->orderBy('tree_id')->pluck('tree_id')->toArray();
+            return $builder->orderBy('tree_id')->pluck('tree_id');
         });
     }
 
