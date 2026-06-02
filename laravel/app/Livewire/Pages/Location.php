@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Pages;
 
+use App\Models\Notification;
 use App\Models\Tree;
 use App\Services\InfluxDBService;
 use Illuminate\Database\Eloquent\Builder;
@@ -16,7 +17,7 @@ class Location extends Component
         $this->max_col = Tree::max('col_idx');
     }
 
-    public function render(InfluxDBService $influx)
+    public function render()
     {
         $trees = Tree::withCount([
             'notifications' => function (Builder $query) {
@@ -24,52 +25,10 @@ class Location extends Component
             }
         ])->get();
 
-        $active_trees_id = $this->getActiveTreeId($trees);
-        $sensors = $this->getSensorData($influx, $active_trees_id);
-        $trees = $this->combineSensorTree($trees, $sensors);
+        // Summary Tree
+        $summary = Tree::getSummary();
+        $summary['total_anomaly'] = Notification::isTree()->isActive()->count();
 
-        return view('livewire.pages.location', [
-            'trees' => $trees
-        ]);
-    }
-
-
-    private function getActiveTreeId(object $trees)
-    {
-        $active_trees_id = [];
-        foreach ($trees as $tree) {
-            if ($tree['is_active'] == 1) {
-                $active_trees_id[] = $tree['tree_id'];
-            }
-        }
-        return $active_trees_id;
-    }
-
-    private function combineSensorTree(object $trees, object $sensors)
-    {
-        $sensorsByTreeId = collect($sensors)->keyBy('tree_id');
-
-        return $trees->map(function ($tree) use ($sensorsByTreeId) {
-            $sensor = $sensorsByTreeId[$tree['tree_id']] ?? null;
-
-            return [
-                ...$tree->toArray(),
-                'soil_moisture' => $sensor['soil_moisture'] ?? null,
-                'valve' => $sensor['valve'] ?? null,
-                'time' => $sensor['time'] ?? null,
-            ];
-        });
-    }
-
-    private function getSensorData(InfluxDBService $influx, array $searched_trees_id)
-    {
-        $searched_trees_id = implode(',', $searched_trees_id);
-
-        $query = "SELECT 
-            DISTINCT ON (tree_id) * FROM node
-            WHERE tree_id IN ($searched_trees_id)
-            ORDER BY tree_id, time DESC;";
-
-        return $influx->query($query)->convertTimezone()->get();
+        return view('livewire.pages.location', compact('trees', 'summary'));
     }
 }

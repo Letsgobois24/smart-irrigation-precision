@@ -50,4 +50,13 @@ class Tree extends Model
             return $options;
         });
     }
+
+    public static function getSummary()
+    {
+        return static::selectRaw("
+            COUNT(*) as total,
+            SUM(CASE WHEN is_active = 1 THEN 1 ELSE 0 END) as online,
+            SUM(CASE WHEN is_active = 0 THEN 1 ELSE 0 END) as offline
+        ")->first();
+    }
 }

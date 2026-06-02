@@ -44,6 +44,11 @@ class Notification extends Model
         $query->where('is_active', 1);
     }
 
+    protected function scopeIsTree(Builder $query): void
+    {
+        $query->where('source_type', 'tree');
+    }
+
     protected function scopeActiveOrder(Builder $query, string $is_active)
     {
         $query->when($is_active == '', function ($query) {

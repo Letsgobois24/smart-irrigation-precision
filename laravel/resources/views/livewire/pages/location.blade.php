@@ -38,7 +38,7 @@
             </div>
 
             <div class="text-3xl font-bold text-gray-800 mt-1">
-                {{ count($trees) }}
+                {{ $summary['total'] }}
             </div>
         </div>
 
@@ -48,7 +48,7 @@
             </div>
 
             <div class="text-3xl font-bold text-emerald-600 mt-1">
-                {{ collect($trees)->where('is_active', true)->count() }}
+                {{ $summary['online'] }}
             </div>
         </div>
 
@@ -58,7 +58,7 @@
             </div>
 
             <div class="text-3xl font-bold text-gray-500 mt-1">
-                {{ collect($trees)->where('is_active', false)->count() }}
+                {{ $summary['offline'] }}
             </div>
         </div>
 
@@ -68,7 +68,7 @@
             </div>
 
             <div class="text-3xl font-bold text-red-600 mt-1">
-                {{ collect($trees)->sum('notifications_count') }}
+                {{ $summary['total_anomaly'] }}
             </div>
         </div>
 
