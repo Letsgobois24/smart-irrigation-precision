@@ -38,7 +38,7 @@ class NotificationFactory extends Factory
             'value' => fake()->randomFloat(2, 0, 100),
             'threshold' => fake()->randomFloat(2, 0, 100),
             'node_id' => $source_type == 'tree' ? 1 : null,
-            'tree_id' => $source_type == 'tree' ? fake()->numberBetween(1, 4) : null,
+            'tree_id' => $source_type == 'tree' ? fake()->numberBetween(3, 6) : null,
             'is_active' => fake()->boolean(80),
             'is_read' => fake()->boolean(80),
         ];
