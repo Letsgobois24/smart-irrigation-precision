@@ -23,18 +23,22 @@ class Tree extends Model
 
     public static function getTreeId(int | null $node_id = null)
     {
-        /** @var Builder $builder */
-        $builder = self::select('tree_id')->isActive();
-        $builder->when($node_id, function ($builder) use ($node_id) {
-            $builder->where('node_id', $node_id);
-        });
+        $key = "trees" . ($node_id ? "_$node_id" : '');
 
-        return $builder->orderBy('tree_id')->pluck('tree_id');
+        return Cache::remember($key, 3600, function () use ($node_id) {
+            /** @var Builder $builder */
+            $builder = self::select('tree_id')->isActive();
+            $builder->when($node_id, function ($builder) use ($node_id) {
+                $builder->where('node_id', $node_id);
+            });
+
+            return $builder->orderBy('tree_id')->pluck('tree_id')->toArray();
+        });
     }
 
     public static function getOptions(int | null $node_id = null): array
     {
-        $key = "tree_options" . $node_id ? "_$node_id" : '';
+        $key = "tree_options" . ($node_id ? "_$node_id" : '');
 
         return Cache::remember($key, 3600, function () {
             $options = ['' => 'All'];

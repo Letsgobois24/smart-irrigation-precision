@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Components;
 
+use App\Models\Tree;
 use App\Services\FastAPIServices;
 use App\Services\InfluxDBService;
 use Exception;
@@ -12,9 +13,12 @@ use Throwable;
 class NodeMonitoring extends Component
 {
     public $node_data;
+    private $trees = [];
 
     public function mount(InfluxDBService $influx)
     {
+        $this->trees = Tree::getTreeId(1);
+
         try {
             $this->node_data = $this->getSensorData($influx);
         } catch (Throwable $e) {
@@ -58,9 +62,11 @@ class NodeMonitoring extends Component
 
     private function getSensorData(InfluxDBService $influx)
     {
+        $tree_query = implode(',', $this->trees);
+
         $query = "SELECT 
             DISTINCT ON (tree_id) * FROM node
-            WHERE tree_id IN (1,2,3,4)
+            WHERE tree_id IN ($tree_query)
             ORDER BY tree_id, time DESC;";
 
         return $influx->query($query)->convertTimezone()->get();
