@@ -196,11 +196,12 @@
                             Maps
                         </a>
 
-                        <button
-                            x-on:click="$dispatch('filter-location', {
-                                tree_id: @js($tree['tree_id'])
-                            })"
-                            class="bg-amber-500 hover:bg-amber-600 text-white py-2.5 rounded-xl font-medium cursor-pointer">
+                        <button x-on:click="$dispatch('filter-location', {tree_id: @js($tree['tree_id'])})"
+                            @disabled($tree['notifications_count'] === 0)
+                            class="py-2.5 rounded-xl font-medium transition
+                                    {{ $tree['notifications_count'] > 0
+                                        ? 'bg-amber-500 hover:bg-amber-600 text-white cursor-pointer'
+                                        : 'bg-gray-200 text-gray-400 cursor-not-allowed' }}">
                             Alerts
                         </button>
 
