@@ -18,7 +18,7 @@
                     </p>
 
                     <h3 class="text-2xl font-bold {{ $ph_config['text'] }}">
-                        {{ $ph }}
+                        {{ $globalData['ph'] }}
                     </h3>
                 </div>
             </div>
@@ -56,7 +56,7 @@
 
                     <h3 class="text-2xl font-bold
                         {{ $flow_config['text'] }}">
-                        {{ $water_flow }}
+                        {{ $globalData['water_flow'] }}
                         <span class="text-lg">L/min</span>
                     </h3>
                 </div>
@@ -118,7 +118,7 @@
                     </p>
 
                     <h3 class="text-lg font-bold text-gray-800">
-                        {{ $time->diffForHumans() }}
+                        {{ $globalData['time']->diffForHumans() }}
                     </h3>
                 </div>
             </div>

@@ -8,29 +8,20 @@ use Illuminate\View\Component;
 
 class GlobalCards extends Component
 {
-    public float $ph;
-    public float $water_flow;
-    public bool $valve;
-    public \Carbon\Carbon $time;
     public array $ph_config = [];
     public array $flow_config = [];
     public array $valve_config = [];
 
     public function __construct(
-        array $globalData
+        public array $globalData
     ) {
-        $this->ph = $globalData['ph'];
-        $this->water_flow = $globalData['water_flow'];
-        $this->valve = false ?? $globalData['main_valve'];
-        $this->time = $globalData['time'];
-
-        $ph_status = $this->getStatusPH($this->ph);
+        $ph_status = $this->getStatusPH($globalData['ph']);
         $this->ph_config = $this->getPHConfig($ph_status);
 
-        $is_flow = $this->water_flow > 0;
+        $is_flow = $globalData['water_flow'] > 0;
         $this->flow_config = $this->getFlowConfig($is_flow);
 
-        $this->valve_config = $this->getValveConfig($this->valve);
+        $this->valve_config = $this->getValveConfig($globalData['main_valve']);
     }
 
     /**
