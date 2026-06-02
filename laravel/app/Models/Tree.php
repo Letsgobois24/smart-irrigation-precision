@@ -25,7 +25,7 @@ class Tree extends Model
     {
         $key = "trees" . ($node_id ? "_$node_id" : '');
 
-        return Cache::remember($key, 3600, function () use ($node_id) {
+        return Cache::rememberForever($key, function () use ($node_id) {
             /** @var Builder $builder */
             $builder = self::select('tree_id')->isActive();
             $builder->when($node_id, function ($builder) use ($node_id) {
@@ -40,7 +40,7 @@ class Tree extends Model
     {
         $key = "tree_options" . ($node_id ? "_$node_id" : '');
 
-        return Cache::remember($key, 3600, function () {
+        return Cache::rememberForever($key, function () {
             $options = ['' => 'All'];
 
             foreach (static::getTreeId(node_id: 1) as $tree) {
