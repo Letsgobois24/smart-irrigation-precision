@@ -25,7 +25,7 @@ class GlobalSeeder extends Seeder
                 'measurement' => 'global',
                 'fields' => [
                     'water_flow' => fake()->randomFloat(1, 0.1, 2),
-                    'light' => fake()->numberBetween(0, 1023),
+                    'light' => fake()->randomFloat(0, 100, 1),
                     'ph' => fake()->randomFloat(2, 6, 8),
                     'main_valve' => fake()->boolean(75)
                 ],

@@ -23,7 +23,6 @@ class GlobalCards extends Component
         $this->flow_config = $this->getFlowConfig($is_flow);
 
         $this->light_config = $this->getLightConfig($globalData['light']);
-        $this->globalData['light'] = round(($globalData['light'] / 1023) * 100, 1);
 
         $this->valve_config = $this->getValveConfig($globalData['main_valve']);
     }
@@ -101,7 +100,7 @@ class GlobalCards extends Component
     private function getLightConfig(int $light): array
     {
         return match (true) {
-            $light <= 200 => [
+            $light <= 20 => [
                 'label' => 'dark',
                 'color' => 'slate',
                 'bg' => 'bg-slate-50',
@@ -110,7 +109,7 @@ class GlobalCards extends Component
                 'description' => 'Intensitas cahaya sangat rendah.',
             ],
 
-            $light <= 500 => [
+            $light <= 50 => [
                 'label' => 'low',
                 'color' => 'yellow',
                 'bg' => 'bg-yellow-50',
@@ -119,7 +118,7 @@ class GlobalCards extends Component
                 'description' => 'Cahaya masih relatif rendah.',
             ],
 
-            $light <= 800 => [
+            $light <= 80 => [
                 'label' => 'moderate',
                 'color' => 'amber',
                 'bg' => 'bg-amber-50',
