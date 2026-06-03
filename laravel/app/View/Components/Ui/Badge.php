@@ -41,6 +41,9 @@ class Badge extends Component
             'purple' => 'bg-purple-100 text-purple-700',
             'emerald' => 'bg-emerald-100 text-emerald-700',
             'sky' => 'bg-sky-100 text-sky-700',
+            'slate' => 'bg-slate-200 text-slate-800',
+            'amber' => 'bg-amber-100 text-amber-700',
+            'orange' => 'bg-orange-100 text-orange-700',
             default => '',
         };
     }
