@@ -11,6 +11,7 @@ class GlobalCards extends Component
     public array $ph_config = [];
     public array $flow_config = [];
     public array $valve_config = [];
+    public array $light_config = [];
 
     public function __construct(
         public array $globalData
@@ -20,6 +21,9 @@ class GlobalCards extends Component
 
         $is_flow = $globalData['water_flow'] > 0;
         $this->flow_config = $this->getFlowConfig($is_flow);
+
+        $this->light_config = $this->getLightConfig($globalData['light']);
+        $this->globalData['light'] = round(($globalData['light'] / 1023) * 100, 1);
 
         $this->valve_config = $this->getValveConfig($globalData['main_valve']);
     }
@@ -90,6 +94,47 @@ class GlobalCards extends Component
                 'border' => 'border-yellow-100',
                 'text' => 'text-yellow-700',
                 'description' => 'Tidak ada aliran air terdeteksi.',
+            ],
+        };
+    }
+
+    private function getLightConfig(int $light): array
+    {
+        return match (true) {
+            $light <= 200 => [
+                'label' => 'dark',
+                'color' => 'slate',
+                'bg' => 'bg-slate-50',
+                'border' => 'border-slate-100',
+                'text' => 'text-slate-700',
+                'description' => 'Intensitas cahaya sangat rendah.',
+            ],
+
+            $light <= 500 => [
+                'label' => 'low',
+                'color' => 'yellow',
+                'bg' => 'bg-yellow-50',
+                'border' => 'border-yellow-100',
+                'text' => 'text-yellow-700',
+                'description' => 'Cahaya masih relatif rendah.',
+            ],
+
+            $light <= 800 => [
+                'label' => 'moderate',
+                'color' => 'amber',
+                'bg' => 'bg-amber-50',
+                'border' => 'border-amber-100',
+                'text' => 'text-amber-700',
+                'description' => 'Intensitas cahaya berada pada level sedang.',
+            ],
+
+            default => [
+                'label' => 'bright',
+                'color' => 'orange',
+                'bg' => 'bg-orange-50',
+                'border' => 'border-orange-100',
+                'text' => 'text-orange-700',
+                'description' => 'Intensitas cahaya tinggi.',
             ],
         };
     }

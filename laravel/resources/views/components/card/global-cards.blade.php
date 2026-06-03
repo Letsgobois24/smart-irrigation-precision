@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4 mb-6">
 
     <!-- PH -->
     <div class="rounded-2xl border shadow-sm p-4 transition 
@@ -69,6 +69,44 @@
 
         <p class="text-xs text-gray-600">
             {{ $flow_config['description'] }}
+        </p>
+    </div>
+
+    {{-- LIGHT --}}
+    <div
+        class="rounded-2xl border shadow-sm p-4 transition
+    {{ $light_config['bg'] }}
+    {{ $light_config['border'] }}">
+
+        <div class="flex justify-between items-start mb-3">
+
+            <div class="flex items-center gap-3">
+                <div class="p-2 rounded-xl bg-white
+                {{ $light_config['text'] }}">
+                    <x-icons.sun size="24" />
+                </div>
+
+                <div>
+                    <p class="text-sm text-gray-500">
+                        Light Intensity
+                    </p>
+
+                    <h3 class="text-2xl font-bold
+                    {{ $light_config['text'] }}">
+
+                        {{ number_format($globalData['light'], 1) }}%
+                    </h3>
+                </div>
+            </div>
+
+            <x-ui.badge class="capitalize" :color="$light_config['color']" size="sm">
+
+                {{ $light_config['label'] }}
+            </x-ui.badge>
+        </div>
+
+        <p class="text-xs text-gray-600">
+            {{ $light_config['description'] }}
         </p>
     </div>
 
