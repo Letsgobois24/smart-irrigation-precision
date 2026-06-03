@@ -1,4 +1,4 @@
-<div class="bg-linear-to-b from-green-50 to-white min-h-screen p-4 sm:p-6 space-y-6">
+<div class="bg-linear-to-b from-green-50 to-white min-h-screen space-y-6">
 
     {{-- Header --}}
     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
