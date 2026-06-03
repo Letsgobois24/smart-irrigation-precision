@@ -28,7 +28,9 @@
     <x-header.floating-hamburger x-show="showFloatingHamburger && !isOpenSidebar" />
     <x-header.sidebar />
     <div :class="isOpenSidebar ? 'lg:ml-54' : 'lg:ml-0'">
-        {{ $slot }}
+        <div class="bg-green-50 min-h-screen p-6 px-2 pb-10 sm:px-6 w-full">
+            {{ $slot }}
+        </div>
     </div>
 
     <x-toaster />
