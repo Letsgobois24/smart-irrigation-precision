@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4 mb-6">
+<div :class="isOpenSidebar ? 'xl:grid-cols-3' : 'xl:grid-cols-5'" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
 
     <!-- PH -->
     <div class="rounded-2xl border shadow-sm p-4 transition 
