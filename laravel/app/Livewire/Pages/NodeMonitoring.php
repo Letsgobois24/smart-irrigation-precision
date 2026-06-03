@@ -4,7 +4,6 @@ namespace App\Livewire\Pages;
 
 use App\Models\Tree;
 use App\Services\FastAPIServices;
-use App\Services\InfluxDBService;
 use App\Services\NodeServices;
 use Exception;
 use Illuminate\Http\Client\ConnectionException;
@@ -13,7 +12,7 @@ use Throwable;
 
 class NodeMonitoring extends Component
 {
-    private $trees = [];
+    public $trees = [];
 
     public function mount()
     {
