@@ -4,7 +4,6 @@ namespace App\Livewire\Pages;
 
 use App\Models\Notification;
 use App\Models\Tree;
-use App\Services\InfluxDBService;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 

@@ -21,7 +21,14 @@ class NodeMonitoring extends Component
 
     public function render(NodeServices $nodeServices)
     {
+        $anomalies = Tree::getTreesWithAnomaly(1)->pluck('notifications_count', 'tree_id');
+
         $node_data = $nodeServices->latest($this->trees);
+        $node_data = collect($node_data)
+            ->map(function ($item) use ($anomalies) {
+                $item['total_anomaly'] = $anomalies[$item['tree_id']] ?? 0;
+                return $item;
+            });
         return view('livewire.pages.node-monitoring', compact('node_data'));
     }
 

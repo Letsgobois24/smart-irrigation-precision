@@ -16,7 +16,7 @@
         @endforeach
     </div>
 
-    <div class="grid gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {{-- Soil Moisture Chart --}}
         <livewire:components.line-chart lazy field="soil_moisture" fieldName="Soil Moisture" table="node"
             groupby='tree_id' xlabel='Tree' ylabel='%' class="col-span-2" />
@@ -24,7 +24,6 @@
         <x-container title="Tree Table" description='Riwayat data pohon'>
             <livewire:components.node-table lazy />
         </x-container>
-
     </div>
 
 </main>

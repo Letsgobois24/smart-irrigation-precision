@@ -132,8 +132,9 @@ class NotificationModal extends Component
     #[On('filter-location')]
     public function setNotificationByLocation(string $tree_id)
     {
-        $this->reset('offset', 'selected_severity', 'selected_status', 'start_date', 'end_date', 'isMaxLoaded');
+        $this->reset('offset', 'selected_severity', 'start_date', 'end_date', 'isMaxLoaded');
         $this->selected_location = $tree_id;
+        $this->selected_status = 1;
         $this->setLocation();
     }
 

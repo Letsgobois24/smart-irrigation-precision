@@ -57,4 +57,12 @@
             {{ smartTimeFormat($tree['time']) }}
         </span>
     </div>
+
+    {{-- Anomaly Detected --}}
+    <div x-on:click="$dispatch('filter-location', {tree_id: @js($tree['tree_id'])})"
+        class="mt-3 text-xs text-red-700 hover:underline cursor-pointer">
+        <span>
+            Anomaly Detected: {{ $tree['total_anomaly'] }}
+        </span>
+    </div>
 </div>

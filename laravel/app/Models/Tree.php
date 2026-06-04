@@ -36,6 +36,22 @@ class Tree extends Model
         });
     }
 
+    public static function getTreesWithAnomaly(int|null $node_id = null)
+    {
+        $builder = self::select('tree_id')->isActive()
+            ->withCount([
+                'notifications' => function ($query) {
+                    $query->where('notifications.is_active', true);
+                }
+            ]);
+
+        $builder->when($node_id, function ($query) use ($node_id) {
+            $query->where('node_id', $node_id);
+        });
+
+        return $builder->get();
+    }
+
     public static function getOptions(int | null $node_id = null): array
     {
         $key = "tree_options" . ($node_id ? "_$node_id" : '');
