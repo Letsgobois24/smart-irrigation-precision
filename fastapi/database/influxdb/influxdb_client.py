@@ -32,4 +32,4 @@ def extendData(df: pd.DataFrame, measurement: str, tags: list | None = None):
     client.write_dataframe(df=df, measurement=measurement, timestamp_column='time', tags=tags)
 
 def convertTimeToSecond(df_column):
-    return pd.to_datetime(df_column, unit='s').astype('datetime64[s]')
+    return pd.to_datetime(df_column, unit='ms').astype('datetime64[ms]')

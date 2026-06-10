@@ -22,15 +22,19 @@ class Dashboard extends Component
         $anomalies = Tree::getTreesWithAnomaly(1)->pluck('notifications_count', 'tree_id');
 
         $node_data = $nodeServices->latest($this->trees);
-        $node_data = collect($node_data)
-            ->map(function ($item) use ($anomalies) {
-                $item['total_anomaly'] = $anomalies[$item['tree_id']] ?? 0;
-                return $item;
-            });
-
+        $node_data = $this->joinNodeData($node_data, $anomalies);
         return view(
             'livewire.pages.dashboard',
             compact('global_data', 'node_data')
         );
+    }
+
+    private function joinNodeData(array $node_data, array $anomalies)
+    {
+        return collect($node_data)
+            ->map(function ($item) use ($anomalies) {
+                $item['total_anomaly'] = $anomalies[$item['tree_id']] ?? 0;
+                return $item;
+            });
     }
 }

@@ -39,6 +39,7 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
             return
         
         if(action == 'system_event'):
+            payload['event_id'] = f"{payload['node_id']}-{payload['tree_id']}-{payload['time']}"
             addSystemEvent(data=(SystemEventSchema(**payload)))
             return
 

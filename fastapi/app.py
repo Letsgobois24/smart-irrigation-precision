@@ -9,8 +9,6 @@ from database.mariadb.mariadb_service import createDependency, toggleSystem, sen
 from pymysql.err import ProgrammingError
 from services.combined_service import mqttSavePeriodData
 
-import json
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     startup_event()

@@ -3,6 +3,7 @@ from database.influxdb.influxdb_client import extendData, addData
 from schema.node_tree import NodeTree
 from schema.global_schema import GlobalSchema
 from schema.system_event_schema import SystemEventSchema
+from schema.fault_result_schema import FaultResultSchema
 from model.prediction import predictEventSystem
 
 def addNodeTree(data: NodeTree):
@@ -22,13 +23,15 @@ def addGlobal(data: GlobalSchema):
 
 def addSystemEvent(data: SystemEventSchema):
     # Data for system_event table
-    data_dict = data.model_dump()
+    system_event = data.model_dump()
+    addData(data=system_event, measurement='system_event', tags=['tree_id', 'node_id', 'event_id'])
 
-    data_dict = predictEventSystem(data_dict)
-    print('System Event:', data_dict)
-    addData(data=data_dict, measurement='system_event', tags=['tree_id', 'node_id'])
+    prediction_result = predictEventSystem(system_event)
+    addData(data=prediction_result, measurement='fault_result', tags=['tree_id', 'node_id', 'event_id'])
 
+    return
     # Add two tree data for node table
+
     tree_data = {
         'node_id': data_dict['node_id'],
         'tree_id': data_dict['tree_id'],
@@ -48,3 +51,6 @@ def addSystemEvent(data: SystemEventSchema):
 
     df = pd.DataFrame(data=[tree_data_before, tree_data_after])
     extendData(df=df, measurement='node', tags=['tree_id', 'node_id'])
+
+def addFaultResult(data: FaultResultSchema):
+    addData(data=data, measurement='fault_result', tags=['tree_id', 'node_id', 'event_id'])
