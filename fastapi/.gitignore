@@ -3,3 +3,5 @@
 /trial
 /__pycache__
 *.pyc
+*.keras
+*.pkl
