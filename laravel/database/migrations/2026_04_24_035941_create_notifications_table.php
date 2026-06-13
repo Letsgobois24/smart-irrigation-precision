@@ -19,13 +19,13 @@ return new class extends Migration
             $table->string('dominant_feature', 40);
             $table->decimal('dominant_ratio', 5, 2);
             $table->enum('severity', ['low', 'medium', 'high']);
-            $table->boolean('is_solved')->default(false);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
 
             $table->foreign('tree_id')->references('tree_id')->on('trees');
             $table->foreign('dominant_feature')->references('feature_name')->on('notification_rules');
             $table->index('severity');
-            $table->index('is_solved');
+            $table->index('is_active');
         });
     }
 
