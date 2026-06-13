@@ -42,10 +42,18 @@ def predictEventSystem(data: dict):
         'global_mse': round(mean_error, 2),
         'fault_ratio': round(fault_ratio, 2),
         'flag': fault_ratio >= 1,
-        'severity': 'high' if fault_ratio >= 1 else 'low',
+        'severity': getSeverity(fault_ratio),
         'dominant_feature': features[np.argmax(error_data)],
         'dominant_error': round(max_error, 2),
         'dominant_ratio': round(max_error / np.sum(error_data), 2),
         'prediction_time': prediction_time,
         'time': int(time.time() * 1000),
     }
+
+def getSeverity(fault_ratio: float):
+    if fault_ratio > 2.5:
+        return 'high'
+    elif fault_ratio > 1.5:
+        return 'medium'
+    else:
+        return 'low'

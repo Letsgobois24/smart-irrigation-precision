@@ -22,6 +22,29 @@ def toggleSystem(conn, is_active: bool):
         cursor.execute(sql, (is_active, ))
     conn.commit()
 
+def createNotification(conn, data: dict):
+    with conn.cursor() as cursor:
+        sql = """
+        INSERT INTO notifications 
+        (event_id, tree_id, node_id, dominant_feature, fault_ratio, severity, created_at, updated_at) 
+        VALUES (%s, %s, %s, %s, %s, %s, FROM_UNIXTIME(%s / 1000), FROM_UNIXTIME(%s / 1000))
+        """
+
+        values = (
+                data['event_id'],
+                data['tree_id'],
+                data['node_id'],
+                data['dominant_feature'],
+                data['fault_ratio'],
+                data['severity'],
+                data['time'],
+                data['time']
+            )
+
+        cursor.execute(sql, values)
+
+    conn.commit()
+
 def sendNotification(conn, data: list):
     with conn.cursor() as cursor:
         sql = """

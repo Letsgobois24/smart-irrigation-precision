@@ -1,5 +1,7 @@
 import pandas as pd
 from database.influxdb.influxdb_client import extendData, addData
+from database.mariadb.mariadb_client import createConnection
+from database.mariadb.mariadb_service import createNotification
 from schema.node_tree import NodeTree
 from schema.global_schema import GlobalSchema
 from schema.system_event_schema import SystemEventSchema
@@ -29,8 +31,13 @@ def addSystemEvent(data: SystemEventSchema):
     prediction_result = predictEventSystem(system_event)
     addData(data=prediction_result, measurement='fault_result', tags=['tree_id', 'node_id', 'event_id'])
 
-    # if(prediction_result['flag']):
-
+    # Mengirim notifikasi jika terdapat anomali
+    if(True):
+        try:
+            conn = createConnection()
+            createNotification(conn, data=prediction_result)
+        finally:
+            conn.close()
 
     return
     # Add two tree data for node table

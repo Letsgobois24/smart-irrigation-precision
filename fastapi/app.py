@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 from services.mqtt.mqtt_app import startup_event
 from services.mqtt.mqtt_client import client
 from services.mqtt.mqtt_services import send_request, wait_to_response, send_control
-from database.mariadb.mariadb_service import createDependency, toggleSystem, sendNotification
+from database.mariadb.mariadb_service import createDependency, toggleSystem
 from pymysql.err import ProgrammingError
 from services.combined_service import mqttSavePeriodData
 
