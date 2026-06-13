@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
             // NodeSeeder::class,
             // NotificationSeeder::class,
             TreeSeeder::class,
+            NotificationRuleSeeder::class,
             ConfigurationSeeder::class,
-            NotificationSeeder::class
         ]);
     }
 }

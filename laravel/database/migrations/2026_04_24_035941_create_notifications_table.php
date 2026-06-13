@@ -16,13 +16,15 @@ return new class extends Migration
             $table->unsignedSmallInteger('tree_id');
             $table->unsignedSmallInteger('node_id')->nullable();
             $table->string('dominant_feature', 40);
-            $table->decimal('anomaly_ratio', 6, 3);
+            $table->decimal('fault_ratio', 6, 3);
             $table->enum('severity', ['low', 'medium', 'high']);
             $table->boolean('is_solved')->default(false);
             $table->timestamps();
 
-            $table->foreign('tree_id')->references('id')->on('trees');
+            $table->foreign('tree_id')->references('tree_id')->on('trees');
             $table->foreign('dominant_feature')->references('feature_name')->on('notification_rules');
+            $table->index('severity');
+            $table->index('is_solved');
         });
     }
 
