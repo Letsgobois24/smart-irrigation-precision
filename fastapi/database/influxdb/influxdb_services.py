@@ -29,6 +29,9 @@ def addSystemEvent(data: SystemEventSchema):
     prediction_result = predictEventSystem(system_event)
     addData(data=prediction_result, measurement='fault_result', tags=['tree_id', 'node_id', 'event_id'])
 
+    # if(prediction_result['flag']):
+
+
     return
     # Add two tree data for node table
 

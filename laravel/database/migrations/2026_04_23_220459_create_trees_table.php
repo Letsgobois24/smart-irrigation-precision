@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('trees', function (Blueprint $table) {
-            $table->id('tree_id');
+            $table->unsignedSmallInteger('id')->autoIncrement();
             $table->unsignedSmallInteger('node_id');
             $table->string('variant')->nullable();
             $table->unsignedSmallInteger('row_idx')->constrained();

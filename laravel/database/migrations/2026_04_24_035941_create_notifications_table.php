@@ -11,25 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // $sensor_type = ['pH', 'arus air', 'katup utama', 'arus listrik', 'kelembaban tanah', 'katup'];
-
         Schema::create('notifications', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->text('message');
-            $table->text('recomendation');
-            $table->enum('source_type', ['global', 'tree']);
-            $table->string('sensor_type');
+            $table->string('event_id', 40)->primary();
+            $table->unsignedSmallInteger('tree_id');
+            $table->unsignedSmallInteger('node_id')->nullable();
+            $table->string('dominant_feature', 40);
+            $table->decimal('anomaly_ratio', 6, 3);
             $table->enum('severity', ['low', 'medium', 'high']);
-            $table->float('value', 2);
-            $table->float('threshold', 2);
-            $table->unsignedInteger('node_id')->nullable();
-            $table->foreignId('tree_id')
-                ->nullable()
-                ->constrained('trees', 'tree_id');
-            $table->boolean('is_active');
-            $table->boolean('is_read');
+            $table->boolean('is_solved')->default(false);
             $table->timestamps();
+
+            $table->foreign('tree_id')->references('id')->on('trees');
+            $table->foreign('dominant_feature')->references('feature_name')->on('notification_rules');
         });
     }
 
