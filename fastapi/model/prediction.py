@@ -44,8 +44,8 @@ def predictEventSystem(data: dict):
         'flag': fault_ratio >= 1,
         'severity': getSeverity(fault_ratio),
         'dominant_feature': features[np.argmax(error_data)],
+        'dominant_ratio': round(max_error / np.sum(error_data), 3),
         'dominant_error': round(max_error, 2),
-        'dominant_ratio': round(max_error / np.sum(error_data), 2),
         'prediction_time': prediction_time,
         'time': int(time.time() * 1000),
     }
