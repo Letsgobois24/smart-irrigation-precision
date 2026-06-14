@@ -6,6 +6,7 @@ use App\Livewire\Pages\EventMonitoring;
 use App\Livewire\Pages\GlobalMonitoring;
 use App\Livewire\Pages\Location;
 use App\Livewire\Pages\NodeMonitoring;
+use App\Models\Notification;
 use App\Services\InfluxDBService;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\Route;
@@ -18,10 +19,8 @@ Route::get('/location', Location::class);
 Route::get('/energy', Energy::class);
 
 Route::get('/try', function () {
-    $end = now()->startOfHour();
-    $start = (clone $end)->subDays(10);
-    $period = CarbonPeriod::create($start, '120 minutes', $end)->toArray();
-    dd($period);
+    $notifications = Notification::select('*')->with('rule:feature_name,title')->first();
+    dd($notifications->rule->title);
 });
 
 

@@ -15,7 +15,8 @@ class NotificationRuleSeeder extends Seeder
     {
         $rules = [
             [
-                'feature_name' => 'moisture_before',
+                'feature' => 'moisture_before',
+                'name' => 'kelembaban awal tanah',
                 'title' => 'Anomali Kondisi Awal Tanah',
                 'description' => 'Nilai moisture_before menunjukkan kondisi awal tanah yang tidak normal.',
                 'problem' => json_encode([
@@ -32,7 +33,8 @@ class NotificationRuleSeeder extends Seeder
             ],
 
             [
-                'feature_name' => 'moisture_after',
+                'feature' => 'moisture_after',
+                'name' => 'kelembaban setelah penyiraman',
                 'title' => 'Anomali Hasil Penyiraman',
                 'description' => 'Nilai moisture_after menunjukkan hasil penyiraman yang tidak sesuai target.',
                 'problem' => json_encode([
@@ -50,7 +52,8 @@ class NotificationRuleSeeder extends Seeder
             ],
 
             [
-                'feature_name' => 'moisture_gain',
+                'feature' => 'moisture_gain',
+                'name' => 'peningkatan kelembaban',
                 'title' => 'Anomali Efektivitas Penyiraman',
                 'description' => 'Nilai moisture_gain menunjukkan efektivitas distribusi air yang tidak normal.',
                 'problem' => json_encode([
@@ -70,7 +73,8 @@ class NotificationRuleSeeder extends Seeder
             ],
 
             [
-                'feature_name' => 'moisture_rate',
+                'feature' => 'moisture_rate',
+                'name' => 'kecepatan peningkatan kelembaban',
                 'title' => 'Anomali Efisiensi Penyiraman',
                 'description' => 'Nilai moisture_rate menunjukkan proses distribusi air yang tidak efisien.',
                 'problem' => json_encode([
@@ -86,9 +90,10 @@ class NotificationRuleSeeder extends Seeder
             ],
 
             [
-                'feature_name' => 'valve_duration',
-                'title' => 'Anomali Operasi Valve',
-                'description' => 'Nilai valve_duration menunjukkan operasi valve yang tidak normal.',
+                'feature' => 'valve_duration',
+                'name' => 'durasi valve',
+                'title' => 'Anomali Durasi Penyiraman',
+                'description' => 'Nilai durasi valve menunjukkan operasi valve yang tidak normal.',
                 'problem' => json_encode([
                     'Valve Macet',
                     'Valve Tidak Terbuka Penuh',

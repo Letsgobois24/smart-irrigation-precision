@@ -9,8 +9,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Notification extends Model
 {
-    /** @use HasFactory<\Database\Factories\NotificationFactory> */
     use HasFactory;
+
+    public function tree(): BelongsTo
+    {
+        return $this->belongsTo(Tree::class, 'tree_id', 'tree_id');
+    }
+
+    public function rule(): BelongsTo
+    {
+        return $this->belongsTo(NotificationRule::class, 'dominant_feature', 'feature_name');
+    }
 
     protected function scopeFilter(Builder $query, array $filters): void
     {
@@ -54,10 +63,5 @@ class Notification extends Model
         $query->when($is_active == '', function ($query) {
             $query->orderBy('is_active', 'desc');
         });
-    }
-
-    public function tree(): BelongsTo
-    {
-        return $this->belongsTo(Tree::class, 'notifications_tree_id_foreign');
     }
 }

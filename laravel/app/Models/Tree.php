@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Cache;
 
 class Tree extends Model
 {
+    protected $primaryKey = 'tree_id';
     public $timestamps = false;
 
     protected function scopeIsActive(Builder $query): void

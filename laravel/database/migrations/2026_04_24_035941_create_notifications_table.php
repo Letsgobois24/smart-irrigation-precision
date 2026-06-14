@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('notifications', function (Blueprint $table) {
-            $table->string('event_id', 40)->primary();
+            $table->id();
+            $table->string('event_id', 17);
             $table->unsignedSmallInteger('tree_id');
             $table->unsignedSmallInteger('node_id')->nullable();
             $table->decimal('fault_ratio', 5, 2);

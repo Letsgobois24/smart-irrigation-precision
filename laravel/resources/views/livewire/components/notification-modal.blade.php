@@ -162,7 +162,7 @@
                                 <div class="flex items-center gap-x-1">
 
                                     <h5 class="text-sm font-semibold {{ $config_class['text'] }}">
-                                        {{ $notification['title'] }}
+                                        {{ $notification['rule']['title'] }}
                                     </h5>
 
                                     <div class="flex-1">
@@ -178,8 +178,7 @@
                                 </div>
 
                                 <div class="text-xs text-gray-500">
-                                    {{ ucfirst($notification['source_type']) }}
-                                    {{ $notification['tree_id'] }}
+                                    Tree {{ $notification['tree_id'] }}
                                     •
                                     {{ $notification['created_at'] }}
                                 </div>
@@ -199,13 +198,11 @@
                 </div>
 
                 <!-- RIGHT DETAIL -->
-                <div class="relative flex-1 p-4 md:p-6 overflow-y-auto"
-                    x-show="view === 'detail' || window.innerWidth >= 768">
+                <div class="relative flex-1 h-full" x-show="view === 'detail' || window.innerWidth >= 768">
 
                     <!-- DETAIL OVERLAY -->
                     <div wire:loading.flex wire:target="detailNotification"
-                        class="absolute inset-0 bg-white/60 backdrop-blur-[1px] z-20 items-center justify-center">
-
+                        class="absolute inset-0 bg-white/60 backdrop-blur-[1px] z-20 flex items-center justify-center">
                         <x-icons.loading size="36" class="animate-spin text-gray-500" />
                     </div>
 
@@ -218,7 +215,6 @@
                     </button>
 
                     @if (!$active_notification)
-                        <!-- EMPTY DETAIL -->
                         <div class="h-full flex flex-col items-center justify-center text-center px-6">
 
                             <x-icons.bell-off size="52" class="text-gray-300 mb-4" />
@@ -236,7 +232,7 @@
                             $config_class = $this->getConfigClass($active_notification['severity']);
                         @endphp
 
-                        <div class="space-y-4">
+                        <div class="h-full overflow-y-auto p-4 md:p-6 space-y-5">
 
                             <!-- HEADER -->
                             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
@@ -244,13 +240,13 @@
                                 <div class="flex items-center gap-2">
 
                                     <h5 class="text-lg font-semibold {{ $config_class['text'] }}">
-                                        {{ $active_notification['title'] }}
+                                        {{ $active_notification['rule']['title'] }}
                                     </h5>
 
-                                    <x-ui.badge class="capitalize" size='md' :color="$config_class['badge']">
-
+                                    <x-ui.badge class="capitalize" size="md" :color="$config_class['badge']">
                                         {{ $active_notification['severity'] }}
                                     </x-ui.badge>
+
                                 </div>
 
                                 <span class="text-xs text-gray-500">
@@ -258,57 +254,105 @@
                                 </span>
                             </div>
 
-                            <!-- MESSAGE -->
-                            <p class="text-sm text-gray-600">
-                                {{ $active_notification['message'] }}
-                            </p>
+                            <!-- DESCRIPTION -->
+                            <div class="bg-blue-50 border border-blue-100 p-4 rounded-lg">
+                                <h6 class="font-semibold text-blue-700 mb-1">
+                                    Deskripsi
+                                </h6>
 
-                            <!-- SENSOR -->
-                            <div class="bg-gray-50 p-4 rounded-lg text-sm space-y-2">
+                                <p class="text-sm text-blue-900">
+                                    {{ $active_notification['rule']['description'] }}
+                                </p>
+                            </div>
 
-                                <div class="flex justify-between">
-                                    <span>
-                                        {{ ucwords($active_notification['sensor_type']) }}
-                                    </span>
+                            <!-- DIAGNOSIS -->
+                            <div class="bg-gray-50 p-4 rounded-lg">
 
-                                    <span class="font-bold text-red-600">
-                                        {{ $active_notification['value'] }}
-                                    </span>
+                                <h6 class="font-semibold mb-3">
+                                    Informasi Diagnosis
+                                </h6>
+
+                                <div class="grid grid-cols-2 gap-3 text-sm">
+
+                                    <div>
+                                        <span class="text-gray-500">Tree</span>
+                                        <p class="font-semibold">
+                                            {{ $active_notification['tree_id'] }}
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <span class="text-gray-500">Node</span>
+                                        <p class="font-semibold">
+                                            {{ $active_notification['node_id'] }}
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <span class="text-gray-500">Fault Ratio</span>
+                                        <p class="font-semibold text-red-600">
+                                            {{ $active_notification['fault_ratio'] }}
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <span class="text-gray-500">Dominant Ratio</span>
+                                        <p class="font-semibold text-orange-600">
+                                            {{ $active_notification['dominant_ratio'] }}
+                                        </p>
+                                    </div>
+
+                                    <div class="col-span-2">
+                                        <span class="text-gray-500">Dominant Feature</span>
+                                        <p class="font-semibold">
+                                            {{ str_replace('_', ' ', ucfirst($active_notification['dominant_feature'])) }}
+                                        </p>
+                                    </div>
+
                                 </div>
+                            </div>
 
-                                <div class="flex justify-between text-gray-500">
-                                    <span>Threshold</span>
+                            <!-- POSSIBLE PROBLEMS -->
+                            <div class="bg-red-50 p-4 rounded-lg">
 
-                                    <span>
-                                        {{ $active_notification['threshold'] }}
-                                    </span>
-                                </div>
+                                <h6 class="font-semibold text-red-700 mb-2">
+                                    Kemungkinan Penyebab
+                                </h6>
 
-                                <div class="text-xs text-gray-500">
-                                    Deviasi:
+                                <ul class="list-disc ml-5 text-sm text-red-800 space-y-1">
+                                    @foreach (json_decode($active_notification['rule']['problem']) as $problem)
+                                        <li>{{ $problem }}</li>
+                                    @endforeach
+                                </ul>
 
-                                    <span class="font-semibold">
-                                        {{ $active_notification['value'] - $active_notification['threshold'] }}
-                                    </span>
-                                </div>
                             </div>
 
                             <!-- RECOMMENDATION -->
-                            <div class="bg-green-50 p-3 rounded-lg text-sm text-green-700">
-                                💡 Rekomendasi:
-                                {{ $active_notification['recomendation'] }}
+                            <div class="bg-green-50 p-4 rounded-lg">
+
+                                <h6 class="font-semibold text-green-700 mb-2">
+                                    Rekomendasi Tindakan
+                                </h6>
+
+                                <ul class="list-disc ml-5 text-sm text-green-800 space-y-1">
+                                    @foreach (json_decode($active_notification['rule']['recommendation']) as $recommendation)
+                                        <li>{{ $recommendation }}</li>
+                                    @endforeach
+                                </ul>
+
                             </div>
 
                             <!-- ACTION -->
-                            <button wire:click="resolve" wire:loading.attr='disabled'
-                                wire:loading.class='cursor-wait opacity-50' wire:loading.remove.class='cursor-pointer'
+                            <button wire:click="resolve" wire:loading.attr="disabled"
+                                wire:loading.class="cursor-wait opacity-50"
                                 class="w-full md:w-auto px-4 py-2 rounded-lg transition-all duration-200
-                {{ $active_notification['is_active']
-                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                    : 'bg-gray-200 hover:bg-gray-300 text-gray-700' }}">
+                    {{ $active_notification['is_active']
+                        ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                        : 'bg-gray-200 hover:bg-gray-300 text-gray-700' }}">
 
-                                {{ $active_notification['is_active'] ? 'Terselesaikan' : 'Batalkan Penyelesaian' }}
+                                {{ $active_notification['is_active'] ? 'Tandai Terselesaikan' : 'Batalkan Penyelesaian' }}
                             </button>
+
                         </div>
                     @endif
                 </div>

@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('notification_rules', function (Blueprint $table) {
-            $table->string('feature_name', 40)->primary();
+            $table->string('feature', 30)->primary();
+            $table->string('name', 40);
             $table->string('title', 100);
             $table->string('description', 200);
             $table->text('problem');

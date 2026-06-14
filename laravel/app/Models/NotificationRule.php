@@ -11,6 +11,11 @@ class NotificationRule extends Model
     protected $keyType = 'string';
     public $timestamps = false;
 
+    protected $casts = [
+        'problem' => 'array',
+        'recommendation' => 'array',
+    ];
+
     protected $fillable = [
         'feature_name',
         'title',
@@ -18,4 +23,9 @@ class NotificationRule extends Model
         'problem',
         'recommendation'
     ];
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'dominant_feature', 'feature_name');
+    }
 }

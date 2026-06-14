@@ -81,7 +81,7 @@ class NotificationModal extends Component
     public function detailNotification(int $id)
     {
         if ($this->active_notification['id'] == $id) return;
-        $this->active_notification = Notification::find($id);
+        $this->active_notification = Notification::with('rule')->find($id)->toArray();
     }
 
     public function openNotification()
@@ -105,7 +105,7 @@ class NotificationModal extends Component
         $is_active = $this->active_notification['is_active'];
         try {
             Notification::where('id', $id)->update(['is_active' => !$is_active]);
-            $message = 'Masalah ' . $this->active_notification['title'] . ' ' . (!$is_active ? 'batal menyelesaikan' : 'telah terselesaikan');
+            $message = 'Masalah ' . $this->active_notification['rule']['title'] . ' ' . (!$is_active ? 'batal menyelesaikan' : 'telah terselesaikan');
             $this->dispatch('toast', type: 'success', message: $message);
             $this->active_notification['is_active'] = !$is_active;
         } catch (Throwable $e) {
@@ -187,18 +187,22 @@ class NotificationModal extends Component
     private function updateNotifications(null | int $active_id = null)
     {
         $this->notifications = $this->getAllNotifications();
+        // dd($this->notifications);
+
+
         $this->updateTotalResult();
 
         if (count($this->notifications) > 0) {
             $active_id = $active_id ?? $this->notifications[0]['id'];
-            $this->active_notification = Notification::find($active_id);
+            $this->active_notification = Notification::with('rule')->find($active_id);
         }
     }
 
     private function getAllNotifications(): array
     {
         $filters = $this->getFilterConfig();
-        $notifications = Notification::select(['id', 'title', 'source_type', 'created_at', 'severity', 'is_active', 'tree_id'])
+        $notifications = Notification::select(['id', 'tree_id', 'fault_ratio', 'dominant_feature', 'dominant_ratio', 'severity', 'is_active', 'created_at'])
+            ->with('rule:feature_name,title')
             ->filter($filters)
             ->activeOrder($this->selected_status)
             ->orderBy('created_at', 'desc')
