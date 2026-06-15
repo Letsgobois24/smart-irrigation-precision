@@ -1,4 +1,11 @@
-<div class="bg-linear-to-b from-green-50 to-white min-h-screen space-y-6">
+<div x-init="setTimeout(() => {
+    const hash = window.location.hash;
+    if (hash) {
+        document.querySelector(hash)?.scrollIntoView({
+            behavior: 'smooth'
+        });
+    }
+}, 100);" class="bg-linear-to-b from-green-50 to-white min-h-screen space-y-6">
 
     {{-- Header --}}
     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
@@ -78,7 +85,8 @@
     <div dir="rtl" class="grid gap-5" style="grid-template-columns: repeat({{ $max_col }}, minmax(0, 1fr))">
 
         @foreach ($trees as $tree)
-            <div
+            {{-- Tree Card --}}
+            <div id="tree-{{ $tree['tree_id'] }}"
                 class="bg-white rounded-3xl border overflow-hidden shadow-sm hover:shadow-xl transition duration-300 hover:-translate-y-1
                 {{ $tree['is_active'] ? 'border-emerald-200' : 'border-gray-200' }}">
 
@@ -111,10 +119,8 @@
                 </div>
 
                 <div class="p-5">
-
                     {{-- Location --}}
                     <div class="flex justify-center mb-4">
-
                         <div
                             class="
                             w-20 h-20 rounded-full

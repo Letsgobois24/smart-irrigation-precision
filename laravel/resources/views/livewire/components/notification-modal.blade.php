@@ -1,4 +1,10 @@
-<div x-data="{ isOpenNotification: false, view: 'list' }" @filter-location.window="isOpenNotification = true; $wire.openNotification();">
+<div x-data="{ isOpenNotification: false, isLocationPage: false, view: 'list' }"
+    x-effect="
+        if (isOpenNotification) {
+            isLocationPage = window.location.pathname === '/location';
+        }
+    "
+    @filter-location.window="isOpenNotification = true; $wire.openNotification();">
     <!-- BUTTON -->
     <button wire:click='openNotification' @click="isOpenNotification = true; view='list'"
         class="flex relative cursor-pointer ml-3 mr-7 size-10 justify-center items-center rounded-full hover:bg-green-50/30">
@@ -301,6 +307,26 @@
                                         <div class="text-xs text-gray-500 mt-1">
                                             Menunjukkan lokasi diagnosis yang lebih spesifik pada pohon terpilih.
                                         </div>
+
+                                        <template x-if="isLocationPage">
+                                            <a @click="
+                                                isOpenNotification = false;
+                                            "
+                                                href="/location#tree-{{ $active_notification['tree_id'] }}"
+                                                class="mt-2 inline-block text-xs text-green-600 hover:text-green-800 hover:underline">
+                                                Show Location
+                                            </a>
+                                        </template>
+                                        <template x-if="!isLocationPage">
+                                            <a @click="
+                                                isOpenNotification = false;
+                                            "
+                                                wire:navigate
+                                                href="/location#tree-{{ $active_notification['tree_id'] }}"
+                                                class="mt-2 inline-block text-xs text-green-600 hover:text-green-800 hover:underline">
+                                                Show Location
+                                            </a>
+                                        </template>
                                     </div>
 
                                 </div>
