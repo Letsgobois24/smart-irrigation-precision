@@ -203,7 +203,8 @@
                 </div>
 
                 <!-- RIGHT DETAIL -->
-                <div class="relative flex-1 h-full" x-show="view === 'detail' || window.innerWidth >= 768">
+                <div x-data="{ is: false }" class="relative flex-1 h-full"
+                    x-show="view === 'detail' || window.innerWidth >= 768">
 
                     <!-- DETAIL OVERLAY -->
                     <div wire:loading.flex wire:target="detailNotification"

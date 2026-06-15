@@ -5,11 +5,12 @@ namespace App\Livewire\Pages;
 use App\Models\Tree;
 use App\Services\GlobalServices;
 use App\Services\NodeServices;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class Dashboard extends Component
 {
-    private $trees = [];
+    private array $trees = [];
 
     public function mount()
     {
@@ -29,12 +30,11 @@ class Dashboard extends Component
         );
     }
 
-    private function joinNodeData(array $node_data, array $anomalies)
+    private function joinNodeData(Collection $node_data, Collection $anomalies)
     {
-        return collect($node_data)
-            ->map(function ($item) use ($anomalies) {
-                $item['total_anomaly'] = $anomalies[$item['tree_id']] ?? 0;
-                return $item;
-            });
+        return $node_data->map(function ($item) use ($anomalies) {
+            $item['total_anomaly'] = $anomalies[$item['tree_id']] ?? 0;
+            return $item;
+        });
     }
 }
