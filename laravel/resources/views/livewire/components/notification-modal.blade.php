@@ -172,7 +172,6 @@
                                     </div>
 
                                     <x-ui.badge class="capitalize" size='sm' :color="$config_class['badge']">
-
                                         {{ $notification['severity'] }}
                                     </x-ui.badge>
                                 </div>
@@ -266,50 +265,110 @@
                             </div>
 
                             <!-- DIAGNOSIS -->
-                            <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="bg-gray-50 rounded-xl p-5">
 
-                                <h6 class="font-semibold mb-3">
+                                <h6 class="font-semibold text-gray-800 mb-4">
                                     Informasi Diagnosis
                                 </h6>
 
-                                <div class="grid grid-cols-2 gap-3 text-sm">
+                                <!-- Lokasi Diagnosis -->
+                                <div class="grid grid-cols-2 gap-4 mb-4">
 
-                                    <div>
-                                        <span class="text-gray-500">Tree</span>
-                                        <p class="font-semibold">
-                                            {{ $active_notification['tree_id'] }}
-                                        </p>
-                                    </div>
 
-                                    <div>
-                                        <span class="text-gray-500">Node</span>
-                                        <p class="font-semibold">
+                                    <div class="bg-white rounded-lg border p-4">
+                                        <div class="text-xs text-gray-500">
+                                            Area Diagnosis
+                                        </div>
+
+                                        <div class="text-2xl font-bold text-purple-600">
                                             {{ $active_notification['node_id'] }}
-                                        </p>
+                                        </div>
+
+                                        <div class="text-xs text-gray-500 mt-1">
+                                            Menunjukkan kelompok sistem yang terindikasi mengalami gangguan.
+                                        </div>
                                     </div>
 
-                                    <div>
-                                        <span class="text-gray-500">Fault Ratio</span>
-                                        <p class="font-semibold text-red-600">
-                                            {{ $active_notification['fault_ratio'] }}
-                                        </p>
-                                    </div>
+                                    <div class="bg-white rounded-lg border p-4">
+                                        <div class="text-xs text-gray-500">
+                                            Pohon Diagnosis
+                                        </div>
 
-                                    <div>
-                                        <span class="text-gray-500">Dominant Ratio</span>
-                                        <p class="font-semibold text-orange-600">
-                                            {{ $active_notification['dominant_ratio'] }}
-                                        </p>
-                                    </div>
+                                        <div class="text-2xl font-bold text-green-600">
+                                            {{ $active_notification['tree_id'] }}
+                                        </div>
 
-                                    <div class="col-span-2">
-                                        <span class="text-gray-500">Dominant Feature</span>
-                                        <p class="font-semibold">
-                                            {{ str_replace('_', ' ', ucfirst($active_notification['dominant_feature'])) }}
-                                        </p>
+                                        <div class="text-xs text-gray-500 mt-1">
+                                            Menunjukkan lokasi diagnosis yang lebih spesifik pada pohon terpilih.
+                                        </div>
                                     </div>
 
                                 </div>
+
+                                <!-- Tingkat Anomali -->
+                                <div class="bg-white rounded-lg border p-4 mb-4">
+
+                                    <div class="flex items-center justify-between">
+
+                                        <div>
+                                            <div class="text-sm text-gray-500">
+                                                Keparahan Gangguan
+                                            </div>
+
+                                            <div class="mt-1">
+                                                <x-ui.badge size="sm" :color="$config_class['badge']">
+                                                    {{ ucfirst($active_notification['severity']) }}
+                                                </x-ui.badge>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-right">
+                                            <div class="text-3xl font-bold {{ $config_class['text'] }}">
+                                                {{ number_format($active_notification['fault_ratio'], 2) }}
+                                            </div>
+
+                                            <div class="text-xs text-gray-500">
+                                                Skor Gangguan
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="text-xs text-gray-500 mt-3">
+                                        Semakin tinggi skor gangguan, semakin besar penyimpangan dari kondisi normal.
+                                    </div>
+
+                                </div>
+
+                                <!-- Parameter Utama -->
+                                <div class="bg-white rounded-lg border p-4">
+
+                                    <div class="text-sm text-gray-500">
+                                        Parameter Utama Penyebab Gangguan
+                                    </div>
+
+                                    <div class="mt-1 text-lg font-semibold text-gray-800">
+                                        {{ $active_notification['rule']['title'] }}
+                                    </div>
+
+                                    <div class="mt-3 flex items-center justify-between">
+
+                                        <span class="text-sm text-gray-600">
+                                            Kontribusi terhadap total gangguan
+                                        </span>
+
+                                        <span class="font-bold text-orange-500">
+                                            {{ number_format($active_notification['dominant_ratio'] * 100, 1) }}%
+                                        </span>
+
+                                    </div>
+
+                                    <div class="mt-2 text-xs text-gray-500">
+                                        Parameter ini memberikan kontribusi terbesar terhadap gangguan yang terdeteksi.
+                                    </div>
+
+                                </div>
+
                             </div>
 
                             <!-- POSSIBLE PROBLEMS -->
@@ -345,7 +404,7 @@
                             <!-- ACTION -->
                             <button wire:click="resolve" wire:loading.attr="disabled"
                                 wire:loading.class="cursor-wait opacity-50"
-                                class="w-full md:w-auto px-4 py-2 rounded-lg transition-all duration-200
+                                class="w-full md:w-auto px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer
                     {{ $active_notification['is_active']
                         ? 'bg-blue-600 hover:bg-blue-700 text-white'
                         : 'bg-gray-200 hover:bg-gray-300 text-gray-700' }}">

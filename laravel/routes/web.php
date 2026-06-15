@@ -19,7 +19,7 @@ Route::get('/location', Location::class);
 Route::get('/energy', Energy::class);
 
 Route::get('/try', function () {
-    $notifications = Notification::select('*')->with('rule:feature_name,title')->first();
+    $notifications = Notification::select('*')->with('rule:feature,title')->first();
     dd($notifications->rule->title);
 });
 

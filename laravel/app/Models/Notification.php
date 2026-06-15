@@ -18,7 +18,7 @@ class Notification extends Model
 
     public function rule(): BelongsTo
     {
-        return $this->belongsTo(NotificationRule::class, 'dominant_feature', 'feature_name');
+        return $this->belongsTo(NotificationRule::class, 'dominant_feature', 'feature');
     }
 
     protected function scopeFilter(Builder $query, array $filters): void

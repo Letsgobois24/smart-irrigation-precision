@@ -202,7 +202,7 @@ class NotificationModal extends Component
     {
         $filters = $this->getFilterConfig();
         $notifications = Notification::select(['id', 'tree_id', 'fault_ratio', 'dominant_feature', 'dominant_ratio', 'severity', 'is_active', 'created_at'])
-            ->with('rule:feature_name,title')
+            ->with('rule:feature,title')
             ->filter($filters)
             ->activeOrder($this->selected_status)
             ->orderBy('created_at', 'desc')

@@ -23,7 +23,6 @@ class Location extends Component
                 $query->where('notifications.is_active', true);
             }
         ])->get();
-        dd($trees);
 
         // Summary Tree
         $summary = Tree::getSummary();

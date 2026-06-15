@@ -24,7 +24,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('tree_id')->references('tree_id')->on('trees');
-            $table->foreign('dominant_feature')->references('feature_name')->on('notification_rules');
+            $table->foreign('dominant_feature')->references('feature')->on('notification_rules');
             $table->index('severity');
             $table->index('is_active');
         });

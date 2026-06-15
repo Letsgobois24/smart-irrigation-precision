@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class NotificationRule extends Model
 {
-    protected $primaryKey = 'feature_name';
+    protected $primaryKey = 'feature';
     public $incrementing = false;
     protected $keyType = 'string';
     public $timestamps = false;
@@ -17,7 +17,8 @@ class NotificationRule extends Model
     ];
 
     protected $fillable = [
-        'feature_name',
+        'feature',
+        'name',
         'title',
         'description',
         'problem',
@@ -26,6 +27,6 @@ class NotificationRule extends Model
 
     public function notifications()
     {
-        return $this->hasMany(Notification::class, 'dominant_feature', 'feature_name');
+        return $this->hasMany(Notification::class, 'dominant_feature', 'feature');
     }
 }
