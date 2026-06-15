@@ -277,7 +277,7 @@
 
                                     <div class="bg-white rounded-lg border p-4">
                                         <div class="text-xs text-gray-500">
-                                            Area Diagnosis
+                                            Node (Area) Diagnosis
                                         </div>
 
                                         <div class="text-2xl font-bold text-purple-600">
@@ -291,7 +291,7 @@
 
                                     <div class="bg-white rounded-lg border p-4">
                                         <div class="text-xs text-gray-500">
-                                            Pohon Diagnosis
+                                            Pohon (Tree) Diagnosis
                                         </div>
 
                                         <div class="text-2xl font-bold text-green-600">

@@ -26,7 +26,7 @@ class Location extends Component
 
         // Summary Tree
         $summary = Tree::getSummary();
-        $summary['total_anomaly'] = Notification::isTree()->isActive()->count();
+        $summary['total_fault'] = Notification::isActive()->count();
 
         return view('livewire.pages.location', compact('trees', 'summary'));
     }

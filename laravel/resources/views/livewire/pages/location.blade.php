@@ -68,7 +68,7 @@
             </div>
 
             <div class="text-3xl font-bold text-red-600 mt-1">
-                {{ $summary['total_anomaly'] }}
+                {{ $summary['total_fault'] }}
             </div>
         </div>
 

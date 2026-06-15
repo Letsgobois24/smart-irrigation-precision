@@ -23,7 +23,7 @@ class NotificationModal extends Component
 
     // Filter Options
     public array $date_range;
-    public array $locations = ['global' => 'Global'];
+    public array $locations = [];
     public array $severities = [
         '' => [
             'name' => 'All',
@@ -105,7 +105,7 @@ class NotificationModal extends Component
         $is_active = $this->active_notification['is_active'];
         try {
             Notification::where('id', $id)->update(['is_active' => !$is_active]);
-            $message = 'Masalah ' . $this->active_notification['rule']['title'] . ' ' . (!$is_active ? 'batal menyelesaikan' : 'telah terselesaikan');
+            $message = 'Masalah ' . strtolower($this->active_notification['rule']['title']) . ' ' . (!$is_active ? 'batal menyelesaikan' : 'telah terselesaikan');
             $this->dispatch('toast', type: 'success', message: $message);
             $this->active_notification['is_active'] = !$is_active;
         } catch (Throwable $e) {
