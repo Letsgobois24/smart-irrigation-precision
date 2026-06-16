@@ -16,15 +16,23 @@ class GlobalCards extends Component
     public function __construct(
         public array $globalData
     ) {
+        // Determine pH status and configuration
         $ph_status = $this->getStatusPH($globalData['ph']);
         $this->ph_config = $this->getPHConfig($ph_status);
+        $this->ph_config['title'] = 'pH Tanah';
 
+        // Determine water flow status and configuration
         $is_flow = $globalData['water_flow'] > 0;
         $this->flow_config = $this->getFlowConfig($is_flow);
+        $this->flow_config['title'] = 'Water Flow';
 
+        // Determine light status and configuration
         $this->light_config = $this->getLightConfig($globalData['light']);
+        $this->light_config['title'] = 'Light Intensity';
 
+        // Determine valve status and configuration
         $this->valve_config = $this->getValveConfig($globalData['main_valve']);
+        $this->valve_config['title'] = 'Main Valve';
     }
 
     /**
@@ -50,25 +58,28 @@ class GlobalCards extends Component
             'acid' => [
                 'label' => 'acid',
                 'color' => 'red',
-                'bg' => 'bg-red-50',
-                'border' => 'border-red-100',
+                'border' => 'border-red-200',
+                'accent' => 'border-l-red-500',
                 'text' => 'text-red-700',
+                'bg-icon' => 'bg-red-700/10',
                 'description' => 'pH terlalu asam.',
             ],
             'optimal' => [
                 'label' => 'optimal',
                 'color' => 'emerald',
-                'bg' => 'bg-emerald-50',
-                'border' => 'border-emerald-100',
+                'border' => 'border-emerald-200',
+                'accent' => 'border-l-emerald-500',
                 'text' => 'text-emerald-700',
-                'description' => 'Kondisi pH optimal untuk irigasi.',
+                'bg-icon' => 'bg-emerald-700/10',
+                'description' => 'pH optimal untuk irigasi.',
             ],
             default => [
                 'label' => 'base',
                 'color' => 'purple',
-                'bg' => 'bg-purple-50',
-                'border' => 'border-purple-100',
+                'border' => 'border-purple-200',
+                'accent' => 'border-l-purple-500',
                 'text' => 'text-purple-700',
+                'bg-icon' => 'bg-purple-700/10',
                 'description' => 'pH terlalu basa.',
             ],
         };
@@ -80,17 +91,19 @@ class GlobalCards extends Component
             true => [
                 'label' => 'flow',
                 'color' => 'blue',
-                'bg' => 'bg-sky-50',
-                'border' => 'border-sky-100',
-                'text' => 'text-blue-700',
+                'border' => 'border-sky-200',
+                'accent' => 'border-l-sky-500',
+                'bg-icon' => 'bg-sky-700/10',
+                'text' => 'text-sky-700',
                 'description' => 'Distribusi air berjalan normal.',
             ],
 
             default => [
                 'label' => 'idle',
                 'color' => 'yellow',
-                'bg' => 'bg-yellow-50',
-                'border' => 'border-yellow-100',
+                'border' => 'border-yellow-200',
+                'accent' => 'border-l-yellow-500',
+                'bg-icon' => 'bg-yellow-700/10',
                 'text' => 'text-yellow-700',
                 'description' => 'Tidak ada aliran air terdeteksi.',
             ],
@@ -103,8 +116,9 @@ class GlobalCards extends Component
             $light <= 20 => [
                 'label' => 'dark',
                 'color' => 'slate',
-                'bg' => 'bg-slate-50',
-                'border' => 'border-slate-100',
+                'bg-icon' => 'bg-slate-700/10',
+                'border' => 'border-slate-200',
+                'accent' => 'border-l-slate-500',
                 'text' => 'text-slate-700',
                 'description' => 'Intensitas cahaya sangat rendah.',
             ],
@@ -112,8 +126,9 @@ class GlobalCards extends Component
             $light <= 50 => [
                 'label' => 'low',
                 'color' => 'yellow',
-                'bg' => 'bg-yellow-50',
-                'border' => 'border-yellow-100',
+                'bg-icon' => 'bg-yellow-700/10',
+                'border' => 'border-yellow-200',
+                'accent' => 'border-l-yellow-500',
                 'text' => 'text-yellow-700',
                 'description' => 'Cahaya masih relatif rendah.',
             ],
@@ -121,8 +136,9 @@ class GlobalCards extends Component
             $light <= 80 => [
                 'label' => 'moderate',
                 'color' => 'amber',
-                'bg' => 'bg-amber-50',
-                'border' => 'border-amber-100',
+                'bg-icon' => 'bg-amber-700/10',
+                'border' => 'border-amber-200',
+                'accent' => 'border-l-amber-500',
                 'text' => 'text-amber-700',
                 'description' => 'Intensitas cahaya berada pada level sedang.',
             ],
@@ -130,8 +146,9 @@ class GlobalCards extends Component
             default => [
                 'label' => 'bright',
                 'color' => 'orange',
-                'bg' => 'bg-orange-50',
-                'border' => 'border-orange-100',
+                'bg-icon' => 'bg-orange-700/10',
+                'border' => 'border-orange-200',
+                'accent' => 'border-l-orange-500',
                 'text' => 'text-orange-700',
                 'description' => 'Intensitas cahaya tinggi.',
             ],
@@ -145,10 +162,11 @@ class GlobalCards extends Component
                 'label' => 'ON',
                 'status' => 'Active',
                 'color' => 'emerald',
-                'bg' => 'bg-emerald-50',
-                'border' => 'border-emerald-100',
+                'border' => 'border-emerald-200',
+                'accent' => 'border-l-emerald-500',
                 'text' => 'text-emerald-700',
                 'icon' => 'text-emerald-600',
+                'bg-icon' => 'bg-emerald-700/10',
                 'description' => 'Katup utama sedang membuka aliran.',
             ],
 
@@ -156,12 +174,13 @@ class GlobalCards extends Component
                 'label' => 'OFF',
                 'status' => 'Non Active',
                 'color' => 'red',
-                'bg' => 'bg-red-50',
-                'border' => 'border-red-100',
+                'border' => 'border-red-200',
+                'accent' => 'border-l-red-500',
                 'text' => 'text-red-700',
                 'icon' => 'text-red-600',
+                'bg-icon' => 'bg-red-700/10',
                 'description' => 'Katup utama sedang tertutup.',
-            ]
+            ],
         };
     }
 }

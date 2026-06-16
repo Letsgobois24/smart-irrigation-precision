@@ -41,7 +41,7 @@ class TreeCard extends Component
             'dry' => [
                 'badge' => 'Soil Dry',
                 'badge_color' => 'red',
-                'card' => 'bg-red-50 border border-red-200',
+                'card' => 'border-red-500 border-red-100',
                 'icon' => 'text-red-500',
                 'description' => 'Irrigation recommended',
                 'description_color' => 'text-red-600',
@@ -50,7 +50,7 @@ class TreeCard extends Component
             'wet' => [
                 'badge' => 'Too Wet',
                 'badge_color' => 'yellow',
-                'card' => 'bg-yellow-50 border border-yellow-200',
+                'card' => 'border-yellow-500 border-yellow-100',
                 'icon' => 'text-yellow-500',
                 'description' => 'Soil moisture too high',
                 'description_color' => 'text-yellow-700',
@@ -59,7 +59,7 @@ class TreeCard extends Component
             default => [
                 'badge' => 'Optimal',
                 'badge_color' => 'green',
-                'card' => 'bg-green-50 border border-green-200',
+                'card' => 'border-green-500 border-green-100',
                 'icon' => 'text-blue-500',
                 'description' => 'Soil condition stable',
                 'description_color' => 'text-green-600',

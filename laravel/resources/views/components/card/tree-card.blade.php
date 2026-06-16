@@ -1,8 +1,8 @@
-<div class="{{ $statusConfig['card'] }} p-3 rounded-xl transition-all duration-300">
+<div
+    class="{{ $statusConfig['card'] }} bg-white border-l-6 border-t border-r border-b p-3 rounded-xl transition-all duration-300">
 
     <!-- Header -->
     <div class="flex items-center justify-between mb-2">
-
         <div class="flex items-center gap-2">
             🌱
 
@@ -10,7 +10,6 @@
                 Tree {{ $tree['tree_id'] }}
             </p>
         </div>
-
         <x-ui.badge size='xs' :color="$statusConfig['badge_color']">
             {{ $statusConfig['badge'] }}
         </x-ui.badge>
@@ -18,9 +17,7 @@
 
     <!-- Moisture -->
     <div class="flex items-center gap-2">
-
         <x-icons.humidity size="20" class="{{ $statusConfig['icon'] }}" />
-
         <p class="text-lg font-bold">
             {{ $tree['soil_moisture'] }}%
         </p>
@@ -50,9 +47,7 @@
 
     <!-- Last Update -->
     <div class="mt-3 text-xs text-gray-400 flex flex-wrap gap-x-1">
-
         <span>Last update:</span>
-
         <span>
             {{ smartTimeFormat($tree['time']) }}
         </span>

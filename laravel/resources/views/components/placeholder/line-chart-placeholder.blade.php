@@ -1,4 +1,4 @@
-<div class="p-6 max-w-full overflow-hidden rounded-2xl bg-white shadow-sm">
+<div class="p-6 max-w-full overflow-hidden rounded-2xl bg-white shadow">
 
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-4">
