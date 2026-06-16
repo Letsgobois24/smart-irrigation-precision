@@ -41,6 +41,11 @@ class SystemEventSchema(BaseModel):
 
     @computed_field
     @property
+    def latency(self) -> int:
+        return int(time.time() * 1000) - self.time
+
+    @computed_field
+    @property
     def moisture_gain(self) -> float:
         return round(self.moisture_after - self.moisture_before, 1)
 

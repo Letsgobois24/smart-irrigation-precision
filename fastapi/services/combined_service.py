@@ -42,5 +42,4 @@ def mqttSavePeriodData(data: dict):
     return {
         'any_anomalies' : True
     }
-
     
