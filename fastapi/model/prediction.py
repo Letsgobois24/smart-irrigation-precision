@@ -1,6 +1,4 @@
-import random
 import time
-
 import pandas as pd
 import numpy as np
 from keras.models import load_model
@@ -12,13 +10,6 @@ model = load_model('model/best_model.keras')
 
 features = ['moisture_after', 'moisture_before', 'moisture_gain', 'moisture_rate','valve_duration']
 mse_threshold = 1.28228
-
-
-def predictGlobalAnomaly():
-    return True
-
-def predictTreeAnomaly():
-    return True
 
 def predictEventSystem(data: dict):
     time_start = int(time.time() * 1000)
