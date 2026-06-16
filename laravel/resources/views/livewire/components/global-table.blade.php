@@ -22,7 +22,10 @@
                         Water Flow (L/min)
                     </th>
                     <th class="px-4 py-3 whitespace-nowrap">
-                        Main Valve
+                        Water Pump
+                    </th>
+                    <th class="px-4 py-3 whitespace-nowrap">
+                        Fertilizer Pump
                     </th>
                     <th class="px-4 py-3 whitespace-nowrap">
                         Time
@@ -44,10 +47,16 @@
                             class="px-4 py-3 font-medium border-r border-green-200 {{ $row['water_flow'] < 0.1 ? 'text-gray-700' : 'text-blue-700' }}">
                             {{ number_format($row['water_flow'], 1) }}
                         </td>
-                        {{-- Main Valve --}}
+                        {{-- Water Pump --}}
                         <td class="px-4 py-3 font-sans border-r border-green-200">
-                            <x-ui.badge size='sm' :color="$row['main_valve'] ? 'green' : 'red'">
-                                {{ $row['main_valve'] ? 'ON' : 'OFF' }}
+                            <x-ui.badge size='sm' :color="$row['water_pump'] ? 'green' : 'red'">
+                                {{ $row['water_pump'] ? 'ON' : 'OFF' }}
+                            </x-ui.badge>
+                        </td>
+                        {{-- Fertilizer Pump --}}
+                        <td class="px-4 py-3 font-sans border-r border-green-200">
+                            <x-ui.badge size='sm' :color="$row['fertilizer_pump'] ? 'green' : 'red'">
+                                {{ $row['fertilizer_pump'] ? 'ON' : 'OFF' }}
                             </x-ui.badge>
                         </td>
                         {{-- Time --}}
@@ -64,7 +73,7 @@
                     </tr>
                 @endforelse
             </tbody>
-            <x-placeholder.table-body columns='4' rows='5' td-class='border-r border-green-200'
+            <x-placeholder.table-body columns='5' rows='5' td-class='border-r border-green-200'
                 class="divide-y divide-gray-100 hidden" />
         </table>
 

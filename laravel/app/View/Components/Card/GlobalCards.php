@@ -10,8 +10,9 @@ class GlobalCards extends Component
 {
     public array $ph_config = [];
     public array $flow_config = [];
-    public array $valve_config = [];
     public array $light_config = [];
+    public array $water_pump_config = [];
+    public array $fertilizer_pump_config = [];
 
     public function __construct(
         public array $globalData
@@ -30,9 +31,13 @@ class GlobalCards extends Component
         $this->light_config = $this->getLightConfig($globalData['light']);
         $this->light_config['title'] = 'Light Intensity';
 
-        // Determine valve status and configuration
-        $this->valve_config = $this->getValveConfig($globalData['main_valve']);
-        $this->valve_config['title'] = 'Main Valve';
+        // Determine water pump status and configuration
+        $this->water_pump_config = $this->getWaterPumpConfig($globalData['water_pump']);
+        $this->water_pump_config['title'] = 'Water Pump';
+
+        // Determine fertilizer pump status and configuration
+        $this->fertilizer_pump_config = $this->getFertilizerPumpConfig($globalData['fertilizer_pump']);
+        $this->fertilizer_pump_config['title'] = 'Fertilizer Pump';
     }
 
     /**
@@ -155,31 +160,60 @@ class GlobalCards extends Component
         };
     }
 
-    private function getValveConfig(bool $isActive): array
+    private function getWaterPumpConfig(bool $isActive): array
     {
         return match ($isActive) {
             true => [
                 'label' => 'ON',
-                'status' => 'Active',
-                'color' => 'emerald',
-                'border' => 'border-emerald-200',
-                'accent' => 'border-l-emerald-500',
-                'text' => 'text-emerald-700',
-                'icon' => 'text-emerald-600',
-                'bg-icon' => 'bg-emerald-700/10',
-                'description' => 'Katup utama sedang membuka aliran.',
+                'status' => 'Running',
+                'color' => 'sky',
+                'border' => 'border-sky-200',
+                'accent' => 'border-l-sky-500',
+                'text' => 'text-sky-700',
+                'bg-icon' => 'bg-sky-700/10',
+                'icon' => 'text-sky-600',
+                'description' => 'Pompa air sedang mendistribusikan air.',
             ],
 
             default => [
                 'label' => 'OFF',
-                'status' => 'Non Active',
-                'color' => 'red',
-                'border' => 'border-red-200',
-                'accent' => 'border-l-red-500',
-                'text' => 'text-red-700',
-                'icon' => 'text-red-600',
-                'bg-icon' => 'bg-red-700/10',
-                'description' => 'Katup utama sedang tertutup.',
+                'status' => 'Stopped',
+                'color' => 'gray',
+                'border' => 'border-gray-200',
+                'accent' => 'border-l-gray-500',
+                'text' => 'text-gray-700',
+                'bg-icon' => 'bg-gray-700/10',
+                'icon' => 'text-gray-600',
+                'description' => 'Pompa air tidak beroperasi.',
+            ],
+        };
+    }
+
+    private function getFertilizerPumpConfig(bool $isActive): array
+    {
+        return match ($isActive) {
+            true => [
+                'label' => 'ON',
+                'status' => 'Injecting',
+                'color' => 'emerald',
+                'bg-icon' => 'bg-emerald-700/10',
+                'border' => 'border-emerald-200',
+                'accent' => 'border-l-emerald-500',
+                'text' => 'text-emerald-700',
+                'icon' => 'text-emerald-600',
+                'description' => 'Pompa pupuk sedang menginjeksikan nutrisi.',
+            ],
+
+            default => [
+                'label' => 'OFF',
+                'status' => 'Standby',
+                'color' => 'amber',
+                'bg-icon' => 'bg-amber-700/10',
+                'border' => 'border-amber-200',
+                'accent' => 'border-l-amber-500',
+                'text' => 'text-amber-700',
+                'icon' => 'text-amber-600',
+                'description' => 'Pompa pupuk dalam kondisi siaga.',
             ],
         };
     }

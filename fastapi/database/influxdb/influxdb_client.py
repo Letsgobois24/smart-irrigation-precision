@@ -15,21 +15,14 @@ client = InfluxDBClient3(
     auth_scheme="Bearer"
 )
 
-def getSensorData(limit: int):
-    # Query the DataFrame from InfluxDB
-    query = f"SELECT * FROM 'global' LIMIT {limit}"
-    table: pd.DataFrame = client.query_dataframe(query=query)
-    table['time'].astype('int')
-    return table.to_json(orient='records')
-
 def addData(data: Dict[str, float], measurement: str, tags: list | None = None):
     df = pd.DataFrame(data=[data])
-    df['time'] = convertTimeToSecond(df['time'])
+    df['time'] = convertTime(df['time'])
     client.write_dataframe(df=df, measurement=measurement, timestamp_column='time', tags=tags)
     
 def extendData(df: pd.DataFrame, measurement: str, tags: list | None = None):
-    df['time'] = convertTimeToSecond(df['time'])
+    df['time'] = convertTime(df['time'])
     client.write_dataframe(df=df, measurement=measurement, timestamp_column='time', tags=tags)
 
-def convertTimeToSecond(df_column):
+def convertTime(df_column):
     return pd.to_datetime(df_column, unit='ms').astype('datetime64[ms]')

@@ -1,4 +1,4 @@
-<div :class="isOpenSidebar ? 'xl:grid-cols-3' : 'xl:grid-cols-5'" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
     <!-- PH -->
     <x-card.global-card :config="$ph_config" :data="$globalData['ph']">
         <x-slot name="icon">
@@ -20,10 +20,17 @@
         </x-slot>
     </x-card.global-card>
 
-    <!-- MAIN VALVE -->
-    <x-card.global-card :config="$valve_config" :data="$globalData['main_valve'] ? 'ON' : 'OFF'">
+    <!-- WATER PUMP -->
+    <x-card.global-card :config="$water_pump_config" :data="$globalData['water_pump'] ? 'ON' : 'OFF'">
         <x-slot name="icon">
-            <x-icons.valve-off size="28" />
+            <x-icons.pump size="28" />
+        </x-slot>
+    </x-card.global-card>
+
+    <!-- FERTILIZER PUMP -->
+    <x-card.global-card :config="$fertilizer_pump_config" :data="$globalData['fertilizer_pump'] ? 'ON' : 'OFF'">
+        <x-slot name="icon">
+            <x-icons.flask size="28" />
         </x-slot>
     </x-card.global-card>
 
