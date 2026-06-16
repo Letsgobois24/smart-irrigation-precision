@@ -43,8 +43,6 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
             single_tree = payload.copy()
             single_tree['event_source'] = 'event'
 
-            print('single tree:', single_tree)
-
             addSingleTree(data=SingleTree(**single_tree))
             return
         

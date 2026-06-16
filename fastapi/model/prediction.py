@@ -46,6 +46,11 @@ def predictEventSystem(data: dict):
         'dominant_feature': features[np.argmax(error_data)],
         'dominant_ratio': round(max_error / np.sum(error_data), 3),
         'dominant_error': round(max_error, 2),
+        'mse_moisture_after': round(error_data[0][0], 2),
+        'mse_moisture_before': round(error_data[0][1], 2),
+        'mse_moisture_gain': round(error_data[0][2], 2),
+        'mse_moisture_rate': round(error_data[0][3], 2),
+        'mse_valve_duration': round(error_data[0][4], 2),
         'prediction_time': prediction_time,
         'time': int(time.time() * 1000),
     }

@@ -32,6 +32,7 @@ def addSystemEvent(data: SystemEventSchema):
     system_event = data.model_dump()
     addData(data=system_event, measurement='system_event', tags=['tree_id', 'node_id', 'event_id'])
 
+    # Prediction and add to fault_result table
     prediction_result = predictEventSystem(system_event)
     addData(data=prediction_result, measurement='fault_result', tags=['tree_id', 'node_id', 'event_id'])
 
