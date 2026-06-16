@@ -3,8 +3,7 @@ import json
 import uuid
 import time
 from typing import Tuple
-from services.combined_service import mqttSavePeriodData
-from database.influxdb.influxdb_services import addSystemEvent, addSingleTree
+from database.influxdb.influxdb_services import addRequestData, addSystemEvent, addSingleTree
 from schema.node_tree import SingleTree
 from schema.system_event_schema import SystemEventSchema
 
@@ -37,7 +36,7 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
     # Action
     try:
         if(action == 'period_data'):
-            mqttSavePeriodData(data=payload)
+            addRequestData(payload)
             return
         
         if(action == 'period_event'):
