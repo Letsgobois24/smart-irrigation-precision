@@ -45,3 +45,10 @@ def addSystemEvent(data: SystemEventSchema):
 
 def addFaultResult(data: FaultResultSchema):
     addData(data=data, measurement='fault_result', tags=['tree_id', 'node_id', 'event_id'])
+
+def addRequestData(data: dict):
+    if(data['node_id'] == 'global'):
+        data.pop('node_id')
+        addGlobal(GlobalSchema(**data))
+    else:
+        addNodeTree(NodeTree(**data))

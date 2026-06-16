@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException, Path, Depends
 from fastapi.responses import JSONResponse
 
 from contextlib import asynccontextmanager
+from database.influxdb.influxdb_services import addRequestData
 from services.mqtt.mqtt_app import startup_event
 from services.mqtt.mqtt_client import client
 from services.mqtt.mqtt_services import send_request, wait_to_response, send_control
@@ -59,19 +60,11 @@ def request_data(node_id: str = Path(examples=['global', 'node_1'], description=
         if (not data):
             raise HTTPException(status_code=500, detail=f"Gagal mengirim dari device")
         # Save to database
-        responses = mqttSavePeriodData(data=data)
-        print('Save responses')
-
-        if not responses['any_anomalies']: 
-            message = 'Data baru berhasil ditambahkan.'
-            type = 'success'
-        else:
-            message = 'Sistem mendeteksi kesalahan sistem. Mohon cek notifikasi'
-            type = 'warning'
+        addRequestData(data)
                    
         return JSONResponse(status_code=200, content={
-            'type': type,
-            'message' :  message,
+            'type': 'success',
+            'message' :  'Data berhasil disimpan',
         })
     
     except HTTPException as e:

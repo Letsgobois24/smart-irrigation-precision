@@ -12,12 +12,12 @@ export default function lineChart(data, seriesOptions, ylabel = '') {
             const options = setLineOptionChart(this.data, seriesOptions, ylabel);
             this.chart = new ApexCharts(this.$el, options);
             this.chart.render();
-
         },
     }
 }
 
 function setLineOptionChart(data, seriesOptions, ylabel) {
+    console.log(getSeriesOptions(data, seriesOptions));
     return {
         stroke: {
             width: 2,

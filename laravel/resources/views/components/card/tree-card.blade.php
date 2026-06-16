@@ -55,15 +55,15 @@
 
     {{-- Anomaly Detected --}}
     <div x-on:click="$dispatch('filter-location', {tree_id: @js($tree['tree_id'])})"
-        class="flex items-center gap-1 mt-3 text-xs hover:underline cursor-pointer">
+        class="flex items-center gap-1 mt-3 text-xs cursor-pointer">
         @if ($tree['total_anomaly'] > 0)
             <x-icons.warning size="16" class="text-red-600" />
-            <span class="text-red-600">
+            <span class="text-red-600 hover:underline">
                 {{ $tree['total_anomaly'] }} Anomaly Detected
             </span>
         @else
             <x-icons.check size="16" class="text-gray-500" />
-            <span class="text-gray-500">
+            <span class="text-gray-500 hover:underline">
                 No Anomaly Detected
             </span>
         @endif

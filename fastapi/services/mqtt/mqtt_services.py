@@ -73,8 +73,6 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
             pending_request[request_id] = payload
             return
         
-        print('masih berjalan')
-
     except Exception as e:
         print('weli')
         print("Error:", e)

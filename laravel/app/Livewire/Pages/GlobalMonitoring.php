@@ -42,7 +42,7 @@ class GlobalMonitoring extends Component
             if ($response->failed()) {
                 throw new Exception(message: $message['detail'] ?? 'Unknown Error', code: $response->status());
             }
-            $this->update($globalServices);
+            $this->loadData($globalServices);
             $this->dispatch("add-data.global");
             $this->dispatch('toast', type: $message['type'], message: $message['message']);
         } catch (ConnectionException) {

@@ -10,10 +10,10 @@ use Throwable;
 
 class LineChart extends Component
 {
-    public string $field;
-    public string $fieldName;
-    public string $table;
-    public string $groupby;
+    public string $field = '';
+    public string $fieldName = '';
+    public string $table = '';
+    public string $groupby = '';
     public string $ylabel = '';
     public string $xlabel = '';
 
