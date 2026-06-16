@@ -2,3 +2,4 @@ nginx.conf
 /device
 /training
 .env
+ssh_connection.txt

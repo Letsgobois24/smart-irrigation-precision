@@ -9,20 +9,18 @@ use Illuminate\Http\Client\ConnectionException;
 use Livewire\Component;
 use Throwable;
 
-class DashboardHeader extends Component
+class SystemToggle extends Component
 {
-    public int $now;
     public bool $system_active;
 
     public function mount()
     {
-        $this->now = now()->valueOf();
         $this->system_active = Configuration::find(1)['is_active'];
     }
 
     public function render()
     {
-        return view('livewire.components.dashboard-header');
+        return view('livewire.components.system-toggle');
     }
 
     public function toggleSystem(FastAPIServices $fastAPIServices)
