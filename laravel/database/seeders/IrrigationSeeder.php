@@ -8,7 +8,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Throwable;
 
-class SystemEventSeeder extends Seeder
+class IrrigationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -29,7 +29,7 @@ class SystemEventSeeder extends Seeder
             $current_after = !$valve_status ? 1.0 : fake()->randomFloat(1, 100, 120);
 
             $rows[] = [
-                'measurement' => 'system_event',
+                'measurement' => 'irrigations',
                 'tags' => [
                     'node_id' => 1,
                     'tree_id' => random_int(1, 4)
@@ -44,7 +44,7 @@ class SystemEventSeeder extends Seeder
                     'water_flow' => $valve_status ? fake()->randomFloat(1, 0.1, 0.5) : fake()->randomFloat(1, 1, 2),
                     'duration' => 600,
                 ],
-                'time' => now()->getTimestamp()
+                'time' => $date->getTimestamp(),
             ];
         }
 

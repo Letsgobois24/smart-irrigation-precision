@@ -1,7 +1,7 @@
 import paho.mqtt.client as paho
 from paho import mqtt
 import os
-from services.mqtt.mqtt_services import on_connect, on_message, on_publish, on_subscribe
+from services.mqtt.mqtt_services import on_connect, on_disconnect, on_message, on_publish, on_subscribe
 from dotenv import load_dotenv
 
 # Memuat semua env
@@ -12,7 +12,7 @@ PORT = 8883
 
 client = paho.Client(
     callback_api_version=paho.CallbackAPIVersion.VERSION1, 
-    client_id='fastapi', 
+    client_id=os.getenv('CLIENT_ID'), 
     userdata=None, 
     protocol=paho.MQTTv5
     )
@@ -27,3 +27,4 @@ client.on_message = on_message
 client.on_connect = on_connect
 client.on_publish = on_publish
 client.on_subscribe = on_subscribe
+client.on_disconnect = on_disconnect

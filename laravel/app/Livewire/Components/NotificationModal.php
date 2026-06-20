@@ -3,7 +3,10 @@
 namespace App\Livewire\Components;
 
 use App\Models\Notification;
+use App\Models\NotificationRule;
 use App\Models\Tree;
+use App\Services\InfluxDBService;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Throwable;
@@ -14,6 +17,7 @@ class NotificationModal extends Component
     public array | null $notifications = null;
     public int $total_active = 0;
     public int $total_result = 0;
+    public array $detail_prediction = [];
 
     private int $limit = 20;
     public int $offset = 0;
@@ -65,6 +69,7 @@ class NotificationModal extends Component
     public string $end_date = '';
     public string $selected_location = '';
 
+
     #[On('add-data.global')]
     #[On('add-data.node')]
     public function mount()
@@ -76,12 +81,6 @@ class NotificationModal extends Component
     public function render()
     {
         return view('livewire.components.notification-modal');
-    }
-
-    public function detailNotification(int $id)
-    {
-        if ($this->active_notification['id'] == $id) return;
-        $this->active_notification = Notification::with('rule')->find($id)->toArray();
     }
 
     public function openNotification()
@@ -97,6 +96,13 @@ class NotificationModal extends Component
 
         $this->updateNotifications();
         $this->isNotificationLoaded = true;
+    }
+
+    public function detailNotification(int $id)
+    {
+        if ($this->active_notification['id'] == $id) return;
+        $this->reset('detail_prediction');
+        $this->active_notification = Notification::with('rule')->find($id)->toArray();
     }
 
     public function resolve()
@@ -127,6 +133,69 @@ class NotificationModal extends Component
         if (count($this->notifications) >= $this->total_result) {
             $this->isMaxLoaded = true;
         }
+    }
+
+    public function showResultPrediction(string $event_id, InfluxDBService $influxDBService)
+    {
+        $query = "SELECT * FROM 'predictions' where event_id = '$event_id' LIMIT 1";
+        $this->detail_prediction = $influxDBService->query($query)->first() ?? [];
+
+        $parameters = Cache::rememberForever("parameters", function () {
+            return NotificationRule::query()
+                ->select(['feature', 'name'])
+                ->get();
+        });
+
+        $parameters = $parameters->map(function ($rule) {
+            $value = $this->detail_prediction["mse_{$rule->feature}"] ?? 0;
+            return [
+                'feature' => $rule->feature,
+                'name' => $rule->name,
+                'value' => (float) $value,
+            ];
+        })
+            ->sortByDesc('value')
+            ->values()
+            ->toArray();
+
+        $maxValue = max(array_column($parameters, 'value'));
+
+        foreach ($parameters as &$parameter) {
+            $percentage = round($parameter['value'] / $maxValue * 100, 2);
+            $parameter['percentage'] = $percentage;
+            $parameter['color'] = $this->getErrorColor($percentage);
+        }
+
+        $this->detail_prediction['parameters'] = $parameters;
+    }
+
+    public function getErrorColor(float $percentage): array
+    {
+        return match (true) {
+            $percentage >= 80 => [
+                'bg' => 'bg-red-500',
+                'card' => 'bg-red-50 border-red-200',
+                'text' => 'text-red-700',
+            ],
+
+            $percentage >= 60 => [
+                'bg' => 'bg-orange-500',
+                'card' => 'bg-orange-50 border-orange-200',
+                'text' => 'text-orange-700',
+            ],
+
+            $percentage >= 40 => [
+                'bg' => 'bg-yellow-500',
+                'card' => 'bg-yellow-50 border-yellow-200',
+                'text' => 'text-yellow-700',
+            ],
+
+            default => [
+                'bg' => 'bg-green-500',
+                'card' => 'bg-green-50 border-green-200',
+                'text' => 'text-green-700',
+            ],
+        };
     }
 
     #[On('filter-location')]
@@ -165,8 +234,6 @@ class NotificationModal extends Component
         $this->reset('offset', 'selected_severity', 'selected_status', 'start_date', 'end_date', 'selected_location', 'isMaxLoaded');
         $this->notifications = $this->getAllNotifications();
         $this->updateTotalResult();
-
-        // dump($this->active_notification);
     }
 
     private function filterNotifications()
@@ -194,7 +261,7 @@ class NotificationModal extends Component
 
         if (count($this->notifications) > 0) {
             $active_id = $active_id ?? $this->notifications[0]['id'];
-            $this->active_notification = Notification::with('rule')->find($active_id);
+            $this->active_notification = Notification::with('rule')->find($active_id)->toArray();
         }
     }
 

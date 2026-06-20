@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field, computed_field
 from typing import Annotated
 import time
 
-class SystemEventSchema(BaseModel):
+class IrrigationSchema(BaseModel):
     node_id: Annotated[
         int,
         Field(..., examples=[1, 2, 3], description="Unique node identifier")
@@ -28,7 +28,7 @@ class SystemEventSchema(BaseModel):
         Field(..., ge=0, le=100, description="Soil moisture after watering (%)")
     ]
 
-    valve_duration: Annotated[
+    duration: Annotated[
         float,
         Field(..., ge=0, description="Valve open duration (seconds)")
     ]
@@ -52,4 +52,4 @@ class SystemEventSchema(BaseModel):
     @computed_field
     @property
     def moisture_rate(self) -> float:
-        return round(self.moisture_gain / self.valve_duration, 2)
+        return round(self.moisture_gain / self.duration, 2)

@@ -90,7 +90,7 @@ class NotificationRuleSeeder extends Seeder
             ],
 
             [
-                'feature' => 'valve_duration',
+                'feature' => 'duration',
                 'name' => 'durasi siklus penyiraman',
                 'title' => 'Kesalahan Durasi Penyiraman',
                 'description' => 'Nilai durasi siklus penyiraman menunjukkan operasi valve yang tidak normal.',

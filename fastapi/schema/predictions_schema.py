@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from typing import Annotated
 import time
 
-class FaultResultSchema(BaseModel):
+class PredictionSchema(BaseModel):
     node_id: Annotated[
         int,
         Field(..., examples=[1, 2, 3], description="Unique node identifier")
@@ -13,7 +13,7 @@ class FaultResultSchema(BaseModel):
         Field(..., example=1, description="Tree ID within the node")
     ]
 
-    global_mse: Annotated[
+    avg_mse: Annotated[
         float,
         Field(..., ge=0, description="Nilai Global MSE")
     ]

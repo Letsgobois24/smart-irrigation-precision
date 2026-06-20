@@ -4,9 +4,8 @@ from database.mariadb.mariadb_client import createConnection
 from database.mariadb.mariadb_service import createNotification
 from schema.node_tree import NodeTree, SingleTree
 from schema.global_schema import GlobalSchema
-from schema.system_event_schema import SystemEventSchema
-from schema.fault_result_schema import FaultResultSchema
-from model.prediction import predictEventSystem
+from schema.irrigation_schema import IrrigationSchema
+from model.prediction import irrigationDetection
 
 def addNodeTree(data: NodeTree):
     data_dict = data.model_dump(include='trees')['trees']
@@ -27,14 +26,14 @@ def addSingleTree(data: SingleTree):
     data_dict = data.model_dump()
     addData(data=data_dict, measurement='node', tags=['tree_id', 'node_id', 'event_source'])
 
-def addSystemEvent(data: SystemEventSchema):
-    # Data for system_event table
-    system_event = data.model_dump()
-    addData(data=system_event, measurement='system_event', tags=['tree_id', 'node_id', 'event_id'])
+def addIrrigation(data: IrrigationSchema):
+    # Data for irrigation table
+    irrigations = data.model_dump()
+    addData(data=irrigations, measurement='irrigations', tags=['tree_id', 'node_id', 'event_id'])
 
-    # Prediction and add to fault_result table
-    prediction_result = predictEventSystem(system_event)
-    addData(data=prediction_result, measurement='fault_result', tags=['tree_id', 'node_id', 'event_id'])
+    # Prediction and add to prediction table
+    prediction_result = irrigationDetection(irrigations)
+    addData(data=prediction_result, measurement='predictions', tags=['tree_id', 'node_id', 'event_id'])
 
     # Mengirim notifikasi jika terdapat anomali
     if(True):
@@ -43,9 +42,6 @@ def addSystemEvent(data: SystemEventSchema):
             createNotification(conn, data=prediction_result)
         finally:
             conn.close()
-
-def addFaultResult(data: FaultResultSchema):
-    addData(data=data, measurement='fault_result', tags=['tree_id', 'node_id', 'event_id'])
 
 def addRequestData(data: dict):
     if(data['node_id'] == 'global'):

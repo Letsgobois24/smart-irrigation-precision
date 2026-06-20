@@ -82,7 +82,6 @@
                                         <x-ui.badge wire:click="setSeverity('{{ $key }}')" :color="$severity['color']"
                                             size='sm'
                                             class="cursor-pointer transition-all duration-200 {{ activeBadge($key == $selected_severity) }}">
-
                                             {{ $severity['name'] }}
                                         </x-ui.badge>
                                     @endforeach
@@ -426,6 +425,101 @@
                                     @endforeach
                                 </ul>
 
+                            </div>
+
+                            {{-- Detail result prediction --}}
+                            <div wire:key="{{ $active_notification['event_id'] }}" x-data="{ open: false, isLoaded: false }"
+                                x-transition.duration.200ms class="bg-gray-50 p-4 rounded-lg">
+
+                                <div class="flex items-center gap-2 font-medium cursor-pointer"
+                                    @click="
+                                            open = !open;
+                                            if (!isLoaded){
+                                                $wire.showResultPrediction('{{ $active_notification['event_id'] }}');
+                                                isLoaded = true;
+                                            }
+                                        ">
+                                    <x-icons.dropdown-line size="24" />
+                                    Detail Analisis Model
+                                </div>
+
+                                <div wire:loading.flex wire:target="showResultPrediction" class="my-4 justify-center">
+                                    <x-icons.loading size="20" class="animate-spin text-gray-500" />
+                                </div>
+
+                                @if (!empty($detail_prediction))
+                                    <div wire:loading.remove wire:target="showResultPrediction">
+                                        <div x-show="open" x-transition.duration.200ms class="mt-4 space-y-4">
+                                            <!-- Metadata -->
+                                            <div class="grid grid-cols-2 gap-3">
+                                                <div class="bg-white border rounded-lg p-3">
+                                                    <div class="text-xs text-gray-500">
+                                                        Global MSE
+                                                    </div>
+                                                    <div class="text-lg font-semibold text-gray-800">
+                                                        {{ number_format($detail_prediction['avg_mse'] ?? 0, 2) }}
+                                                    </div>
+                                                    <div class="text-xs text-gray-500 mt-1">
+                                                        Rata-rata kesalahan model pada seluruh parameter.
+                                                    </div>
+                                                </div>
+
+                                                <div class="bg-white border rounded-lg p-3">
+                                                    <div class="text-xs text-gray-500">
+                                                        Waktu Prediksi
+                                                    </div>
+                                                    <div class="text-lg font-semibold text-gray-800">
+                                                        {{ $detail_prediction['prediction_time'] ?? 0 }} ms
+                                                    </div>
+                                                    <div class="text-xs text-gray-500 mt-1">
+                                                        Waktu yang dibutuhkan model untuk melakukan diagnosis.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Parameter Contribution -->
+                                            <div class="bg-white border rounded-xl p-4">
+
+                                                <h6 class="font-semibold text-gray-800 mb-4">
+                                                    Kontribusi Parameter
+                                                </h6>
+
+                                                <div class="space-y-3">
+                                                    @foreach ($detail_prediction['parameters'] as $parameter)
+                                                        <div
+                                                            class="border rounded-lg p-3 {{ $parameter['color']['card'] }}">
+                                                            <div class="flex justify-between items-center mb-2">
+                                                                <span class="text-sm font-medium">
+                                                                    {{ ucwords($parameter['name']) }}
+                                                                </span>
+                                                                <span
+                                                                    class="font-bold {{ $parameter['color']['text'] }}">
+                                                                    {{ number_format($parameter['value'], 2) }}
+                                                                </span>
+                                                            </div>
+
+                                                            <div class="h-2 bg-white rounded-full overflow-hidden">
+                                                                <div class="h-full rounded-full transition-all duration-500 {{ $parameter['color']['bg'] }}"
+                                                                    style="width: {{ $parameter['percentage'] }}%">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="text-xs text-gray-500 mt-2">
+                                                                Kontribusi relatif:
+                                                                {{ number_format($parameter['percentage'], 1) }}%
+                                                            </div>
+
+                                                        </div>
+                                                    @endforeach
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                @endif
                             </div>
 
                             <!-- ACTION -->

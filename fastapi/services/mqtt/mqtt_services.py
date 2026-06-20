@@ -3,9 +3,9 @@ import json
 import uuid
 import time
 from typing import Tuple
-from database.influxdb.influxdb_services import addRequestData, addSystemEvent, addSingleTree
+from database.influxdb.influxdb_services import addRequestData, addIrrigation, addSingleTree
 from schema.node_tree import SingleTree
-from schema.system_event_schema import SystemEventSchema
+from schema.irrigation_schema import IrrigationSchema
 
 pending_request = {}
 def on_connect(client, userdata, flags, rc, properties = None):
@@ -14,9 +14,12 @@ def on_connect(client, userdata, flags, rc, properties = None):
         ('device/+/send_data', 1), 
         ('device/global/control', 1), 
         ('device/+/period_data', 0),
-        ('device/+/system_event', 1),
+        ('device/+/irrigation', 1),
         ('device/+/period_event', 1)
         ])
+    
+def on_disconnect(client, userdata, flags, rc):
+    print('Disconnected with result code', rc)
 
 def on_publish(client, userdata, mid, properties=None):
     print("FastAPI Published")
@@ -46,9 +49,9 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
             addSingleTree(data=SingleTree(**single_tree))
             return
         
-        if(action == 'system_event'):
+        if(action == 'irrigation'):
             payload['event_id'] = f"{payload['node_id']}-{payload['tree_id']}-{payload['time']}"
-            addSystemEvent(data=(SystemEventSchema(**payload)))
+            addIrrigation(data=(IrrigationSchema(**payload)))
             single_tree = {
                 'node_id': payload['node_id'],
                 'tree_id': payload['tree_id'],

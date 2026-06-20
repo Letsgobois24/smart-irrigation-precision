@@ -117,6 +117,11 @@ class InfluxDBService
         return $this->result;
     }
 
+    public function first()
+    {
+        return $this->result[0] ?? null;
+    }
+
     /**
      * @param array<int, array{
      *   measurement: string,

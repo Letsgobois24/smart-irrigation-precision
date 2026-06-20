@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('configurations', function (Blueprint $table) {
-            $table->tinyInteger('id', false, false);
+            $table->tinyInteger('id', false, true);
             $table->boolean('is_active');
         });
     }

@@ -7,7 +7,7 @@ use App\Services\InfluxDBService;
 use Carbon\Carbon;
 use Livewire\Component;
 
-class SystemEventTable extends Component
+class IrrigationTable extends Component
 {
     public int $page = 1;
     public int $paginate = 5;
@@ -37,7 +37,7 @@ class SystemEventTable extends Component
         $events = $this->getEvents($influx);
         $this->isLast = ($this->page - 1) * $this->paginate + count($events) == $this->total_events;
 
-        return view('livewire.components.system-event-table', [
+        return view('livewire.components.irrigation-table', [
             'events' => $events,
         ]);
     }
@@ -76,10 +76,10 @@ class SystemEventTable extends Component
 
     private function getDateRange(InfluxDBService $influx)
     {
-        $query = "SELECT time FROM system_event ORDER BY time ASC LIMIT 1";
+        $query = "SELECT time FROM irr ORDER BY time ASC LIMIT 1";
         $from = $influx->query($query)->get()[0]['time'];
 
-        $query = "SELECT time FROM system_event ORDER BY time DESC LIMIT 1";
+        $query = "SELECT time FROM irr ORDER BY time DESC LIMIT 1";
         $to = $influx->query($query)->get()[0]['time'];
 
         return [
@@ -97,7 +97,7 @@ class SystemEventTable extends Component
 
         $query = "
             SELECT *
-            FROM system_event
+            FROM irrigations
             WHERE $where
             ORDER BY time DESC
             OFFSET $offset
@@ -113,7 +113,7 @@ class SystemEventTable extends Component
 
         $query = "
             SELECT COUNT(*) AS total_events
-            FROM system_event
+            FROM irrigations
             WHERE $where
         ";
 
