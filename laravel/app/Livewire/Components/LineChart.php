@@ -22,6 +22,7 @@ class LineChart extends Component
     public array $periods = [
         '2 hours' => [
             'name' => 'Last 2 Hours',
+
         ],
         '6 hours' => [
             'name' => 'Last 6 Hours',
@@ -142,7 +143,6 @@ class LineChart extends Component
                     ROUND(AVG({$this->field}), 2) AS '{$this->xlabel}'
                 FROM {$this->table}
                 WHERE time >= now() - INTERVAL '{$this->selectedPeriods}'
-                    AND event_source='periodic'
                 GROUP BY 1, {$this->groupby}
                 ORDER BY time, {$this->groupby}";
     }

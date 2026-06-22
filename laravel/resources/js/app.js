@@ -11,3 +11,6 @@ window.flatpickr = flatpickr;
 
 import dateRange from './calendar'
 window.dateRange = dateRange;
+
+import multiLineChart from './multi-line-chart';
+window.multiLineChart = multiLineChart;

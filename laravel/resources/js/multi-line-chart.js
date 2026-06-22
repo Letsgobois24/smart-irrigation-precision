@@ -1,4 +1,4 @@
-export default function lineChart(data, seriesOptions, ylabel = '') {
+export default function multiLineChart(data, ylabel = '') {
     return {
         chart: null,
         data: data,
@@ -9,14 +9,15 @@ export default function lineChart(data, seriesOptions, ylabel = '') {
 
         renderChart() {
             if (this.chart) return;
-            const options = setLineOptionChart(this.data, seriesOptions, ylabel);
+            const options = setOption(this.data, ylabel);
             this.chart = new ApexCharts(this.$el, options);
             this.chart.render();
         },
     }
 }
 
-function setLineOptionChart(data, seriesOptions, ylabel) {
+function setOption(data, ylabel) {
+    console.log(data);
     return {
         stroke: {
             width: 2,
@@ -28,7 +29,7 @@ function setLineOptionChart(data, seriesOptions, ylabel) {
         parsing: {
             x: 'time'
         },
-        series: getSeriesOptions(data, seriesOptions),
+        series: data,
         xaxis: {
             type: 'datetime',
             labels: {
@@ -52,22 +53,12 @@ function setLineOptionChart(data, seriesOptions, ylabel) {
             }
         },
         tooltip: {
+            shared: true,
+            intersect: false,
             x: {
                 format: 'dd MMM HH:mm'
             }
         }
 
     }
-}
-
-function getSeriesOptions(data, seriesOptions) {
-    return seriesOptions.map((option) => {
-        return {
-            name: option,
-            data: data,
-            parsing: {
-                y: option,
-            }
-        }
-    })
 }
