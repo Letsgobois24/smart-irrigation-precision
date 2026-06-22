@@ -206,6 +206,11 @@ class NotificationModal extends Component
         $this->selected_location = $tree_id;
         $this->selected_status = 1;
         $this->setLocation();
+
+        if (count($this->notifications) > 0) {
+            $active_id = $this->notifications[0]['id'];
+            $this->active_notification = Notification::with('rule')->find($active_id)->toArray();
+        }
     }
 
     public function setSeverity(string $severity)
@@ -255,8 +260,6 @@ class NotificationModal extends Component
     private function updateNotifications(null | int $active_id = null)
     {
         $this->notifications = $this->getAllNotifications();
-        // dd($this->notifications);
-
 
         $this->updateTotalResult();
 
