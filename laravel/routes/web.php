@@ -2,19 +2,18 @@
 
 use App\Livewire\Pages\Dashboard;
 use App\Livewire\Pages\Energy;
-use App\Livewire\Pages\EventMonitoring;
+// use App\Livewire\Pages\EventMonitoring;
 use App\Livewire\Pages\GlobalMonitoring;
 use App\Livewire\Pages\Location;
 use App\Livewire\Pages\NodeMonitoring;
 use App\Models\Notification;
 use App\Services\InfluxDBService;
-use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', Dashboard::class);
 Route::get('/global-monitoring', GlobalMonitoring::class);
 Route::get('/node-monitoring', NodeMonitoring::class);
-Route::get('/event-monitoring', EventMonitoring::class);
+// Route::get('/event-monitoring', EventMonitoring::class);
 Route::get('/location', Location::class);
 Route::get('/energy', Energy::class);
 

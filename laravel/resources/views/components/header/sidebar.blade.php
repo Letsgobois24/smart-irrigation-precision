@@ -25,7 +25,7 @@
                 <x-header.sidelink href="/">Dashboard</x-header.sidelink>
                 <x-header.sidelink href="/global-monitoring">Global</x-header.sidelink>
                 <x-header.sidelink href="/node-monitoring">Node</x-header.sidelink>
-                <x-header.sidelink href="/event-monitoring">System Event</x-header.sidelink>
+                {{-- <x-header.sidelink href="/event-monitoring">System Event</x-header.sidelink> --}}
                 <x-header.sidelink href="/location">Location</x-header.sidelink>
                 <x-header.sidelink href="/energy">Energy</x-header.sidelink>
             </div>
