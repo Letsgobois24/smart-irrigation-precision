@@ -1,7 +1,7 @@
 import pandas as pd
 from database.influxdb.influxdb_client import extendData, addData
 from database.mariadb.mariadb_client import createConnection
-from database.mariadb.mariadb_service import createNotification
+from database.mariadb.mariadb_service import canSendNotification, createNotification
 from schema.node_tree import NodeTree, SingleTree
 from schema.global_schema import GlobalSchema
 from schema.irrigation_schema import IrrigationSchema
@@ -47,12 +47,18 @@ def addIrrigation(data: IrrigationSchema):
     addData(data=prediction_result, measurement='predictions', tags=['tree_id', 'node_id', 'event_id'])
 
     # Mengirim notifikasi jika terdapat anomali
-    if(prediction_result['flag']):
-        try:
-            conn = createConnection()
+    if(not prediction_result['flag']): return
+    
+    try:
+        conn = createConnection()
+        if(canSendNotification(conn,  
+            tree_id=irrigations['tree_id'], 
+            feature=prediction_result['dominant_feature'], 
+            severity=prediction_result['severity'], 
+            hours=6)):
             createNotification(conn, data=prediction_result)
-        finally:
-            conn.close()
+    finally:
+        conn.close()
 
 def addPeriodData(data: dict):
     if(data['node_id'] == 'global'):

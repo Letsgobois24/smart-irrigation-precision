@@ -77,4 +77,3 @@ def request_data(node_id: str = Path(examples=['global', 'node_1'], description=
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Gagal mengambil data: {e}")
-
