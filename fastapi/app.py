@@ -14,7 +14,7 @@ async def lifespan(app: FastAPI):
     startup_event()
     yield
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(lifespan=lifespan, docs_url=None, redoc_url=None, openapi_url=None)
 
 # Main control
 @app.put('/device/global/control')
