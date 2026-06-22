@@ -17,13 +17,15 @@ class GlobalSeeder extends Seeder
         $rows = [];
 
         $end = now()->startOfHour();
-        $start = (clone $end)->subDays(14);
-        $period = CarbonPeriod::create($start, '5 minutes', $end);
+        $start = (clone $end)->subDays(7);
+        $period = CarbonPeriod::create($start, '4 minutes', $end);
 
         foreach ($period as $date) {
             $rows[] = [
                 'measurement' => 'global',
                 'fields' => [
+                    'fertilizer_pump' => fake()->boolean(10),
+                    'water_pump' => fake()->boolean(60),
                     'water_flow' => fake()->randomFloat(1, 0.1, 2),
                     'light' => fake()->randomFloat(0, 100, 1),
                     'ph' => fake()->randomFloat(2, 6, 8),

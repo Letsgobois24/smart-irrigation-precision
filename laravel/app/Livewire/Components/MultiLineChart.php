@@ -3,53 +3,17 @@
 namespace App\Livewire\Components;
 
 use App\Services\InfluxDBService;
+use App\Livewire\Components\BaseLineChart;
 use Illuminate\Support\Collection;
-use Livewire\Component;
 
-class MultiLineChart extends Component
+class MultiLineChart extends BaseLineChart
 {
-    public string $field = '';
-    public string $fieldName = '';
-    public string $table = '';
-    public string $groupby = '';
-    public string $ylabel = '';
-    public string $xlabel = '';
-
-    public string $selectedPeriods = '2 hours';
-
-    public array $periods = [
-        '2 hours' => [
-            'name' => 'Last 2 Hours',
-        ],
-        '6 hours' => [
-            'name' => 'Last 6 Hours',
-            'interval' => '15 minutes'
-        ],
-        '1 days' => [
-            'name' => 'Last Day',
-            'interval' => '1 hours'
-        ],
-        '1 weeks' => [
-            'name' => 'Last Week',
-            'interval' => '6 hours'
-        ],
-        '1 months' => [
-            'name' => 'Last Month',
-            'interval' => '1 days'
-        ],
-    ];
-
     public function render(InfluxDBService $influx)
     {
         $data = $this->getRawData($influx);
         $data = $this->seriesData($data);
 
         return view('livewire.components.multi-line-chart', compact('data'));
-    }
-
-    public function placeholder()
-    {
-        return view('components.placeholder.line-chart-placeholder');
     }
 
     private function seriesData(Collection $data)
