@@ -4,15 +4,23 @@ namespace App\Livewire\Components;
 
 use App\Services\InfluxDBService;
 use App\Livewire\Components\BaseLineChart;
+use Exception;
 use Illuminate\Support\Collection;
+use Throwable;
 
 class MultiLineChart extends BaseLineChart
 {
     public function render(InfluxDBService $influx)
     {
-        $data = $this->getRawData($influx);
-        $data = $this->seriesData($data);
-
+        try {
+            $data = $this->getRawData($influx);
+            $data = $this->seriesData($data);
+            if (count($data) == 0) {
+                throw new Exception("No data available in {$this->fieldName} chart");
+            }
+        } catch (Throwable $e) {
+            $this->dispatch('toast', type: 'danger', message: $e->getMessage());
+        }
         return view('livewire.components.multi-line-chart', compact('data'));
     }
 
