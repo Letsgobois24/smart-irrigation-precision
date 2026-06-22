@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, Path, Depends
 from fastapi.responses import JSONResponse
 
 from contextlib import asynccontextmanager
-from database.influxdb.influxdb_services import addRequestData
+from database.influxdb.influxdb_services import addPeriodData
 from services.mqtt.mqtt_app import startup_event
 from services.mqtt.mqtt_client import client
 from services.mqtt.mqtt_services import send_request, wait_to_response, send_control
@@ -20,6 +20,7 @@ app = FastAPI(lifespan=lifespan)
 @app.put('/device/global/control')
 def global_control(order: dict, conn= Depends(createDependency)):
     try:
+        # Publish to device
         request_id, error = send_control('global', order, client=client)
         
         if(error):
@@ -30,9 +31,11 @@ def global_control(order: dict, conn= Depends(createDependency)):
         if (not device_data):
             raise HTTPException(status_code=500, detail=f"Terdapat masalah pengiriman dari device")
 
+        # Update system status in database
         response = toggleSystem(conn, is_active=order['is_active'])
-        print("Response:", response)
 
+        if(not response):
+            raise HTTPException(status_code=500, detail=f"Gagal menyimpan data ke database")
         return JSONResponse(status_code=200, content={
             'message' : f"Device: Sistem berhasil untuk di{'hidup' if order['is_active'] else 'mati'}kan"
         })
@@ -59,7 +62,7 @@ def request_data(node_id: str = Path(examples=['global', 'node_1'], description=
         if (not data):
             raise HTTPException(status_code=500, detail=f"Gagal mengirim dari device")
         # Save to database
-        addRequestData(data)
+        addPeriodData(data)
                    
         return JSONResponse(status_code=200, content={
             'type': 'success',

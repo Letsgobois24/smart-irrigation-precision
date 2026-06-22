@@ -103,6 +103,7 @@ class NotificationModal extends Component
         if ($this->active_notification['id'] == $id) return;
         $this->reset('detail_prediction');
         $this->active_notification = Notification::with('rule')->find($id)->toArray();
+        // dd($this->active_notification);
     }
 
     public function resolve()

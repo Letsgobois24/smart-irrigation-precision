@@ -31,21 +31,35 @@ def addIrrigation(data: IrrigationSchema):
     irrigations = data.model_dump()
     addData(data=irrigations, measurement='irrigations', tags=['tree_id', 'node_id', 'event_id'])
 
+    # Add data to node table for single tree update
+    single_tree = {
+        'node_id': irrigations['node_id'],
+        'tree_id': irrigations['tree_id'],
+        'soil_moisture': irrigations['moisture_after'],
+        'valve': False,
+        'event_source': 'event',
+        'time': irrigations['time']
+    }
+    addSingleTree(data=SingleTree(**single_tree))
+
     # Prediction and add to prediction table
     prediction_result = irrigationDetection(irrigations)
     addData(data=prediction_result, measurement='predictions', tags=['tree_id', 'node_id', 'event_id'])
 
     # Mengirim notifikasi jika terdapat anomali
-    if(True):
+    if(prediction_result['flag']):
         try:
             conn = createConnection()
             createNotification(conn, data=prediction_result)
         finally:
             conn.close()
 
-def addRequestData(data: dict):
+def addPeriodData(data: dict):
     if(data['node_id'] == 'global'):
         data.pop('node_id')
         addGlobal(GlobalSchema(**data))
     else:
         addNodeTree(NodeTree(**data))
+
+def addSupplyData(data: dict):
+    addData(data=data, measurement='supply')

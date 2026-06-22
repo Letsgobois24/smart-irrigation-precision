@@ -15,7 +15,6 @@ def irrigationDetection(data: dict):
     time_start = int(time.time() * 1000)
     
     df = pd.DataFrame([data], columns=features)
-    print('Input df:', df)
     scaler_df = scaler.transform(df)
     
     # Predict the class

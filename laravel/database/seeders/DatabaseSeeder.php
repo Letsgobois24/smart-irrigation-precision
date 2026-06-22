@@ -13,9 +13,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            // GlobalSeeder::class,
-            // NodeSeeder::class,
-            // NotificationSeeder::class,
             TreeSeeder::class,
             NotificationRuleSeeder::class,
             ConfigurationSeeder::class,

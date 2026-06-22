@@ -3,7 +3,7 @@ import json
 import uuid
 import time
 from typing import Tuple
-from database.influxdb.influxdb_services import addRequestData, addIrrigation, addSingleTree
+from database.influxdb.influxdb_services import addPeriodData, addIrrigation, addSingleTree, addSupplyData
 from schema.node_tree import SingleTree
 from schema.irrigation_schema import IrrigationSchema
 
@@ -15,7 +15,8 @@ def on_connect(client, userdata, flags, rc, properties = None):
         ('device/global/control', 1), 
         ('device/+/period_data', 0),
         ('device/+/irrigation', 1),
-        ('device/+/period_event', 1)
+        ('device/+/period_event', 1),
+        ('energy/global/period_data', 0)
         ])
     
 def on_disconnect(client, userdata, flags, rc):
@@ -31,6 +32,7 @@ def on_subscribe(client: paho.Client, userdata, mid: int, granted_qos: list, pro
 def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
     parts = msg.topic.split('/')
     action = parts[2]
+    source = parts[1]
 
     print(f"App Message: {msg.topic}")
     payload = json.loads(msg.payload)
@@ -38,29 +40,24 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
 
     # Action
     try:
+        if(action == 'period_data' and source == 'energy'):
+            addSupplyData(payload)
+            return 
+
         if(action == 'period_data'):
-            addRequestData(payload)
+            addPeriodData(payload)
             return
-        
+
         if(action == 'period_event'):
             single_tree = payload.copy()
             single_tree['event_source'] = 'event'
 
             addSingleTree(data=SingleTree(**single_tree))
             return
-        
+
         if(action == 'irrigation'):
             payload['event_id'] = f"{payload['node_id']}-{payload['tree_id']}-{payload['time']}"
             addIrrigation(data=(IrrigationSchema(**payload)))
-            single_tree = {
-                'node_id': payload['node_id'],
-                'tree_id': payload['tree_id'],
-                'soil_moisture': payload['moisture_after'],
-                'valve': False,
-                'event_source': 'event',
-                'time': payload['time']
-            }
-            addSingleTree(data=SingleTree(**single_tree))
             return
 
         if(action == 'send_data'):
@@ -74,12 +71,11 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
             return
         
     except Exception as e:
-        print('weli')
-        print("Error:", e)
+        print("Error processing message:", e)
+        return
 
 def send_request(node_id: str, client: paho.Client) -> Tuple[str, int] :
     request_id = f"{node_id}-{uuid.uuid4()}"
-
     pending_request[request_id] = None
 
     published = client.publish(f'app/{node_id}/request_data', payload=request_id)
@@ -92,7 +88,6 @@ def send_request(node_id: str, client: paho.Client) -> Tuple[str, int] :
 
 def send_control(node_id: str, order: dict, client: paho.Client):
     request_id = f"{node_id}-{uuid.uuid4()}"
-
     pending_request[request_id] = None
 
     published = client.publish(f'app/{node_id}/control', payload=json.dumps({
@@ -118,6 +113,5 @@ def wait_to_response(request_id: str, timeout: int = 5):
     data = pending_request[request_id]
     pending_request.pop(request_id)
     data.pop('request_id')  
-    # print('Pending Request:', pending_request)
 
     return data

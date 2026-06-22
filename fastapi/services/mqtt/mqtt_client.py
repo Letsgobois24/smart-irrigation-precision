@@ -20,7 +20,10 @@ client = paho.Client(
 # enable TLS for secure connection
 client.tls_set(tls_version=mqtt.client.ssl.PROTOCOL_TLS)
 # set username and password
-client.username_pw_set(username=os.getenv('MQTT_USERNAME'), password=os.getenv('MQTT_PASSWORD'))
+client.username_pw_set(
+    username=os.getenv('MQTT_USERNAME'), 
+    password=os.getenv('MQTT_PASSWORD')
+    )
 
 # Setting callbacks, use separate functions like above for better visibility
 client.on_message = on_message

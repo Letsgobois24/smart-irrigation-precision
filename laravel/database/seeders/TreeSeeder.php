@@ -13,9 +13,6 @@ class TreeSeeder extends Seeder
      */
     public function run(): void
     {
-        // $total_rows = 5;
-        // $total_cols = 2;
-
         // Node ID: 2
         Tree::create([
             'tree_id' => 1,
