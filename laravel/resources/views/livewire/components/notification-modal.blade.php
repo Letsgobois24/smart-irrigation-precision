@@ -309,21 +309,19 @@
                                         </div>
 
                                         <template x-if="isLocationPage">
-                                            <a @click="
-                                                isOpenNotification = false;
-                                            "
+                                            <a @click="isOpenNotification = false;"
                                                 href="/location#tree-{{ $active_notification['tree_id'] }}"
-                                                class="mt-2 inline-block text-xs text-green-600 hover:text-green-800 hover:underline">
+                                                class="mt-3 inline-flex items-center gap-1 rounded-md bg-green-400 px-3 py-2 text-xs font-medium text-white shadow-sm transition hover:bg-green-500 hover:shadow">
+                                                <x-icons.location size="16" />
                                                 Show Location
                                             </a>
                                         </template>
+
                                         <template x-if="!isLocationPage">
-                                            <a @click="
-                                                isOpenNotification = false;
-                                            "
-                                                wire:navigate
+                                            <a @click="isOpenNotification = false;" wire:navigate
                                                 href="/location#tree-{{ $active_notification['tree_id'] }}"
-                                                class="mt-2 inline-block text-xs text-green-600 hover:text-green-800 hover:underline">
+                                                class="mt-3 inline-flex items-center gap-1 rounded-md bg-green-400 px-3 py-2 text-xs font-medium text-white shadow-sm transition hover:bg-green-500 hover:shadow">
+                                                <x-icons.location size="16" />
                                                 Show Location
                                             </a>
                                         </template>

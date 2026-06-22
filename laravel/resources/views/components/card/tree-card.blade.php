@@ -53,19 +53,25 @@
         </span>
     </div>
 
-    {{-- Anomaly Detected --}}
+    {{-- Status Anomali --}}
     <div x-on:click="$dispatch('filter-location', {tree_id: @js($tree['tree_id'])})"
-        class="flex items-center gap-1 mt-3 text-xs cursor-pointer">
-        @if ($tree['total_anomaly'] > 0)
-            <x-icons.warning size="16" class="text-red-600" />
-            <span class="text-red-600 hover:underline">
-                {{ $tree['total_anomaly'] }} Anomaly Detected
+        class="flex items-center justify-between mt-3 cursor-pointer">
+
+        <div class="flex items-center gap-2">
+            @if ($faultConfig['icon'] === 'warning')
+                <x-icons.warning size="16" class="{{ $faultConfig['text_color'] }}" />
+            @else
+                <x-icons.check size="16" class="{{ $faultConfig['text_color'] }}" />
+            @endif
+
+            <span class="text-xs {{ $faultConfig['text_color'] }}">
+                @if ($tree['total_anomaly'] > 0)
+                    {{ $tree['total_anomaly'] }} Gangguan Aktif
+                @else
+                    Kondisi Normal
+                @endif
             </span>
-        @else
-            <x-icons.check size="16" class="text-gray-500" />
-            <span class="text-gray-500 hover:underline">
-                No Anomaly Detected
-            </span>
-        @endif
+        </div>
+
     </div>
 </div>

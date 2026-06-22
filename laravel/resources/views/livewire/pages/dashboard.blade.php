@@ -1,6 +1,6 @@
 <main class="space-y-6">
     <div>
-        <h1 class="mb-2 text-2xl font-bold">Global Monitoring</h1>
+        <h1 class="mb-2 text-2xl font-bold">Field Monitoring</h1>
         <x-card.global-cards :global-data="$global_data" />
     </div>
     <div>

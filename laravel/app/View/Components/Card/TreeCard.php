@@ -9,12 +9,17 @@ use Illuminate\View\Component;
 class TreeCard extends Component
 {
     public array $statusConfig = [];
+    public array $faultConfig = [];
 
     public function __construct(
         public array $tree,
     ) {
         $status = $this->getMoistureStatus(
             $tree['soil_moisture']
+        );
+
+        $this->faultConfig = $this->getFaultStatus(
+            $tree['total_anomaly']
         );
 
         $this->statusConfig = $this->getStatusConfig($status);
@@ -39,20 +44,20 @@ class TreeCard extends Component
         return match ($status) {
 
             'dry' => [
-                'badge' => 'Soil Dry',
+                'badge' => 'Kering',
                 'badge_color' => 'red',
                 'card' => 'border-red-500 border-red-100',
                 'icon' => 'text-red-500',
-                'description' => 'Irrigation recommended',
+                'description' => 'Penyiraman diperlukan',
                 'description_color' => 'text-red-600',
             ],
 
             'wet' => [
-                'badge' => 'Too Wet',
+                'badge' => 'Terlalu Basah',
                 'badge_color' => 'yellow',
                 'card' => 'border-yellow-500 border-yellow-100',
                 'icon' => 'text-yellow-500',
-                'description' => 'Soil moisture too high',
+                'description' => 'Kelembapan tanah terlalu tinggi',
                 'description_color' => 'text-yellow-700',
             ],
 
@@ -61,8 +66,28 @@ class TreeCard extends Component
                 'badge_color' => 'green',
                 'card' => 'border-green-500 border-green-100',
                 'icon' => 'text-blue-500',
-                'description' => 'Soil condition stable',
+                'description' => 'Kondisi tanah stabil',
                 'description_color' => 'text-green-600',
+            ],
+        };
+    }
+
+    private function getFaultStatus(int $totalFaults): array
+    {
+        return match (true) {
+            $totalFaults >= 5 => [
+                'icon' => 'warning',
+                'text_color' => 'text-red-600',
+            ],
+
+            $totalFaults > 0 => [
+                'icon' => 'warning',
+                'text_color' => 'text-yellow-700',
+            ],
+
+            default => [
+                'icon' => 'check',
+                'text_color' => 'text-green-600',
             ],
         };
     }
