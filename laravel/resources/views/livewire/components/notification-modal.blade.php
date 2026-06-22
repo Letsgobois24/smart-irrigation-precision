@@ -112,7 +112,9 @@
                                     Date
                                 </label>
 
-                                <x-form.date-range :date_range="$date_range" width='full' placeholder='Select Date' />
+                                @persist('date_range')
+                                    <x-form.date-range :date_range="$date_range" width='full' placeholder='Select Date' />
+                                @endpersist
                             </div>
 
                             <!-- LOCATION -->
