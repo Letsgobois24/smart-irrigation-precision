@@ -2,10 +2,14 @@
     {{-- Ketika layar medium --}}
     <div class="flex items-center justify-between h-20 px-5 lg:px-8">
         {{-- Hamburger menu --}}
-        <button @click="isOpenSidebar = !isOpenSidebar" type="button"
-            class="-mx-2.5 flex hover:bg-green-50/30 transition cursor-pointer items-center justify-center rounded-full size-10 text-gray-100">
-            <x-icons.hamburger size="28" />
-        </button>
+        <div class="flex items-center gap-6">
+            <button @click="isOpenSidebar = !isOpenSidebar" type="button"
+                class="-mx-2.5 flex hover:bg-green-50/30 transition cursor-pointer items-center justify-center rounded-full size-10 text-gray-100">
+                <x-icons.hamburger size="28" />
+            </button>
+
+            <img src="{{ asset('img/avonexa-light-title.png') }}" alt="Logo Avonexa" class="h-5 w-auto">
+        </div>
 
         @persist('header')
             <div class="flex items-center gap-4">
