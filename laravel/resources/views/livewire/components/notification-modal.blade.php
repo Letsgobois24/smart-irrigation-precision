@@ -212,7 +212,7 @@
                     </div>
 
                     <!-- BACK -->
-                    <button @click="view='list'" class="mb-3 text-sm text-gray-600 md:hidden cursor-pointer group">
+                    <button @click="view='list'" class="text-sm text-gray-600 md:hidden cursor-pointer group m-4 mb-0">
                         <span class="inline-block group-hover:-translate-x-1 transition">
                             ←
                         </span>
@@ -220,7 +220,7 @@
                     </button>
 
                     @if (!$active_notification)
-                        <div class="h-full flex flex-col items-center justify-center text-center px-6">
+                        <div class="h-full flex flex-col items-center justify-center text-center">
 
                             <x-icons.bell-off size="52" class="text-gray-300 mb-4" />
 
@@ -281,7 +281,7 @@
                                 <div class="grid grid-cols-2 gap-4 mb-4">
 
 
-                                    <div class="bg-white rounded-lg border p-4">
+                                    <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
                                         <div class="text-xs text-gray-500">
                                             Node (Area) Diagnosis
                                         </div>
@@ -295,7 +295,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="bg-white rounded-lg border p-4">
+                                    <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
                                         <div class="text-xs text-gray-500">
                                             Pohon (Tree) Diagnosis
                                         </div>
@@ -311,7 +311,7 @@
                                         <template x-if="isLocationPage">
                                             <a @click="isOpenNotification = false;"
                                                 href="/location#tree-{{ $active_notification['tree_id'] }}"
-                                                class="mt-3 inline-flex items-center gap-1 rounded-md bg-green-400 px-3 py-2 text-xs font-medium text-white shadow-sm transition hover:bg-green-500 hover:shadow">
+                                                class="w-full mt-3 inline-flex justify-center items-center gap-1 rounded-md bg-green-400 px-3 py-2 text-xs font-medium text-white shadow-sm transition hover:bg-green-500 hover:shadow">
                                                 <x-icons.location size="16" />
                                                 Show Location
                                             </a>
@@ -320,88 +320,20 @@
                                         <template x-if="!isLocationPage">
                                             <a @click="isOpenNotification = false;" wire:navigate
                                                 href="/location#tree-{{ $active_notification['tree_id'] }}"
-                                                class="mt-3 inline-flex items-center gap-1 rounded-md bg-green-400 px-3 py-2 text-xs font-medium text-white shadow-sm transition hover:bg-green-500 hover:shadow">
+                                                class="w-full mt-3 inline-flex justify-center items-center gap-1 rounded-md bg-green-400 px-3 py-2 text-xs font-medium text-white shadow-sm transition hover:bg-green-500 hover:shadow">
                                                 <x-icons.location size="16" />
                                                 Show Location
                                             </a>
                                         </template>
                                     </div>
-
                                 </div>
-
-                                <!-- Tingkat Anomali -->
-                                <div class="bg-white rounded-lg border p-4 mb-4">
-
-                                    <div class="flex items-center justify-between">
-
-                                        <div>
-                                            <div class="text-sm text-gray-500">
-                                                Keparahan Gangguan
-                                            </div>
-
-                                            <div class="mt-1">
-                                                <x-ui.badge size="sm" :color="$config_class['badge']">
-                                                    {{ ucfirst($active_notification['severity']) }}
-                                                </x-ui.badge>
-                                            </div>
-                                        </div>
-
-                                        <div class="text-right">
-                                            <div class="text-3xl font-bold {{ $config_class['text'] }}">
-                                                {{ number_format($active_notification['fault_ratio'], 2) }}
-                                            </div>
-
-                                            <div class="text-xs text-gray-500">
-                                                Skor Gangguan
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="text-xs text-gray-500 mt-3">
-                                        Semakin tinggi skor gangguan, semakin besar penyimpangan dari kondisi normal.
-                                    </div>
-
-                                </div>
-
-                                <!-- Parameter Utama -->
-                                <div class="bg-white rounded-lg border p-4">
-
-                                    <div class="text-sm text-gray-500">
-                                        Parameter Utama Penyebab Gangguan
-                                    </div>
-
-                                    <div class="mt-1 text-lg font-semibold text-gray-800">
-                                        {{ $active_notification['rule']['title'] }}
-                                    </div>
-
-                                    <div class="mt-3 flex items-center justify-between">
-
-                                        <span class="text-sm text-gray-600">
-                                            Kontribusi terhadap total gangguan
-                                        </span>
-
-                                        <span class="font-bold text-orange-500">
-                                            {{ number_format($active_notification['dominant_ratio'] * 100, 1) }}%
-                                        </span>
-
-                                    </div>
-
-                                    <div class="mt-2 text-xs text-gray-500">
-                                        Parameter ini memberikan kontribusi terbesar terhadap gangguan yang terdeteksi.
-                                    </div>
-
-                                </div>
-
                             </div>
 
                             <!-- POSSIBLE PROBLEMS -->
                             <div class="bg-red-50 p-4 rounded-lg">
-
                                 <h6 class="font-semibold text-red-700 mb-2">
                                     Kemungkinan Penyebab
                                 </h6>
-
                                 <ul class="list-disc ml-5 text-sm text-red-800 space-y-1">
                                     @foreach (json_decode($active_notification['rule']['problem']) as $problem)
                                         <li>{{ $problem }}</li>
@@ -412,110 +344,175 @@
 
                             <!-- RECOMMENDATION -->
                             <div class="bg-green-50 p-4 rounded-lg">
-
                                 <h6 class="font-semibold text-green-700 mb-2">
                                     Rekomendasi Tindakan
                                 </h6>
-
                                 <ul class="list-disc ml-5 text-sm text-green-800 space-y-1">
                                     @foreach (json_decode($active_notification['rule']['recommendation']) as $recommendation)
                                         <li>{{ $recommendation }}</li>
                                     @endforeach
                                 </ul>
-
                             </div>
 
                             {{-- Detail result prediction --}}
                             <div wire:key="{{ $active_notification['event_id'] }}" x-data="{ open: false, isLoaded: false }"
-                                x-transition.duration.200ms class="bg-gray-50 p-4 rounded-lg">
+                                x-transition.duration.200ms class="bg-gray-50 p-5 rounded-xl border border-gray-100">
 
-                                <div class="flex items-center gap-2 font-medium cursor-pointer"
+                                <div class="flex items-center gap-2 font-semibold text-gray-800 cursor-pointer select-none hover:text-gray-900 transition-colors"
                                     @click="
-                                            open = !open;
-                                            if (!isLoaded){
-                                                $wire.showResultPrediction('{{ $active_notification['event_id'] }}');
-                                                isLoaded = true;
-                                            }
-                                        ">
-                                    <x-icons.dropdown-line size="24" />
-                                    Detail Analisis Model
+                                        open = !open;
+                                        if (!isLoaded){
+                                            $wire.showResultPrediction('{{ $active_notification['event_id'] }}');
+                                            isLoaded = true;
+                                        }
+                                    ">
+                                    <div class="transition-transform duration-200" :class="open ? 'rotate-180' : ''">
+                                        <x-icons.dropdown-line size="22" />
+                                    </div>
+                                    <span>Detail Analisis Model</span>
                                 </div>
 
-                                <div wire:loading.flex wire:target="showResultPrediction" class="my-4 justify-center">
-                                    <x-icons.loading size="20" class="animate-spin text-gray-500" />
+                                <div wire:loading.flex wire:target="showResultPrediction" class="my-6 justify-center">
+                                    <x-icons.loading size="24" class="animate-spin text-gray-400" />
                                 </div>
 
                                 @if (!empty($detail_prediction))
                                     <div wire:loading.remove wire:target="showResultPrediction">
-                                        <div x-show="open" x-transition.duration.200ms class="mt-4 space-y-4">
-                                            <!-- Metadata -->
-                                            <div class="grid grid-cols-2 gap-3">
-                                                <div class="bg-white border rounded-lg p-3">
-                                                    <div class="text-xs text-gray-500">
-                                                        Global MSE
+                                        <div x-show="open" x-transition.duration.250ms class="mt-5 space-y-4">
+
+                                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+                                                <div
+                                                    class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+                                                    <div>
+                                                        <div
+                                                            class="text-xs font-medium uppercase tracking-wider text-gray-400">
+                                                            Rerata MSE Total
+                                                        </div>
+                                                        <div class="text-3xl font-bold text-gray-900 mt-1">
+                                                            {{ number_format($detail_prediction['avg_mse'] ?? 0, 2) }}
+                                                        </div>
                                                     </div>
-                                                    <div class="text-lg font-semibold text-gray-800">
-                                                        {{ number_format($detail_prediction['avg_mse'] ?? 0, 2) }}
-                                                    </div>
-                                                    <div class="text-xs text-gray-500 mt-1">
+                                                    <div
+                                                        class="text-xs text-gray-500 mt-4 pt-2 border-t border-gray-50">
                                                         Rata-rata kesalahan model pada seluruh parameter.
                                                     </div>
                                                 </div>
 
-                                                <div class="bg-white border rounded-lg p-3">
-                                                    <div class="text-xs text-gray-500">
-                                                        Waktu Prediksi
+                                                <div
+                                                    class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+                                                    <div>
+                                                        <div class="flex justify-between items-start">
+                                                            <div
+                                                                class="text-xs font-medium uppercase tracking-wider text-gray-400">
+                                                                Keparahan
+                                                            </div>
+                                                            <x-ui.badge size="sm" :color="$config_class['badge']">
+                                                                {{ ucfirst($active_notification['severity']) }}
+                                                            </x-ui.badge>
+                                                        </div>
+                                                        <div>
+                                                            <div
+                                                                class="text-2xl font-bold {{ $config_class['text'] }}">
+                                                                {{ number_format($active_notification['fault_ratio'], 2) }}
+                                                            </div>
+                                                            <div class="text-[10px] font-medium text-gray-400">
+                                                                Skor Gangguan
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="text-lg font-semibold text-gray-800">
-                                                        {{ $detail_prediction['prediction_time'] ?? 0 }} ms
-                                                    </div>
-                                                    <div class="text-xs text-gray-500 mt-1">
-                                                        Waktu yang dibutuhkan model untuk melakukan diagnosis.
+                                                    <div
+                                                        class="text-xs text-gray-500 mt-4 pt-2 border-t border-gray-50">
+                                                        Tingkat penyimpangan dari kondisi normal.
                                                     </div>
                                                 </div>
+
+                                                <div
+                                                    class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+                                                    <div>
+                                                        <div
+                                                            class="text-xs font-medium uppercase tracking-wider text-gray-400">
+                                                            Waktu Prediksi
+                                                        </div>
+                                                        <div class="text-3xl font-bold text-gray-900 mt-1">
+                                                            {{ $detail_prediction['prediction_time'] ?? 0 }} <span
+                                                                class="text-lg font-semibold text-gray-500">ms</span>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="text-xs text-gray-500 mt-4 pt-2 border-t border-gray-50">
+                                                        Waktu eksekusi model untuk diagnosis.
+                                                    </div>
+                                                </div>
+
+                                                <div
+                                                    class="md:col-span-3 bg-white border border-gray-200 rounded-xl p-4 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                                                    <div class="flex-1">
+                                                        <div
+                                                            class="text-xs font-medium uppercase tracking-wider text-gray-400">
+                                                            Parameter Utama Penyebab Gangguan
+                                                        </div>
+                                                        <div class="mt-1 text-lg font-bold text-gray-900 leading-snug">
+                                                            {{ $active_notification['rule']['title'] }}
+                                                        </div>
+                                                        <p class="text-xs text-gray-500 mt-1">
+                                                            Parameter ini memberikan kontribusi terbesar terhadap
+                                                            gangguan yang terdeteksi.
+                                                        </p>
+                                                    </div>
+
+                                                    <div
+                                                        class="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center bg-orange-50/70 border border-orange-100/50 px-4 py-3 rounded-xl min-w-50">
+                                                        <span class="text-xs text-orange-700 font-medium md:mb-1">
+                                                            Kontribusi Total
+                                                        </span>
+                                                        <span class="font-black text-orange-600 text-2xl">
+                                                            {{ number_format($active_notification['dominant_ratio'] * 100, 1) }}%
+                                                        </span>
+                                                    </div>
+                                                </div>
+
                                             </div>
 
-                                            <!-- Parameter Contribution -->
-                                            <div class="bg-white border rounded-xl p-4">
-
-                                                <h6 class="font-semibold text-gray-800 mb-4">
-                                                    Kontribusi Parameter
+                                            <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+                                                <h6
+                                                    class="font-bold text-gray-800 text-sm mb-4 tracking-wide uppercase">
+                                                    Kontribusi Parameter Detail
                                                 </h6>
 
                                                 <div class="space-y-3">
                                                     @foreach ($detail_prediction['parameters'] as $parameter)
                                                         <div
-                                                            class="border rounded-lg p-3 {{ $parameter['color']['card'] }}">
+                                                            class="border border-gray-100 rounded-xl p-3.5 transition-all {{ $parameter['color']['card'] ?? 'bg-gray-50/50' }}">
                                                             <div class="flex justify-between items-center mb-2">
-                                                                <span class="text-sm font-medium">
+                                                                <span class="text-sm font-semibold text-gray-700">
                                                                     {{ ucwords($parameter['name']) }}
                                                                 </span>
                                                                 <span
-                                                                    class="font-bold {{ $parameter['color']['text'] }}">
+                                                                    class="font-bold text-sm {{ $parameter['color']['text'] }}">
                                                                     {{ number_format($parameter['value'], 2) }}
                                                                 </span>
                                                             </div>
 
-                                                            <div class="h-2 bg-white rounded-full overflow-hidden">
-                                                                <div class="h-full rounded-full transition-all duration-500 {{ $parameter['color']['bg'] }}"
+                                                            <div
+                                                                class="h-2 bg-gray-200/70 rounded-full overflow-hidden">
+                                                                <div class="h-full rounded-full transition-all duration-500 ease-out {{ $parameter['color']['bg'] }}"
                                                                     style="width: {{ $parameter['percentage'] }}%">
                                                                 </div>
                                                             </div>
 
-                                                            <div class="text-xs text-gray-500 mt-2">
-                                                                Kontribusi relatif:
-                                                                {{ number_format($parameter['percentage'], 1) }}%
+                                                            <div
+                                                                class="flex justify-between items-center mt-2 text-xs text-gray-400 font-medium">
+                                                                <span>Kontribusi relatif</span>
+                                                                <span
+                                                                    class="text-gray-600 font-semibold">{{ number_format($parameter['percentage'], 1) }}%</span>
                                                             </div>
-
                                                         </div>
                                                     @endforeach
-
                                                 </div>
-
                                             </div>
 
                                         </div>
-
                                     </div>
                                 @endif
                             </div>
