@@ -12,7 +12,7 @@
         <span
             class="text-xs font-medium uppercase tracking-wide
                    {{ $system_active ? 'text-green-600' : 'text-red-600' }}">
-            {{ $system_active ? 'SYSTEM ONLINE' : 'SYSTEM OFFLINE' }}
+            {{ $system_active ? 'ONLINE' : 'OFFLINE' }}
         </span>
     </div>
 

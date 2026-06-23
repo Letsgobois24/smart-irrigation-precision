@@ -12,9 +12,9 @@
         class="-m-2.5 inline-flex hover:bg-green-100 transition cursor-pointer items-center justify-center rounded-full p-2 text-gray-100">
         <x-icons.hamburger size="28" class="text-gray-900" />
     </button>
-    <a href="/" wire:navigate class="block w-fit my-4">
+    <a href="/" wire:navigate class="flex justify-center mx-auto my-4">
         <img src="{{ asset('img/avonexa-logo-title.png') }}" alt="Logo Avonexa"
-            class="w-4/5 h-auto grayscale-50 mx-auto" />
+            class="w-50 max-w-9/10 h-auto grayscale-50" />
     </a>
     <button type="button" @click="isOpenSidebar = false"
         class="absolute top-4 right-4 cursor-pointer rounded-md p-1 text-gray-700 hover:bg-gray-50">

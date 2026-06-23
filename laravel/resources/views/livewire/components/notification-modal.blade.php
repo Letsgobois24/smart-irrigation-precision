@@ -7,7 +7,7 @@
     @filter-location.window="isOpenNotification = true; $wire.openNotification();">
     <!-- BUTTON -->
     <button wire:click='openNotification' @click="isOpenNotification = true; view='list'"
-        class="flex relative cursor-pointer ml-3 mr-7 size-10 justify-center items-center rounded-full hover:bg-green-50/30">
+        class="flex relative cursor-pointer size-10 justify-center items-center rounded-full hover:bg-green-50/30">
 
         @if ($total_active > 0)
             <div
@@ -204,7 +204,7 @@
                 </div>
 
                 <!-- RIGHT DETAIL -->
-                <div x-data="{ is: false }" class="relative flex-1 h-full"
+                <div x-data="{ is: false }" class="relative flex-1 min-h-0 flex flex-col items-start"
                     x-show="view === 'detail' || window.innerWidth >= 768">
 
                     <!-- DETAIL OVERLAY -->
@@ -213,13 +213,21 @@
                         <x-icons.loading size="36" class="animate-spin text-gray-500" />
                     </div>
 
-                    <!-- BACK -->
-                    <button @click="view='list'" class="text-sm text-gray-600 md:hidden cursor-pointer group m-4 mb-0">
-                        <span class="inline-block group-hover:-translate-x-1 transition">
-                            ←
-                        </span>
-                        Kembali
-                    </button>
+                    <div class="flex justify-between w-full">
+                        <!-- BACK -->
+                        <button @click="view='list'"
+                            class="text-sm text-gray-600 md:hidden cursor-pointer group m-4 mb-0">
+                            <span class="inline-block group-hover:-translate-x-1 transition">
+                                ←
+                            </span>
+                            Kembali
+                        </button>
+                        {{-- Close --}}
+                        <button @click="isOpenNotification = false"
+                            class="rounded-md p-1 text-gray-700 hover:bg-gray-50 cursor-pointer m-4 mb-0">
+                            <x-icons.cross size="20" />
+                        </button>
+                    </div>
 
                     @if (!$active_notification)
                         <div class="h-full flex flex-col items-center justify-center text-center">
@@ -240,22 +248,16 @@
                         @endphp
 
                         <div class="h-full overflow-y-auto p-4 md:p-6 space-y-5">
-
                             <!-- HEADER -->
                             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-
                                 <div class="flex items-center gap-2">
-
                                     <h5 class="text-lg font-semibold {{ $config_class['text'] }}">
                                         {{ $active_notification['rule']['title'] }}
                                     </h5>
-
                                     <x-ui.badge class="capitalize" size="md" :color="$config_class['badge']">
                                         {{ $active_notification['severity'] }}
                                     </x-ui.badge>
-
                                 </div>
-
                                 <span class="text-xs text-gray-500">
                                     {{ smartTimeFormat(new \Carbon\Carbon($active_notification['created_at'])) }}
                                 </span>
@@ -274,15 +276,12 @@
 
                             <!-- DIAGNOSIS -->
                             <div class="bg-gray-50 rounded-xl p-5">
-
                                 <h6 class="font-semibold text-gray-800 mb-4">
                                     Informasi Diagnosis
                                 </h6>
 
                                 <!-- Lokasi Diagnosis -->
-                                <div class="grid grid-cols-2 gap-4 mb-4">
-
-
+                                <div class="grid sm:grid-cols-2 gap-4 mb-4">
                                     <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
                                         <div class="text-xs text-gray-500">
                                             Node (Area) Diagnosis
@@ -518,18 +517,12 @@
                                     </div>
                                 @endif
                             </div>
-
-                            <!-- ACTION -->
                             <button wire:click="resolve" wire:loading.attr="disabled"
                                 wire:loading.class="cursor-wait opacity-50"
-                                class="w-full md:w-auto px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer
-                    {{ $active_notification['is_active']
-                        ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                        : 'bg-gray-200 hover:bg-gray-300 text-gray-700' }}">
-
+                                class="w-full sm:w-auto px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer
+                        {{ $active_notification['is_active'] ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-700' }}">
                                 {{ $active_notification['is_active'] ? 'Tandai Terselesaikan' : 'Batalkan Penyelesaian' }}
                             </button>
-
                         </div>
                     @endif
                 </div>
