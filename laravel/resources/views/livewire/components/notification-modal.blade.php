@@ -167,17 +167,14 @@
                                     'hover:bg-gray-50'">
 
                                 <div class="flex items-center gap-x-1">
-
                                     <h5 class="text-sm font-semibold {{ $config_class['text'] }}">
                                         {{ $notification['rule']['title'] }}
                                     </h5>
-
                                     <div class="flex-1">
                                         @if ($notification['is_active'])
                                             <span class="w-1.5 h-1.5 bg-blue-500 rounded-full block"></span>
                                         @endif
                                     </div>
-
                                     <x-ui.badge class="capitalize" size='sm' :color="$config_class['badge']">
                                         {{ $notification['severity'] }}
                                     </x-ui.badge>
