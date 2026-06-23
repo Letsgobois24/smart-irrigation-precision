@@ -16,9 +16,7 @@ return new class extends Migration
             $table->string('event_id', 17);
             $table->unsignedSmallInteger('tree_id');
             $table->unsignedSmallInteger('node_id')->nullable();
-            $table->decimal('fault_ratio', 5, 2);
             $table->string('dominant_feature', 40);
-            $table->decimal('dominant_ratio', 5, 2);
             $table->enum('severity', ['low', 'medium', 'high']);
             $table->boolean('is_active')->default(true);
             $table->timestamps();

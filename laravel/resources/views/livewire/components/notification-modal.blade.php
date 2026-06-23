@@ -210,10 +210,9 @@
                         <x-icons.loading size="36" class="animate-spin text-gray-500" />
                     </div>
 
-                    <div class="flex justify-between w-full">
+                    <div class="flex justify-between w-full md:hidden">
                         <!-- BACK -->
-                        <button @click="view='list'"
-                            class="text-sm text-gray-600 md:hidden cursor-pointer group m-4 mb-0">
+                        <button @click="view='list'" class="text-sm text-gray-600 cursor-pointer group m-4 mb-0">
                             <span class="inline-block group-hover:-translate-x-1 transition">
                                 ←
                             </span>
@@ -412,7 +411,7 @@
                                                         <div>
                                                             <div
                                                                 class="text-2xl font-bold {{ $config_class['text'] }}">
-                                                                {{ number_format($active_notification['fault_ratio'], 2) }}
+                                                                {{ number_format($detail_prediction['fault_ratio'], 2) }}
                                                             </div>
                                                             <div class="text-[10px] font-medium text-gray-400">
                                                                 Skor Gangguan
@@ -465,7 +464,7 @@
                                                             Kontribusi Total
                                                         </span>
                                                         <span class="font-black text-orange-600 text-2xl">
-                                                            {{ number_format($active_notification['dominant_ratio'] * 100, 1) }}%
+                                                            {{ number_format($detail_prediction['dominant_ratio'] * 100, 1) }}%
                                                         </span>
                                                     </div>
                                                 </div>

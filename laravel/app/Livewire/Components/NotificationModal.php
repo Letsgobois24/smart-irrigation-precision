@@ -69,9 +69,6 @@ class NotificationModal extends Component
     public string $end_date = '';
     public string $selected_location = '';
 
-
-    #[On('add-data.global')]
-    #[On('add-data.node')]
     public function mount()
     {
         $this->total_active = Notification::isActive()->count();
@@ -272,7 +269,7 @@ class NotificationModal extends Component
     private function getAllNotifications(): array
     {
         $filters = $this->getFilterConfig();
-        $notifications = Notification::select(['id', 'tree_id', 'fault_ratio', 'dominant_feature', 'dominant_ratio', 'severity', 'is_active', 'created_at'])
+        $notifications = Notification::select(['id', 'tree_id', 'dominant_feature', 'severity', 'is_active', 'created_at'])
             ->with('rule:feature,title')
             ->filter($filters)
             ->activeOrder($this->selected_status)
