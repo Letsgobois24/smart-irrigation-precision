@@ -4,12 +4,10 @@ namespace App\Livewire\Components;
 
 use App\Services\InfluxDBService;
 use Exception;
-use Livewire\Attributes\On;
 use Throwable;
 
 class LineChart extends BaseLineChart
 {
-    #[On('add-data.{table}')]
     public function render(InfluxDBService $influx)
     {
         $data = [];

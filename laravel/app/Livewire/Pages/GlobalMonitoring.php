@@ -12,6 +12,7 @@ use Throwable;
 class GlobalMonitoring extends Component
 {
     public array $data;
+    public bool $refresh_child = true;
 
     public function mount(GlobalServices $globalServices)
     {
@@ -27,7 +28,7 @@ class GlobalMonitoring extends Component
     {
         try {
             $this->loadData($globalServices);
-            $this->dispatch("add-data.global");
+            $this->refresh_child = !$this->refresh_child;
             $this->dispatch('toast', type: 'success', message: 'Data berhasil diperbarui');
         } catch (Throwable $e) {
             $this->dispatch('toast', type: 'danger', message: $e->getMessage());
@@ -43,7 +44,7 @@ class GlobalMonitoring extends Component
                 throw new Exception(message: $message['detail'] ?? 'Unknown Error', code: $response->status());
             }
             $this->loadData($globalServices);
-            $this->dispatch("add-data.global");
+            $this->refresh_child = !$this->refresh_child;
             $this->dispatch('toast', type: $message['type'], message: $message['message']);
         } catch (ConnectionException) {
             $this->dispatch('toast', type: 'danger', message: "Failed to connect server");

@@ -18,11 +18,11 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {{-- Soil Moisture Chart --}}
-        <livewire:components.multi-line-chart lazy field="soil_moisture" fieldName="Soil Moisture" table="node"
-            groupby='tree_id' xlabel='Tree' ylabel='%' class="col-span-2" />
+        <livewire:components.multi-line-chart :key="'moisture-chart' . $refresh_child" lazy field="soil_moisture" fieldName="Soil Moisture"
+            table="node" groupby='tree_id' xlabel='Tree' ylabel='%' class="col-span-2" />
         {{-- Node Monitoring --}}
         <x-container title="Tree Table" description='Riwayat data pohon'>
-            <livewire:components.node-table lazy />
+            <livewire:components.node-table :key="'table' . $refresh_child" lazy />
         </x-container>
     </div>
 

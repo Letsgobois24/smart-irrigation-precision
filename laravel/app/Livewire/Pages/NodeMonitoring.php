@@ -13,6 +13,7 @@ use Throwable;
 class NodeMonitoring extends Component
 {
     public $trees = [];
+    public $refresh_child = true;
 
     public function mount()
     {
@@ -36,6 +37,7 @@ class NodeMonitoring extends Component
     {
         try {
             $this->dispatch('toast', type: 'success', message: 'Data Node 1 berhasil diperbarui');
+            $this->refresh_child = !$this->refresh_child;
         } catch (Throwable $e) {
             $this->dispatch('toast', type: 'danger', message: $e->getMessage());
         }
@@ -49,7 +51,7 @@ class NodeMonitoring extends Component
             if ($response->failed()) {
                 throw new Exception(message: $message['detail'] ?? 'Unknown Error', code: $response->status());
             }
-            $this->dispatch("add-data.node");
+            $this->refresh_child = !$this->refresh_child;
             $this->dispatch('toast', type: $message['type'], message: $message['message']);
         } catch (ConnectionException) {
             $this->dispatch('toast', type: 'danger', message: "Failed to connect server");
