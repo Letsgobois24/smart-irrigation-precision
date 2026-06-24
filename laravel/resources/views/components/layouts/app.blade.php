@@ -9,7 +9,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="icon" href="{{ asset('logo-icon.ico') }}">
+    <link rel="icon" type="image/png" href="{{ asset('img/light-logo.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap"
         rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>

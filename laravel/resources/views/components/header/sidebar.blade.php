@@ -12,8 +12,8 @@
         class="-m-2.5 inline-flex hover:bg-green-100 transition cursor-pointer items-center justify-center rounded-full p-2 text-gray-100">
         <x-icons.hamburger size="28" class="text-gray-900" />
     </button>
-    <a href="/" wire:navigate class="my-6 flex flex-col items-center">
-        <img src="{{ asset('img/dark-logo.png') }}" alt="Logo Irrivoca" class="w-20 max-w-3/4 h-auto grayscale-50" />
+    <a href="/" wire:navigate class="my-6 flex flex-col gap-2 items-center">
+        <img src="{{ asset('img/light-logo.png') }}" alt="Logo Irrivoca" class="w-30 max-w-4/5 h-auto grayscale-50" />
         <img src="{{ asset('img/dark-title.png') }}" alt="Irrivoca" class="w-50 max-w-9/10 h-auto grayscale-50" />
     </a>
     <button type="button" @click="isOpenSidebar = false"
