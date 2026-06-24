@@ -1,3 +1,5 @@
+from http.client import HTTPException
+
 import pandas as pd
 from database.influxdb.influxdb_client import extendData, addData
 from database.mariadb.mariadb_client import createConnection
@@ -57,6 +59,8 @@ def addIrrigation(data: IrrigationSchema):
             severity=prediction_result['severity'], 
             hours=6)):
             createNotification(conn, data=prediction_result)
+    except HTTPException as e:
+        raise HTTPException(status_code=500, detail="Gagal menyimpan notifikasi ke database")
     finally:
         conn.close()
 

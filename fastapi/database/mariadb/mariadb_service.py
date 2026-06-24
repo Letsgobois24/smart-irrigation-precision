@@ -31,7 +31,10 @@ def toggleSystem(conn, is_active: bool):
         # Read a single record
         sql = "UPDATE `configurations` SET is_active=%s WHERE `id`=1"
         cursor.execute(sql, (is_active, ))
+        affected_rows = cursor.rowcount
     conn.commit()
+
+    return affected_rows > 0
 
 def createNotification(conn, data: dict):
     with conn.cursor() as cursor:
@@ -52,5 +55,7 @@ def createNotification(conn, data: dict):
             )
 
         cursor.execute(sql, values)
+        affected_rows = cursor.rowcount
 
     conn.commit()
+    return affected_rows > 0
