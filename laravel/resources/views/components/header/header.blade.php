@@ -14,7 +14,7 @@
         </div>
 
         @persist('header')
-            <div class="flex items-center sm:gap-3">
+            <div class="flex items-center gap-2 sm:gap-3">
                 <!-- Toggle Sistem -->
                 <livewire:components.system-toggle />
 
