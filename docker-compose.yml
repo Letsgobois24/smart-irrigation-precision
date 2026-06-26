@@ -19,6 +19,7 @@ services:
       - "80:80"
     volumes:
       - ./laravel:/var/www
+      - /etc/letsencrypt:/etc/letsencrypt:ro
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - app
