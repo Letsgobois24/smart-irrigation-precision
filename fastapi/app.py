@@ -9,12 +9,22 @@ from services.mqtt.mqtt_services import send_request, wait_to_response, send_con
 from database.mariadb.mariadb_service import createDependency, toggleSystem
 from pymysql.err import ProgrammingError
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+APP_DEBUG = os.getenv('APP_DEBUG', 'False').lower() == 'true'
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     startup_event()
     yield
 
-app = FastAPI(lifespan=lifespan, docs_url=None, redoc_url=None, openapi_url=None)
+app = FastAPI(
+    lifespan=lifespan, 
+    docs_url='/docs'  if APP_DEBUG else None, 
+    redoc_url='/redoc' if APP_DEBUG else None, 
+    openapi_url='/openapi.json' if APP_DEBUG else None)
 
 # Main control
 @app.put('/device/global/control')
