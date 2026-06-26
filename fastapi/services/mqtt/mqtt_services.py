@@ -34,9 +34,10 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
     action = parts[2]
     source = parts[1]
 
-    print(f"App Message: {msg.topic}")
     payload = json.loads(msg.payload)
+    print(f"Topic: {msg.topic}, QoS: {msg.qos}")
     print("Payload:", payload)
+
 
     # Action
     try:

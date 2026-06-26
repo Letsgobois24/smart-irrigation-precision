@@ -12,7 +12,7 @@ PORT = 8883
 
 client = paho.Client(
     callback_api_version=paho.CallbackAPIVersion.VERSION1, 
-    client_id=os.getenv('CLIENT_ID'), 
+    client_id=os.getenv('MQTT_CLIENT_ID'), 
     userdata=None, 
     protocol=paho.MQTTv5
     )
