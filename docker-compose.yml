@@ -17,6 +17,7 @@ services:
     container_name: nginx_server
     ports: 
       - "80:80"
+      - "443:443"
     volumes:
       - ./laravel:/var/www
       - /etc/letsencrypt:/etc/letsencrypt:ro
