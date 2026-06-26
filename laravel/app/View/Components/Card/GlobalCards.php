@@ -13,6 +13,7 @@ class GlobalCards extends Component
     public array $light_config = [];
     public array $water_pump_config = [];
     public array $fertilizer_pump_config = [];
+    public array $last_update_config = [];
 
     public function __construct(
         public array $globalData
@@ -38,6 +39,10 @@ class GlobalCards extends Component
         // Determine fertilizer pump status and configuration
         $this->fertilizer_pump_config = $this->getFertilizerPumpConfig($globalData['fertilizer_pump']);
         $this->fertilizer_pump_config['title'] = 'Fertilizer Pump';
+
+        // Last update configuration
+
+        $this->last_update_config = $this->getLastUpdateConfig(smartTimeFormat($globalData['time']));
     }
 
     /**
@@ -216,5 +221,19 @@ class GlobalCards extends Component
                 'description' => 'Pompa pupuk dalam kondisi siaga.',
             ],
         };
+    }
+
+    private function getLastUpdateConfig(string $last_update): array
+    {
+        return [
+            'title' => 'Last Update',
+            'color' => 'indigo',
+            'bg-icon' => 'bg-indigo-700/10',
+            'border' => 'border-indigo-200',
+            'accent' => 'border-l-indigo-500',
+            'text' => 'text-indigo-700',
+            'icon' => 'text-indigo-600',
+            'description' => "Data terakhir diperbarui pada $last_update",
+        ];
     }
 }

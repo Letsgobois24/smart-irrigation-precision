@@ -18,9 +18,11 @@
                 </h3>
             </div>
         </div>
-        <x-ui.badge class="capitalize" :color="$config['color']" size='sm'>
-            {{ $config['label'] }}
-        </x-ui.badge>
+        @if (isset($config['label']))
+            <x-ui.badge class="capitalize" :color="$config['color']" size='sm'>
+                {{ $config['label'] }}
+            </x-ui.badge>
+        @endif
     </div>
 
     {{-- Description --}}

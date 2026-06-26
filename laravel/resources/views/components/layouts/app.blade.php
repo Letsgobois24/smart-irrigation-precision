@@ -17,7 +17,7 @@
     <title>{{ $title ?? 'Irrivoca - Smart Irrigation Precision' }}</title>
 </head>
 
-<body class="min-h-screen" x-data="{
+<body class="min-h-screen bg-green-50" x-data="{
     isOpenSidebar: window.matchMedia('(min-width: 768px)').matches,
     showFloatingHamburger: false,
     handleScroll() {
@@ -29,7 +29,7 @@
     <x-header.floating-hamburger x-show="showFloatingHamburger && !isOpenSidebar" />
     <x-header.sidebar />
     <div :class="isOpenSidebar ? 'lg:ml-54' : 'lg:ml-0'">
-        <div class="bg-green-50 p-6 px-2 pb-8 sm:px-6 w-full">
+        <div class="p-6 px-2 pb-8 sm:px-6 w-full">
             {{ $slot }}
         </div>
     </div>

@@ -35,26 +35,10 @@
     </x-card.global-card>
 
     <!-- LAST UPDATE -->
-    <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
-        <div class="flex justify-between items-start mb-3">
-            <div class="flex items-center gap-3">
-                <div class="p-2 rounded-xl bg-gray-100 text-gray-600">
-                    <x-icons.clock size="26" />
-                </div>
-                <div>
-                    <p class="text-sm text-gray-500">
-                        Last Update
-                    </p>
-                    <h3 class="text-lg font-bold text-gray-800">
-                        {{ $globalData['time']->diffForHumans() }}
-                    </h3>
-                </div>
-            </div>
-        </div>
-        <div class="flex items-center gap-2 text-xs text-gray-500">
-            <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-            Sistem monitoring aktif
-        </div>
-    </div>
+    <x-card.global-card :config="$last_update_config" :data="$globalData['time']->diffForHumans()">
+        <x-slot name="icon">
+            <x-icons.clock size="26" />
+        </x-slot>
+    </x-card.global-card>
 
 </div>
