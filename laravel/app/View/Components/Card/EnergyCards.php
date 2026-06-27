@@ -20,6 +20,11 @@ class EnergyCards extends Component
         $this->energy_cards = $this->getEnergyCards();
     }
 
+    public function render(): View|Closure|string
+    {
+        return view('components.card.energy-cards');
+    }
+
     private function getSourceConfig(): array
     {
         $activeSource = strtoupper($this->energyData['source']);
@@ -58,6 +63,7 @@ class EnergyCards extends Component
                 'subtitle' => $this->energyData['battery_voltage'] . ' V',
                 'valueClass' => 'text-gray-900',
                 'progress' => $this->energyData['battery_soc'],
+                'progressColor' => $this->batteryColor(),
             ],
 
             [
@@ -86,11 +92,13 @@ class EnergyCards extends Component
         ];
     }
 
-    /**
-     * Get the view / contents that represent the component.
-     */
-    public function render(): View|Closure|string
+    private function batteryColor(): string
     {
-        return view('components.card.energy-cards');
+        $soc = $this->energyData['battery_soc'];
+        return match (true) {
+            $soc >= 80 => 'bg-green-500',
+            $soc >= 40 => 'bg-yellow-500',
+            default => 'bg-red-500',
+        };
     }
 }

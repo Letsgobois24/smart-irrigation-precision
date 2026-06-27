@@ -65,7 +65,7 @@
 
                     @if ($card['progress'] !== null)
                         <div class="w-full h-1.5 bg-gray-200 rounded-full mt-2">
-                            <div class="h-1.5 bg-yellow-500 rounded-full transition-all duration-500"
+                            <div class="h-1.5 {{ $card['progressColor'] }} rounded-full transition-all duration-500"
                                 style="width: {{ $card['progress'] }}%">
                             </div>
                         </div>
