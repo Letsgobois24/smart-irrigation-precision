@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Pages;
 
+use App\Services\InfluxDBService;
 use Livewire\Component;
 
 class Energy extends Component
@@ -10,6 +11,17 @@ class Energy extends Component
 
     public function render()
     {
-        return view('livewire.pages.energy');
+        $energy_data = $this->getEnergyLatest(app(InfluxDBService::class));
+        return view('livewire.pages.energy', compact('energy_data'));
+    }
+
+    private function getEnergyLatest(InfluxDBService $influxDBService)
+    {
+        $query = "SELECT * 
+                FROM 'energy' 
+                WHERE time <= now() + INTERVAL '7 hours'
+                ORDER BY TIME DESC 
+                LIMIT 1";
+        return $influxDBService->query($query)->convertTimezone()->get()[0];
     }
 }

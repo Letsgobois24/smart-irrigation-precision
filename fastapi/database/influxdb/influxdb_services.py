@@ -73,8 +73,8 @@ def addPeriodData(data: dict):
 
 def addEnergyData(data: dict):
     data = {
-        "active_source": data["status"]["source"],
-        "switch_status": data["status"]["switch"],
+        "source": data["source"],
+        "event": data["event"],
         "battery_soc": data["battery"]["soc"],
         "battery_voltage": data["battery"]["voltage"],
         "pv_power": data["solar"]["power"],
@@ -84,4 +84,4 @@ def addEnergyData(data: dict):
         "load_current": data["load"]["current"],
         "time": data["time"]
     }
-    addData(data=data, measurement='energy', tags=['active_source', 'switch_status'])
+    addData(data=data, measurement='energy', tags=['source', 'event'])

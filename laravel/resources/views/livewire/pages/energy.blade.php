@@ -1,5 +1,11 @@
 <main class="space-y-8">
-    <x-container title="Energy Summary" description='Ringkasan kondisi sistem energi'>
+    <section>
+        <h1 class="mb-2 text-2xl font-bold">Energy Monitoring</h1>
+        <x-card.energy-cards :energy-data="$energy_data" />
+    </section>
+
+    {{-- Energy Table --}}
+    <x-container title="Energy Table" description='displays the energy data in a tabular format'>
         <livewire:components.energy-table :key="'energy-table' . $refresh_child" />
     </x-container>
 

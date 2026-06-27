@@ -15,17 +15,14 @@ class EnergyCards extends Component
     public function __construct(
         public array $energyData
     ) {
-        $this->is_switching = filter_var(
-            $this->energyData['switch_status'],
-            FILTER_VALIDATE_BOOLEAN
-        ) ? 'ON' : 'OFF';
+        $this->is_switching = $energyData['event'] == 'switching';
         $this->source_config = $this->getSourceConfig();
         $this->energy_cards = $this->getEnergyCards();
     }
 
     private function getSourceConfig(): array
     {
-        $activeSource = strtoupper($this->energyData['active_source']);
+        $activeSource = strtoupper($this->energyData['source']);
         return match ($activeSource) {
             'PLTS' => [
                 'icon' => '☀️',
@@ -39,13 +36,6 @@ class EnergyCards extends Component
                 'title' => 'PLN',
                 'bg' => 'bg-blue-50',
                 'border' => 'border-blue-300',
-            ],
-
-            'BATTERY' => [
-                'icon' => '🔋',
-                'title' => 'Battery',
-                'bg' => 'bg-yellow-50',
-                'border' => 'border-yellow-300',
             ],
 
             default => [

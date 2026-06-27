@@ -1,9 +1,7 @@
 <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
     {{-- Hero Card --}}
     <div class="rounded-2xl border-2 {{ $source_config['border'] }} {{ $source_config['bg'] }} p-6 mb-6">
-
         <div class="flex items-center justify-between">
-
             <div>
                 <p class="text-xs uppercase tracking-widest text-gray-500">
                     Active Energy Source
@@ -20,23 +18,15 @@
             </div>
 
             <div class="text-right">
-
                 <p class="text-xs text-gray-500">
                     ATS Relay
                 </p>
-
                 <div class="text-2xl font-bold {{ $is_switching ? 'text-red-500' : 'text-green-600' }}">
-                    {{ $is_switching ? 'SWITCHING' : 'STABLE' }}
+                    {{ $is_switching ? 'SWITCHING' : 'NORMAL' }}
                 </div>
-
-                <p class="text-sm text-gray-500">
-                    Relay {{ $is_switching ? 'ON' : 'OFF' }}
-                </p>
-
                 <span class="text-[11px] text-gray-400">
                     Last Update {{ smartTimeFormat($energyData['time']) }}
                 </span>
-
             </div>
 
         </div>

@@ -1,14 +1,18 @@
 <main class="space-y-6">
-    <div>
+    {{-- Energy Monitoring --}}
+    <section>
         <h1 class="mb-2 text-2xl font-bold">Energy Monitoring</h1>
         <x-card.energy-cards :energy-data="$energy_data" />
-    </div>
+    </section>
 
-    <div>
+    {{-- Global Monitoring --}}
+    <section>
         <h1 class="mb-2 text-2xl font-bold">Global Monitoring</h1>
         <x-card.global-cards :global-data="$global_data" />
-    </div>
-    <div>
+    </section>
+
+    {{-- Node Monitoring --}}
+    <section>
         <h1 class="mb-2 text-2xl font-bold">Node Monitoring</h1>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <!-- New 4 Trees Data -->
@@ -16,5 +20,5 @@
                 <x-card.tree-card :tree="$tree" />
             @endforeach
         </div>
-    </div>
+    </section>
 </main>

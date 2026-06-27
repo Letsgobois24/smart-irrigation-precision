@@ -16,7 +16,8 @@ def on_connect(client, userdata, flags, rc, properties = None):
         ('device/+/period_data', 0),
         ('device/+/irrigation', 1),
         ('device/+/period_event', 1),
-        ('energy/global/period_data', 0)
+        ('energy/global/period_data', 0),
+        ('energy/global/switching', 1)
         ])
     
 def on_disconnect(client, userdata, flags, rc):
@@ -40,12 +41,12 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
 
     # Action
     try:
-        if(action == 'period_data' and source == 'energy'):
+        if(source == 'energy' and action == 'period_data'):
             addEnergyData(payload)
             return 
 
-        if(action == 'period_data'):
-            addPeriodData(payload)
+        if(source == 'energy' and action == 'switching'):
+            addEnergyData(payload)
             return
 
         if(action == 'period_event'):

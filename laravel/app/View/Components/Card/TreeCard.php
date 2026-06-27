@@ -44,7 +44,7 @@ class TreeCard extends Component
         return match ($status) {
 
             'dry' => [
-                'badge' => 'Kering',
+                'badge' => 'Dry',
                 'badge_color' => 'red',
                 'card' => 'border-red-500 border-red-100',
                 'icon' => 'text-red-500',
@@ -53,7 +53,7 @@ class TreeCard extends Component
             ],
 
             'wet' => [
-                'badge' => 'Terlalu Basah',
+                'badge' => 'Wet',
                 'badge_color' => 'yellow',
                 'card' => 'border-yellow-500 border-yellow-100',
                 'icon' => 'text-yellow-500',

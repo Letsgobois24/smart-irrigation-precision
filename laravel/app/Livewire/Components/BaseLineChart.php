@@ -13,7 +13,7 @@ class BaseLineChart extends Component
     public string $ylabel = '';
     public string $xlabel = '';
 
-    public string $selectedPeriods = '6 hours';
+    public string $selectedPeriods = '2 hours';
 
     public array $periods = [
         '2 hours' => [
