@@ -5,7 +5,7 @@
     </section>
 
     {{-- Energy Table --}}
-    <x-container title="Energy Table" description='displays the energy data in a tabular format'>
+    <x-container title="Energy Table" description='Menampilkan data energi dari sumber energi yang aktif'>
         <livewire:components.energy-table :key="'energy-table' . $refresh_child" />
     </x-container>
 

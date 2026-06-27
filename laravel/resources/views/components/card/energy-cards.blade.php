@@ -16,7 +16,7 @@
                 </h1>
 
                 <p class="text-xs text-gray-600 mt-1">
-                    Currently supplying the irrigation system.
+                    Sedang menyuplai sistem irigasi.
                 </p>
             </div>
 
