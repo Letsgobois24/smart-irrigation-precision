@@ -71,5 +71,18 @@ def addPeriodData(data: dict):
     else:
         addNodeTree(NodeTree(**data))
 
-def addSupplyData(data: dict):
-    addData(data=data, measurement='supply')
+def addEnergyData(data: dict):
+    data = {
+        "active_source": data["status"]["source"],
+        "switch_status": data["status"]["switch"],
+        "battery_soc": data["battery"]["soc"],
+        "battery_voltage": data["battery"]["voltage"],
+        "pv_power": data["solar"]["power"],
+        "pv_voltage": data["solar"]["voltage"],
+        "pv_current": data["solar"]["current"],
+        "load_power": data["load"]["power"],
+        "load_current": data["load"]["current"],
+        "time": data["time"]
+    }
+    print("Adding Energy Data to InfluxDB:", data)
+    addData(data=data, measurement='energy', tags=['active_source', 'switch_status'])

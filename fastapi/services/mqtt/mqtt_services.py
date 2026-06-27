@@ -3,7 +3,7 @@ import json
 import uuid
 import time
 from typing import Tuple
-from database.influxdb.influxdb_services import addPeriodData, addIrrigation, addSingleTree, addSupplyData
+from database.influxdb.influxdb_services import addPeriodData, addIrrigation, addSingleTree, addEnergyData
 from schema.node_tree import SingleTree
 from schema.irrigation_schema import IrrigationSchema
 
@@ -32,17 +32,16 @@ def on_subscribe(client: paho.Client, userdata, mid: int, granted_qos: list, pro
 def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
     parts = msg.topic.split('/')
     action = parts[2]
-    source = parts[1]
+    source = parts[0]
 
     payload = json.loads(msg.payload)
     print(f"Topic: {msg.topic}, QoS: {msg.qos}")
-    print("Payload:", payload)
-
+    print(f"Size Payload: {len(msg.payload)}, Payload: {payload}")
 
     # Action
     try:
         if(action == 'period_data' and source == 'energy'):
-            addSupplyData(payload)
+            addEnergyData(payload)
             return 
 
         if(action == 'period_data'):
