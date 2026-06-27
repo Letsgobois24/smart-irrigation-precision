@@ -84,5 +84,4 @@ def addEnergyData(data: dict):
         "load_current": data["load"]["current"],
         "time": data["time"]
     }
-    print("Adding Energy Data to InfluxDB:", data)
     addData(data=data, measurement='energy', tags=['active_source', 'switch_status'])

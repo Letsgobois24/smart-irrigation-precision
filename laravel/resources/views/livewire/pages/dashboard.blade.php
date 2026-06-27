@@ -1,5 +1,10 @@
 <main class="space-y-6">
     <div>
+        <h1 class="mb-2 text-2xl font-bold">Energy Monitoring</h1>
+        <x-card.energy-cards :energy-data="$energy_data" />
+    </div>
+
+    <div>
         <h1 class="mb-2 text-2xl font-bold">Global Monitoring</h1>
         <x-card.global-cards :global-data="$global_data" />
     </div>
