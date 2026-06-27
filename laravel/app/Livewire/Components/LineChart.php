@@ -13,9 +13,8 @@ class LineChart extends BaseLineChart
         $data = [];
         try {
             $data = $this->getRawData($influx);
-            $this->sanitize();
             if (count($data) == 0) {
-                throw new Exception("No data available in {$this->xlabel} chart");
+                throw new Exception("No data available in {$this->fieldName} chart");
             }
         } catch (Throwable $e) {
             $this->dispatch('toast', type: 'danger', message: $e->getMessage());
@@ -77,26 +76,12 @@ class LineChart extends BaseLineChart
         $interval = $this->periods[$this->selectedPeriods]['interval'];
         return "SELECT
                     DATE_BIN(INTERVAL '{$interval}', time) AS time,
-                    selector_max({$this->field}, time)['value'] AS 'Max {$this->xlabel}',
-                    selector_min({$this->field}, time)['value'] AS 'Min {$this->xlabel}',
-                    ROUND(AVG({$this->field}), 2) AS 'Average {$this->xlabel}'
+                    selector_max({$this->field}, time)['value'] AS 'Max',
+                    selector_min({$this->field}, time)['value'] AS 'Min',
+                    ROUND(AVG({$this->field}), 2) AS 'Average'
                 FROM {$this->table}
                 WHERE time >= now() - INTERVAL '{$this->selectedPeriods}'
                 GROUP BY 1
                 ORDER BY 1";
-    }
-
-    // Security
-    private array $allowedFields = ['ph', 'water_flow', 'soil_moisture', 'light'];
-    private array $allowedTables = ['global', 'node'];
-    private function sanitize()
-    {
-        if (!in_array($this->field, $this->allowedFields)) {
-            throw new Exception('Invalid field');
-        }
-
-        if (!in_array($this->table, $this->allowedTables)) {
-            throw new Exception('Invalid table');
-        }
     }
 }

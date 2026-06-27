@@ -17,13 +17,14 @@ export default function lineChart(data, seriesOptions, ylabel = '') {
 }
 
 function setLineOptionChart(data, seriesOptions, ylabel) {
+    console.log(data);
     return {
         stroke: {
             width: 2,
         },
         chart: {
             type: 'line',
-            height: 320
+            height: 320,
         },
         parsing: {
             x: 'time'

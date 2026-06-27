@@ -17,7 +17,6 @@ export default function multiLineChart(data, ylabel = '') {
 }
 
 function setOption(data, ylabel) {
-    console.log(data);
     return {
         stroke: {
             width: 2,
