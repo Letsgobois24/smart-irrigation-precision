@@ -59,9 +59,13 @@
                         {{ $card['value'] }}
                     </div>
 
-                    <p class="text-xs mt-1 {{ $card['subtitleClass'] }}">
-                        {{ $card['subtitle'] }}
-                    </p>
+                    <div class="flex items-center gap-1 text-xs mt-1">
+                        @foreach ($card['details'] as $detail)
+                            <span class="{{ $detail['class'] }}">
+                                {{ $detail['text'] }}
+                            </span>
+                        @endforeach
+                    </div>
 
                     @if ($card['progress'] !== null)
                         <div class="w-full h-1.5 bg-gray-200 rounded-full mt-2">

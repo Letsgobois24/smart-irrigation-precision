@@ -66,11 +66,15 @@ class EnergyCards extends Component
                     $this->energyData['battery_soc']
                 ),
 
-                'subtitle' => $this->energyData['battery_voltage'] . ' V',
-                'subtitleClass' => $this->thresholdColor(
-                    'battery_voltage',
-                    $this->energyData['battery_voltage']
-                ),
+                'details' => [
+                    [
+                        'text' => $this->energyData['battery_voltage'] . ' V',
+                        'class' => $this->thresholdColor(
+                            'battery_voltage',
+                            $this->energyData['battery_voltage']
+                        ),
+                    ],
+                ],
 
                 'progress' => $this->energyData['battery_soc'],
                 'progressColor' => $this->batteryColor(),
@@ -87,14 +91,26 @@ class EnergyCards extends Component
                     $this->energyData['pv_power']
                 ),
 
-                'subtitle' => sprintf(
-                    '%s V • %s A',
-                    $this->energyData['pv_voltage'],
-                    $this->energyData['pv_current']
-                ),
-
-                // warna subtitle tidak dipakai karena berisi dua nilai
-                'subtitleClass' => 'text-gray-500',
+                'details' => [
+                    [
+                        'text' => $this->energyData['pv_voltage'] . ' V',
+                        'class' => $this->thresholdColor(
+                            'pv_voltage',
+                            $this->energyData['pv_voltage']
+                        ),
+                    ],
+                    [
+                        'text' => '•',
+                        'class' => 'text-gray-400',
+                    ],
+                    [
+                        'text' => $this->energyData['pv_current'] . ' A',
+                        'class' => $this->thresholdColor(
+                            'pv_current',
+                            $this->energyData['pv_current']
+                        ),
+                    ],
+                ],
 
                 'progress' => null,
             ],
@@ -110,11 +126,15 @@ class EnergyCards extends Component
                     $this->energyData['load_power']
                 ),
 
-                'subtitle' => $this->energyData['load_current'] . ' A',
-                'subtitleClass' => $this->thresholdColor(
-                    'load_current',
-                    $this->energyData['load_current']
-                ),
+                'details' => [
+                    [
+                        'text' => $this->energyData['load_current'] . ' A',
+                        'class' => $this->thresholdColor(
+                            'load_current',
+                            $this->energyData['load_current']
+                        ),
+                    ],
+                ],
 
                 'progress' => null,
             ],
