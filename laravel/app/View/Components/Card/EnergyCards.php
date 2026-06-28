@@ -59,9 +59,19 @@ class EnergyCards extends Component
                 'title' => 'Battery',
                 'icon' => '🔋',
                 'border' => 'border-yellow-200',
+
                 'value' => $this->energyData['battery_soc'] . '%',
+                'valueClass' => $this->thresholdColor(
+                    'battery_soc',
+                    $this->energyData['battery_soc']
+                ),
+
                 'subtitle' => $this->energyData['battery_voltage'] . ' V',
-                'valueClass' => 'text-gray-900',
+                'subtitleClass' => $this->thresholdColor(
+                    'battery_voltage',
+                    $this->energyData['battery_voltage']
+                ),
+
                 'progress' => $this->energyData['battery_soc'],
                 'progressColor' => $this->batteryColor(),
             ],
@@ -70,13 +80,22 @@ class EnergyCards extends Component
                 'title' => 'Solar Panel',
                 'icon' => '☀️',
                 'border' => 'border-orange-200',
+
                 'value' => $this->energyData['pv_power'] . ' W',
+                'valueClass' => $this->thresholdColor(
+                    'pv_power',
+                    $this->energyData['pv_power']
+                ),
+
                 'subtitle' => sprintf(
                     '%s V • %s A',
                     $this->energyData['pv_voltage'],
                     $this->energyData['pv_current']
                 ),
-                'valueClass' => 'text-gray-900',
+
+                // warna subtitle tidak dipakai karena berisi dua nilai
+                'subtitleClass' => 'text-gray-500',
+
                 'progress' => null,
             ],
 
@@ -84,12 +103,78 @@ class EnergyCards extends Component
                 'title' => 'Load',
                 'icon' => '💡',
                 'border' => 'border-green-200',
+
                 'value' => $this->energyData['load_power'] . ' W',
+                'valueClass' => $this->thresholdColor(
+                    'load_power',
+                    $this->energyData['load_power']
+                ),
+
                 'subtitle' => $this->energyData['load_current'] . ' A',
-                'valueClass' => 'text-gray-900',
+                'subtitleClass' => $this->thresholdColor(
+                    'load_current',
+                    $this->energyData['load_current']
+                ),
+
                 'progress' => null,
             ],
         ];
+    }
+
+    private function thresholdColor(string $field, float|int $value): string
+    {
+        $color = match ($field) {
+            'battery_soc' => match (true) {
+                $value >= 80 => 'green',
+                $value >= 40 => 'yellow',
+                default => 'red',
+            },
+
+            'battery_voltage' => match (true) {
+                $value >= 12.5 => 'green',
+                $value >= 11.8 => 'yellow',
+                default => 'red',
+            },
+
+            'load_current' => match (true) {
+                $value < 3 => 'green',
+                $value < 6 => 'yellow',
+                default => 'red',
+            },
+
+            'load_power' => match (true) {
+                $value < 300 => 'green',
+                $value < 600 => 'yellow',
+                default => 'red',
+            },
+
+            'pv_voltage' => match (true) {
+                $value >= 18 => 'green',
+                $value >= 12 => 'yellow',
+                default => 'red',
+            },
+
+            'pv_current' => match (true) {
+                $value >= 2 => 'green',
+                $value >= 0.5 => 'yellow',
+                default => 'red',
+            },
+
+            'pv_power' => match (true) {
+                $value >= 50 => 'green',
+                $value >= 10 => 'yellow',
+                default => 'red',
+            },
+
+            default => 'gray',
+        };
+
+        return match ($color) {
+            'green' => 'text-green-600',
+            'yellow' => 'text-yellow-600',
+            'red' => 'text-red-600',
+            default => 'text-gray-900',
+        };
     }
 
     private function batteryColor(): string

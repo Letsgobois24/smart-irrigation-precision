@@ -59,7 +59,7 @@
                         {{ $card['value'] }}
                     </div>
 
-                    <p class="text-xs text-gray-500 mt-1">
+                    <p class="text-xs mt-1 {{ $card['subtitleClass'] }}">
                         {{ $card['subtitle'] }}
                     </p>
 
