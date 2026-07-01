@@ -38,6 +38,12 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
     payload = json.loads(msg.payload)
     print(f"Topic: {msg.topic}, QoS: {msg.qos}")
     print(f"Size Payload: {len(msg.payload)}, Payload: {payload}")
+    if "time" in payload:
+        # Hari, Tanggal, Bulan, Tahun, Jam, Menit, Detik
+        print(f"Time: {time.ctime(payload['time'] / 1000)}")
+        print(f"Latency: {int(time.time() * 1000) - payload['time']} ms")
+    else:
+        print("Field 'time' tidak ada!")
 
     # Action
     try:
@@ -47,6 +53,10 @@ def on_message(client: paho.Client, userdata, msg: paho.MQTTMessage):
 
         if(source == 'energy' and action == 'switching'):
             addEnergyData(payload)
+            return
+        
+        if(action == 'period_data'):
+            addPeriodData(payload)
             return
 
         if(action == 'period_event'):
