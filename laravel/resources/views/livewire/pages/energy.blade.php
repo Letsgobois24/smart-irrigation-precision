@@ -87,7 +87,7 @@
             </div>
         </div>
 
-        <div class="grid lg:grid-cols-2 gap-6 p-6">
+        <div class="grid md:grid-cols-3 gap-6 p-6">
 
             <livewire:components.line-chart :key="'pv-voltage' . $refresh_child" lazy field="pv_voltage" fieldName="PV Voltage"
                 table="energy" ylabel="V" />
@@ -95,10 +95,8 @@
             <livewire:components.line-chart :key="'pv-current' . $refresh_child" lazy field="pv_current" fieldName="PV Current"
                 table="energy" ylabel="A" />
 
-            <div class="lg:col-span-2">
-                <livewire:components.line-chart :key="'pv-power' . $refresh_child" lazy field="pv_power" fieldName="PV Power"
-                    table="energy" ylabel="W" />
-            </div>
+            <livewire:components.line-chart :key="'pv-power' . $refresh_child" lazy field="pv_power" fieldName="PV Power" table="energy"
+                ylabel="W" />
 
         </div>
 
