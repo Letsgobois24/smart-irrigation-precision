@@ -17,8 +17,8 @@ class NotificationRuleSeeder extends Seeder
             [
                 'feature' => 'moisture_before',
                 'name' => 'kelembaban awal tanah',
-                'title' => 'Kesalahan Kondisi Awal Tanah',
-                'description' => 'Nilai kelembaban awal tanah menunjukkan kondisi yang tidak normal.',
+                'title' => 'Kondisi Awal Tanah Tidak Normal',
+                'description' => 'Kelembaban tanah sebelum penyiraman tidak sesuai dengan kondisi yang seharusnya.',
                 'problem' => json_encode([
                     'Sensor Drift',
                     'Sensor Freeze',
@@ -35,8 +35,8 @@ class NotificationRuleSeeder extends Seeder
             [
                 'feature' => 'moisture_after',
                 'name' => 'kelembaban setelah penyiraman',
-                'title' => 'Kesalahan Hasil Penyiraman',
-                'description' => 'Nilai kelembaban setelah penyiraman menunjukkan hasil yang tidak sesuai target.',
+                'title' => 'Hasil Penyiraman Tidak Sesuai',
+                'description' => 'Kelembaban tanah setelah penyiraman belum mencapai kondisi yang diharapkan.',
                 'problem' => json_encode([
                     'Under Irrigation',
                     'Over Irrigation',
@@ -52,10 +52,29 @@ class NotificationRuleSeeder extends Seeder
             ],
 
             [
+                'feature' => 'duration',
+                'name' => 'durasi penyiraman',
+                'title' => 'Perhitungan Durasi Penyiraman Tidak Sesuai',
+                'description' => 'Durasi penyiraman yang dihasilkan sistem tidak sesuai dengan kondisi yang diharapkan.',
+                'problem' => json_encode([
+                    'Kesalahan Rule Base Logika Fuzzy',
+                    'Fungsi Keanggotaan Tidak Sesuai',
+                    'Data Masukan Sensor Tidak Valid',
+                    'Kesalahan Logika Kontrol'
+                ]),
+                'recommendation' => json_encode([
+                    'Evaluasi dan Perbaiki Rule Base',
+                    'Kalibrasi Fungsi Keanggotaan',
+                    'Validasi dan Kalibrasi Sensor',
+                    'Evaluasi Parameter dan Algoritma Kontrol'
+                ])
+            ],
+
+            [
                 'feature' => 'moisture_gain',
                 'name' => 'peningkatan kelembaban',
-                'title' => 'Kesalahan Efektivitas Penyiraman',
-                'description' => 'Nilai kelembaban yang meningkat menunjukkan efektivitas distribusi air yang tidak normal.',
+                'title' => 'Peningkatan Kelembaban Tidak Normal',
+                'description' => 'Peningkatan kelembaban tanah setelah penyiraman tidak sesuai dengan yang diharapkan.',
                 'problem' => json_encode([
                     'Pipa Bocor',
                     'Nozzle Tersumbat',
@@ -75,8 +94,8 @@ class NotificationRuleSeeder extends Seeder
             [
                 'feature' => 'moisture_rate',
                 'name' => 'kecepatan peningkatan kelembaban',
-                'title' => 'Kesalahan Efisiensi Penyiraman',
-                'description' => 'Nilai kecepatan peningkatan kelembaban menunjukkan proses distribusi air yang tidak efisien.',
+                'title' => 'Laju Peningkatan Kelembaban Tidak Normal',
+                'description' => 'Laju peningkatan kelembaban tanah selama penyiraman tidak sesuai dengan kondisi normal.',
                 'problem' => json_encode([
                     'Endapan Pipa',
                     'Kebocoran Kecil',
@@ -86,25 +105,6 @@ class NotificationRuleSeeder extends Seeder
                     'Flushing Pipa',
                     'Inspeksi Jalur Distribusi',
                     'Pemeliharaan Pompa'
-                ])
-            ],
-
-            [
-                'feature' => 'duration',
-                'name' => 'durasi siklus penyiraman',
-                'title' => 'Kesalahan Durasi Penyiraman',
-                'description' => 'Nilai durasi siklus penyiraman menunjukkan operasi valve yang tidak normal.',
-                'problem' => json_encode([
-                    'Valve Macet',
-                    'Valve Tidak Terbuka Penuh',
-                    'Aktuator Rusak',
-                    'Kesalahan Logika Kontrol'
-                ]),
-                'recommendation' => json_encode([
-                    'Periksa Mekanisme Valve',
-                    'Bersihkan Valve',
-                    'Periksa atau Ganti Aktuator',
-                    'Evaluasi Parameter Kontrol'
                 ])
             ],
         ];

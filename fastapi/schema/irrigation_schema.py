@@ -52,4 +52,6 @@ class IrrigationSchema(BaseModel):
     @computed_field
     @property
     def moisture_rate(self) -> float:
+        if self.duration == 0:
+            return 0.0
         return round(self.moisture_gain / self.duration, 2)

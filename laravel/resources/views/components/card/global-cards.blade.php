@@ -14,7 +14,7 @@
     </x-card.global-card>
 
     {{-- LIGHT --}}
-    <x-card.global-card :config="$light_config" :data="$globalData['light'] . ' %'">
+    <x-card.global-card :config="$light_config" :data="$globalData['light'] . ' ADC'">
         <x-slot name="icon">
             <x-icons.sun size="24" />
         </x-slot>

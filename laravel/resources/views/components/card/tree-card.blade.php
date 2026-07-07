@@ -19,7 +19,7 @@
     <div class="flex items-center gap-2">
         <x-icons.humidity size="20" class="{{ $statusConfig['icon'] }}" />
         <p class="text-lg font-bold">
-            {{ $tree['soil_moisture'] }}%
+            {{ round($tree['soil_moisture'], 2) }}%
         </p>
     </div>
 
