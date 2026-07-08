@@ -9,12 +9,6 @@ from schema.global_schema import GlobalSchema
 from schema.irrigation_schema import IrrigationSchema
 from model.prediction import irrigationDetection
 
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-PREDICTION = os.getenv('PREDICTION', 'false').lower() == 'true'
-
 def addNodeTree(data: NodeTree):
     data_dict = data.model_dump(include='trees')['trees']
 
@@ -51,7 +45,7 @@ def addIrrigation(data: IrrigationSchema):
     addSingleTree(data=SingleTree(**single_tree))
 
     # Prediction and add to prediction table
-    if(not PREDICTION): return # Skip prediction if not enabled
+    # if(not PREDICTION): return # Skip prediction if not enabled
     prediction_result = irrigationDetection(irrigations)
     addData(data=prediction_result, measurement='predictions', tags=['tree_id', 'node_id', 'event_id'])
 
