@@ -8,8 +8,9 @@ import joblib
 scaler = joblib.load('model/scaler.pkl')
 model = load_model('model/best_model.keras')
 
-features = ['moisture_before', 'moisture_after', 'duration', 'moisture_gain', 'moisture_rate']
-mse_threshold = 1.62045
+# features = ['moisture_before', 'moisture_after', 'duration', 'moisture_gain', 'moisture_rate']
+features = ['moisture_after', 'moisture_before', 'moisture_gain', 'moisture_rate', 'duration']
+mse_threshold = 0.6523
 
 def irrigationDetection(data: dict):
     time_start = int(time.time() * 1000)
