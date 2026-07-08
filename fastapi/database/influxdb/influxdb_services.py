@@ -45,7 +45,6 @@ def addIrrigation(data: IrrigationSchema):
     addSingleTree(data=SingleTree(**single_tree))
 
     # Prediction and add to prediction table
-    # if(not PREDICTION): return # Skip prediction if not enabled
     prediction_result = irrigationDetection(irrigations)
     addData(data=prediction_result, measurement='predictions', tags=['tree_id', 'node_id', 'event_id'])
 
