@@ -9,7 +9,7 @@ scaler = joblib.load("model/scaler.pkl")
 model = load_model("model/best_model.keras")
 
 # Urutan fitur HARUS sama dengan saat training
-features = ['moisture_after', 'moisture_before', 'moisture_gain', 'moisture_rate','duration']
+features = ['moisture_before', 'moisture_after', 'duration', 'moisture_gain', 'moisture_rate']
 
 mse_threshold = 0.6523
 
@@ -61,11 +61,11 @@ def irrigationDetection(data: dict):
         "dominant_ratio": round(max_error / np.sum(error_data), 3),
         "dominant_error": round(max_error, 2),
 
-        "mse_moisture_before": round(error_data[0][1], 2),
-        "mse_moisture_after": round(error_data[0][0], 2),
-        "mse_duration": round(error_data[0][4], 2),
+        "mse_moisture_before": round(error_data[0][0], 2),
+        "mse_moisture_after": round(error_data[0][1], 2),
+        "mse_duration": round(error_data[0][2], 2),
         "mse_moisture_gain": round(error_data[0][3], 2),
-        "mse_moisture_rate": round(error_data[0][2], 2),
+        "mse_moisture_rate": round(error_data[0][4], 2),
 
         "prediction_time": prediction_time,
         "time": int(time.time() * 1000),
