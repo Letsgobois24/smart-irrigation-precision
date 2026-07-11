@@ -21,6 +21,8 @@ class Notification extends Model
         return $this->belongsTo(NotificationRule::class, 'dominant_feature', 'feature');
     }
 
+
+
     protected function scopeFilter(Builder $query, array $filters): void
     {
         $query->when($filters['severity'], function ($query, $severity) {

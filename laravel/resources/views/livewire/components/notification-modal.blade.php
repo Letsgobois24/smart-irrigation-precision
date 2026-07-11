@@ -255,7 +255,7 @@
                                     </x-ui.badge>
                                 </div>
                                 <span class="text-xs text-gray-500">
-                                    {{ smartTimeFormat(new \Carbon\Carbon($active_notification['created_at'])) }}
+                                    {{ $active_notification['created_at'] }}
                                 </span>
                             </div>
 

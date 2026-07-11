@@ -99,8 +99,7 @@ class NotificationModal extends Component
     {
         if ($this->active_notification['id'] == $id) return;
         $this->reset('detail_prediction');
-        $this->active_notification = Notification::with('rule')->find($id)->toArray();
-        // dd($this->active_notification);
+        $this->active_notification = $this->getActiveNotification($id);
     }
 
     public function resolve()
@@ -206,7 +205,7 @@ class NotificationModal extends Component
 
         if (count($this->notifications) > 0) {
             $active_id = $this->notifications[0]['id'];
-            $this->active_notification = Notification::with('rule')->find($active_id)->toArray();
+            $this->active_notification = $this->getActiveNotification($active_id);
         }
     }
 
@@ -262,7 +261,8 @@ class NotificationModal extends Component
 
         if (count($this->notifications) > 0) {
             $active_id = $active_id ?? $this->notifications[0]['id'];
-            $this->active_notification = Notification::with('rule')->find($active_id)->toArray();
+
+            $this->active_notification = $this->getActiveNotification($active_id);
         }
     }
 
@@ -293,6 +293,16 @@ class NotificationModal extends Component
     {
         $filters = $this->getFilterConfig();
         $this->total_result = Notification::filter($filters)->count();
+    }
+
+    private function getActiveNotification(null | int $active_id = null): array
+    {
+        $notification = Notification::with('rule')->find($active_id ?? $this->active_notification['id'])->toArray();
+
+        $notification['created_at'] = \Carbon\Carbon::parse($notification['created_at'])
+            ->format('d M Y H:i:s');
+
+        return $notification;
     }
 
     private function getFilterConfig()
