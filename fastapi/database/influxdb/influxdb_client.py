@@ -2,7 +2,6 @@ from influxdb_client_3 import InfluxDBClient3
 from dotenv import load_dotenv
 import os
 import pandas as pd
-from typing import Dict
 
 # Memuat semua env
 load_dotenv()
@@ -15,7 +14,7 @@ client = InfluxDBClient3(
     auth_scheme="Bearer"
 )
 
-def addData(data: Dict[str, float], measurement: str, tags: list | None = None):
+def addData(data, measurement: str, tags: list | None = None):
     df = pd.DataFrame(data=[data])
     df['time'] = convertTime(df['time'])
     client.write_dataframe(df=df, measurement=measurement, timestamp_column='time', tags=tags)
