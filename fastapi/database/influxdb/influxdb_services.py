@@ -84,4 +84,17 @@ def addEnergyData(data: dict):
         "load_current": float(data["load"]["current"]),
         "time": data["time"]
     }
-    addData(data=data, measurement='energy', tags=['source', 'event'])
+    df = pd.DataFrame(data=[data])
+
+    float_columns = [
+        "battery_soc",
+        "battery_voltage",
+        "pv_power",
+        "pv_voltage",
+        "pv_current",
+        "load_power",
+        "load_current"
+    ]
+
+    df[float_columns] = df[float_columns].astype("float64")
+    extendData(df=df, measurement='energy', tags=['source', 'event'])
