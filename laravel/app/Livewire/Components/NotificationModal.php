@@ -300,7 +300,6 @@ class NotificationModal extends Component
         $notification = Notification::with('rule')->find($active_id ?? $this->active_notification['id'])->toArray();
 
         $notification['created_at'] = \Carbon\Carbon::parse($notification['created_at'])
-            ->setTimezone('Asia/Jakarta')
             ->format('d M Y H:i:s');
 
         return $notification;
