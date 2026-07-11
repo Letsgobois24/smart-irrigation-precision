@@ -5,3 +5,5 @@
 *.pyc
 *.keras
 *.pkl
+
+/model/try.ipynb

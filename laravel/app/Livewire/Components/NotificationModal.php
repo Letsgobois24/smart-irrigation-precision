@@ -115,6 +115,8 @@ class NotificationModal extends Component
             $this->dispatch('toast', type: 'danger', message: 'Error: ' . $e->getMessage());
         }
 
+        $this->reset('offset');
+
         $this->updateNotifications($id);
         $this->total_active = Notification::isActive()->count();
     }
@@ -261,7 +263,6 @@ class NotificationModal extends Component
 
         if (count($this->notifications) > 0) {
             $active_id = $active_id ?? $this->notifications[0]['id'];
-
             $this->active_notification = $this->getActiveNotification($active_id);
         }
     }
