@@ -75,13 +75,13 @@ def addEnergyData(data: dict):
     data = {
         "source": data["source"],
         "event": data["event"],
-        "battery_soc": data["battery"]["soc"],
-        "battery_voltage": data["battery"]["voltage"],
-        "pv_power": data["solar"]["power"],
-        "pv_voltage": data["solar"]["voltage"],
-        "pv_current": data["solar"]["current"],
-        "load_power": data["load"]["power"],
-        "load_current": data["load"]["current"],
+        "battery_soc": round(float(data["battery"]["soc"]), 1),
+        "battery_voltage": round(float(data["battery"]["voltage"]), 2),
+        "pv_power": round(float(data["solar"]["power"]), 2),
+        "pv_voltage": round(float(data["solar"]["voltage"]), 2),
+        "pv_current": round(float(data["solar"]["current"]), 2),
+        "load_power": round(float(data["load"]["power"]), 2),
+        "load_current": round(float(data["load"]["current"]), 2),
         "time": data["time"]
     }
     addData(data=data, measurement='energy', tags=['source', 'event'])
