@@ -17,6 +17,7 @@ client = InfluxDBClient3(
 def addData(data, measurement: str, tags: list | None = None):
     df = pd.DataFrame(data=[data])
     df['time'] = convertTime(df['time'])
+
     client.write_dataframe(df=df, measurement=measurement, timestamp_column='time', tags=tags)
     
 def extendData(df: pd.DataFrame, measurement: str, tags: list | None = None):

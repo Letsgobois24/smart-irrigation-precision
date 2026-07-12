@@ -77,24 +77,11 @@ def addEnergyData(data: dict):
         "event": data["event"],
         "battery_soc": float(data["battery"]["soc"]),
         "battery_voltage": float(data["battery"]["voltage"]),
-        "pv_power": float(data["solar"]["power"]), 2,
+        "pv_power": float(data["solar"]["power"]),
         "pv_voltage": float(data["solar"]["voltage"]),
         "pv_current": float(data["solar"]["current"]),
         "load_power": float(data["load"]["power"]),
         "load_current": float(data["load"]["current"]),
         "time": data["time"]
     }
-    df = pd.DataFrame(data=[data])
-
-    float_columns = [
-        "battery_soc",
-        "battery_voltage",
-        "pv_power",
-        "pv_voltage",
-        "pv_current",
-        "load_power",
-        "load_current"
-    ]
-
-    df[float_columns] = df[float_columns].astype("float64")
-    extendData(df=df, measurement='energy', tags=['source', 'event'])
+    addData(data=data, measurement='energy', tags=['source', 'event'])
