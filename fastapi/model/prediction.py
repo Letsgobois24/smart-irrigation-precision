@@ -16,17 +16,6 @@ mse_threshold = 0.6523
 def irrigationDetection(data: dict):
     time_start = int(time.time() * 1000)
 
-    # # ==============================
-    # # Mapping data baru -> format lama model
-    # # ==============================
-    # model_input = {
-    #     "moisture_before": data["moisture_after"],
-    #     "moisture_after": data["moisture_before"],
-    #     "duration": data["moisture_gain"],
-    #     "moisture_gain": data["moisture_rate"],
-    #     "moisture_rate": data["duration"],
-    # }
-
     df = pd.DataFrame([data], columns=features)
 
     scaler_df = scaler.transform(df)

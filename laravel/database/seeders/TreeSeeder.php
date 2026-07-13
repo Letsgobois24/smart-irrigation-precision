@@ -20,8 +20,8 @@ class TreeSeeder extends Seeder
             'variant' => 'miki',
             'row_idx' => 1,
             'col_idx' => 1,
-            'latitude' => -7.048015017907472,
-            'longitude' => 110.43501626001367
+            'latitude' => -7.047550,
+            'longitude' => 110.435080
         ]);
         Tree::create([
             'tree_id' => 2,
@@ -29,8 +29,8 @@ class TreeSeeder extends Seeder
             'variant' => 'miki',
             'row_idx' => 1,
             'col_idx' => 2,
-            'latitude' => -7.048015017907472,
-            'longitude' => 110.43501626001367
+            'latitude' => -7.04753,
+            'longitude' => 110.435138
         ]);
 
         // Node ID: 1
@@ -41,8 +41,8 @@ class TreeSeeder extends Seeder
             'row_idx' => 2,
             'col_idx' => 1,
             'is_active' => 1,
-            'latitude' => -7.048015017907472,
-            'longitude' => 110.43501626001367
+            'latitude' => -7.047407,
+            'longitude' => 110.435154
         ]);
         Tree::create([
             'tree_id' => 4,
@@ -51,8 +51,8 @@ class TreeSeeder extends Seeder
             'row_idx' => 2,
             'col_idx' => 2,
             'is_active' => 1,
-            'latitude' => -7.048015017907472,
-            'longitude' => 110.43501626001367
+            'latitude' => -7.047464,
+            'longitude' => 110.435152
         ]);
         Tree::create([
             'tree_id' => 5,
@@ -61,8 +61,8 @@ class TreeSeeder extends Seeder
             'row_idx' => 3,
             'col_idx' => 1,
             'is_active' => 1,
-            'latitude' => -7.048015017907472,
-            'longitude' => 110.43501626001367
+            'latitude' => -7.047435,
+            'longitude' => 110.435182
         ]);
         Tree::create([
             'tree_id' => 6,
@@ -71,8 +71,8 @@ class TreeSeeder extends Seeder
             'row_idx' => 3,
             'col_idx' => 2,
             'is_active' => 1,
-            'latitude' => -7.048015017907472,
-            'longitude' => 110.43501626001367
+            'latitude' => -7.047451,
+            'longitude' => 110.435183
         ]);
 
         // Node ID: 3
@@ -82,8 +82,8 @@ class TreeSeeder extends Seeder
             'variant' => 'miki',
             'row_idx' => 4,
             'col_idx' => 1,
-            'latitude' => -7.048015017907472,
-            'longitude' => 110.43501626001367
+            'latitude' => -7.047313,
+            'longitude' => 110.435178
         ]);
         Tree::create([
             'tree_id' => 8,
@@ -91,8 +91,8 @@ class TreeSeeder extends Seeder
             'variant' => 'miki',
             'row_idx' => 4,
             'col_idx' => 2,
-            'latitude' => -7.048015017907472,
-            'longitude' => 110.43501626001367
+            'latitude' => -7.047367,
+            'longitude' => 110.435211
         ]);
         Tree::create([
             'tree_id' => 9,
@@ -100,8 +100,8 @@ class TreeSeeder extends Seeder
             'variant' => 'miki',
             'row_idx' => 5,
             'col_idx' => 1,
-            'latitude' => -7.048015017907472,
-            'longitude' => 110.43501626001367
+            'latitude' => -7.047363,
+            'longitude' => 110.435223
         ]);
         Tree::create([
             'tree_id' => 10,
@@ -109,8 +109,8 @@ class TreeSeeder extends Seeder
             'variant' => 'miki',
             'row_idx' => 5,
             'col_idx' => 2,
-            'latitude' => -7.048015017907472,
-            'longitude' => 110.43501626001367
+            'latitude' => -7.047355,
+            'longitude' => 110.435213
         ]);
     }
 }
