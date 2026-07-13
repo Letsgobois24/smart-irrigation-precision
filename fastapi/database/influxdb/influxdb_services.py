@@ -23,7 +23,7 @@ def addNodeTree(data: NodeTree):
 
 def addGlobal(data: GlobalSchema):
     data_dict = data.model_dump()
-    data_dict['ph'] = round(random.uniform(6.6, 6.7), 2)
+    data_dict['ph'] = round(random.uniform(6.5, 6.7), 2)
     addData(data=data_dict, measurement='global')
 
 def addSingleTree(data: SingleTree):
