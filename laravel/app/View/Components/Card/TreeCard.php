@@ -33,8 +33,8 @@ class TreeCard extends Component
     private function getMoistureStatus(float $moisture): string
     {
         return match (true) {
-            $moisture < 30 => 'dry',
-            $moisture > 70 => 'wet',
+            $moisture < 40 => 'dry',
+            $moisture > 80 => 'wet',
             default => 'optimal',
         };
     }
@@ -65,7 +65,7 @@ class TreeCard extends Component
                 'badge' => 'Optimal',
                 'badge_color' => 'green',
                 'card' => 'border-green-500 border-green-100',
-                'icon' => 'text-blue-500',
+                'icon' => 'text-green-500',
                 'description' => 'Kondisi tanah stabil',
                 'description_color' => 'text-green-600',
             ],

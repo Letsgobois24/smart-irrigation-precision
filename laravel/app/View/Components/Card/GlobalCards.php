@@ -123,34 +123,24 @@ class GlobalCards extends Component
     private function getLightConfig(int $light): array
     {
         return match (true) {
-            $light <= 20 => [
+            $light <= 1200 => [
                 'label' => 'dark',
                 'color' => 'slate',
                 'bg-icon' => 'bg-slate-700/10',
                 'border' => 'border-slate-200',
                 'accent' => 'border-l-slate-500',
                 'text' => 'text-slate-700',
-                'description' => 'Intensitas cahaya sangat rendah.',
+                'description' => 'Intensitas cahaya rendah (gelap).',
             ],
 
-            $light <= 50 => [
-                'label' => 'low',
-                'color' => 'yellow',
-                'bg-icon' => 'bg-yellow-700/10',
-                'border' => 'border-yellow-200',
-                'accent' => 'border-l-yellow-500',
-                'text' => 'text-yellow-700',
-                'description' => 'Cahaya masih relatif rendah.',
-            ],
-
-            $light <= 80 => [
+            $light <= 3600 => [
                 'label' => 'moderate',
                 'color' => 'amber',
                 'bg-icon' => 'bg-amber-700/10',
                 'border' => 'border-amber-200',
                 'accent' => 'border-l-amber-500',
                 'text' => 'text-amber-700',
-                'description' => 'Intensitas cahaya berada pada level sedang.',
+                'description' => 'Intensitas cahaya sedang.',
             ],
 
             default => [
@@ -160,7 +150,7 @@ class GlobalCards extends Component
                 'border' => 'border-orange-200',
                 'accent' => 'border-l-orange-500',
                 'text' => 'text-orange-700',
-                'description' => 'Intensitas cahaya tinggi.',
+                'description' => 'Intensitas cahaya tinggi (terang).',
             ],
         };
     }
