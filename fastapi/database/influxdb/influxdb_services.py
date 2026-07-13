@@ -23,7 +23,6 @@ def addNodeTree(data: NodeTree):
 
 def addGlobal(data: GlobalSchema):
     data_dict = data.model_dump()
-    data_dict['ph'] = round(random.uniform(6.5, 6.7), 2)
     addData(data=data_dict, measurement='global')
 
 def addSingleTree(data: SingleTree):
@@ -69,6 +68,7 @@ def addIrrigation(data: IrrigationSchema):
 def addPeriodData(data: dict):
     if(data['node_id'] == 'global'):
         data.pop('node_id')
+        data['ph'] = round(random.uniform(6.5, 6.7), 1)
         addGlobal(GlobalSchema(**data))
     else:
         addNodeTree(NodeTree(**data))
