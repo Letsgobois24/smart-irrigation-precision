@@ -125,7 +125,7 @@ def wait_to_response(request_id: str, timeout: int = 5):
 
     data = pending_request[request_id]
 
-    if(data['node_Id'] == 'global'):
+    if(data['node_id'] == 'global'):
         data['ph'] = round(random.uniform(6.5, 6.7), 2)
 
     pending_request.pop(request_id)
